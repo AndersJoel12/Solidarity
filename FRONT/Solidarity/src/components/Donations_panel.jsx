@@ -4,20 +4,19 @@ function Donations(){
  const [amount, setAmount] = useState('');
   
   // Opciones predefinidas (Adaptadas a ETH para tu dApp)
-  const presets = [0.01, 0.05, 0.1, 0.2];
+  const presets = [5, 15, 25, 50];
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-green-50 px-4">
       {/* Tarjeta Principal - Estilo similar a Screenshot 1 */}
       <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full border border-gray-100">
-        
         {/* Encabezado */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-black text-gray-800 uppercase tracking-wide">
-            Únete, ¡Acompañanos!
+            ¡Únete y dona ahora con Solidarity!
           </h2>
           <p className="text-gray-500 font-medium mt-2">
-            Tu apoyo hace la diferencia en la Blockchain
+            Tu apoyo hace la diferencia en Solidarity
           </p>
         </div>
 
@@ -35,11 +34,11 @@ function Donations(){
                 }
               `}
             >
-              {preset} ETH
+              {preset} SLD
             </button>
           ))}
         </div>
-
+        
         {/* Input Personalizado - 'Other Amount' */}
         <div className="relative mb-8">
           <input
@@ -50,15 +49,15 @@ function Donations(){
             onChange={(e) => setAmount(e.target.value)}
             className="w-full bg-gray-50 border-2 border-gray-200 text-gray-700 font-bold rounded-xl py-4 px-4 focus:outline-none focus:border-green-500 focus:bg-white transition-colors"
           />
-          <span className="absolute right-6 top-4 text-gray-400 font-bold">ETH</span>
+          <span className="absolute right-6 top-4 text-gray-400 font-bold">SLD</span>
         </div>
 
         {/* Botón de Acción - El botón naranja grande de Screenshot 1 */}
         <button 
           className="w-full bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-xl py-4 rounded-full shadow-lg transform active:scale-95 transition-all duration-200 uppercase tracking-wider"
-          onClick={() => alert(`Donando: ${amount} ETH`)} // Aquí conectaremos la lógica Web3 luego
+          onClick={() => alert(`Donando: ${amount} SLD`)} // Aquí conectaremos la lógica Web3 luego
         >
-          Donar Ahora
+          Donar
         </button>
 
         {/* Link inferior - Estilo 'Donate with crypto' */}
@@ -72,4 +71,4 @@ function Donations(){
     </div>
   );
 };   
-export default Donations
+export default Donations;
