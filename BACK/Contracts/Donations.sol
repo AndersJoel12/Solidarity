@@ -13,7 +13,9 @@ contract Donaciones {
     struct Donacion {
         string Nombres;
         string Apellidos;
+        string Correo;
         string Cedula;
+        string Direccion_Billetera;
         string Monto_Donacion;
     }
 
@@ -28,6 +30,8 @@ contract Donaciones {
         string memory _cedula,
         string memory _nombres,
         string memory _apellidos,
+        string memory _correo,
+        string memory _direccionBilletera,
         string memory _montoDonacion
 
     ) public {
@@ -35,9 +39,11 @@ contract Donaciones {
         uint256 id = nextId++;
         ci2Donacion[_cedula] = id;
         donaciones[id] = Donacion({
+            Cedula: _cedula,
             Nombres: _nombres,
             Apellidos: _apellidos,
-            Cedula: _cedula,
+            Correo: _correo,
+            Direccion_Billetera: _direccionBilletera,
             Monto_Donacion: _montoDonacion
         });
     }
