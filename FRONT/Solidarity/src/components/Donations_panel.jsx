@@ -2,7 +2,7 @@ import React from "react";
 
 function Donations(){
     return(
-        <div>esto modificaciones diferentes</div>
+        <div>esto modificaciones diferenzdwd</div>
     )
 }
 
