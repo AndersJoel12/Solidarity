@@ -2,7 +2,7 @@ import React from "react";
 
 function Landing(){
     return(
-        <div>Hola Mundo</div>
+        <div>Hola Mundote</div>
     )
 }
 
