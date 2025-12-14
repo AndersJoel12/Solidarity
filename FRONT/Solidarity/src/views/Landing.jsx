@@ -2,7 +2,8 @@ import React from "react";
 
 function Landing(){
     return(
-        <div>Yormairi trabaja!</div>
+        <div>Trabajo
+        </div>
     )
 }
 
