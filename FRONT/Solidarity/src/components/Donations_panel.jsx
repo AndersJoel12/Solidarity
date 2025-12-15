@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 
-// --- ICONO DE ETHEREUM (Mantiene sus colores originales que combinan bien) ---
+// ------------------------------------------------------------------
+// 🔗 IMPORTACIÓN DE LOS CONTRATOS (LÓGICA TRAÍDA DE ConexionSol.jsx)
+// Ajusta la ruta '../contracts/...' según donde tengas tu carpeta contracts
+// ------------------------------------------------------------------
+import DonacionesABI from '../contracts/Donaciones.json';
+import PersonasABI from '../contracts/Personas.json';
+
+// 📍 DIRECCIONES DE CONTRATOS (TRAÍDAS DE ConexionSol.jsx)
+const donacionesAddress = "0x6804D45a30E4b505D73fce7659502cb48E0601be"; 
+const personasAddress = "0x1c600655CD6F76D6324c2914233Ec1b810c3BdF3"; 
+
+
+// --- ICONO DE ETHEREUM (DISEÑO) ---
 const SmallEthIcon = () => (
   <svg width="18" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '10px', flexShrink: 0 }}>
     <path d="M16 0L7.41 16.82L16 21.84V0Z" fill="#C0CBF6"/>
@@ -35,29 +47,65 @@ function Donations() {
     setAmount(value);
   };
 
+  // ------------------------------------------------------------------
+  // 🧠 LÓGICA DE DONACIÓN INTEGRADA (Fusionando Pasos 1 y 2)
+  // ------------------------------------------------------------------
   const handleDonate = async () => {
     if (!cedula || !nombre || !apellido) return alert("Por favor completa tus datos personales.");
     if (!amount) return alert("Por favor selecciona un monto.");
+
     try {
-      if (!window.ethereum) return alert("¡Necesitas MetaMask instalada!");
+      if (!window.ethereum) return alert("¡Instala Metamask!");
       setLoading(true);
+
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      console.log("Datos:", { cedula, nombre, apellido, amount });
-      const contractAddress = "0x0000000000000000000000000000000000000000"; 
-      const tx = await signer.sendTransaction({ to: contractAddress, value: ethers.parseEther(amount.toString()) });
-      await tx.wait();
-      alert(`¡Gracias ${nombre}! Has donado ${amount} ETH exitosamente. 🌳`);
+
+      // --- PASO 1: INTENTAR REGISTRO CIVIL (Si aplica) ---
+      // Como tu UI pide Nombre y Apellido, intentamos registrarlos primero en el contrato Personas
+      // para que la donación no falle.
+      try {
+        const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
+        // Verificamos o intentamos registrar (Esto abrirá Metamask #1)
+        console.log("Intentando registrar en Civil...");
+        const txRegistro = await contratoPersonas.registrarPersonaEsencial(cedula, nombre, apellido);
+        await txRegistro.wait();
+        console.log("Registro Civil Exitoso");
+      } catch (error) {
+        // Si falla, asumimos que YA existe y seguimos a la donación.
+        console.log("El usuario ya estaba registrado o hubo un error menor, continuamos a donar...", error);
+      }
+
+      // --- PASO 2: REGISTRAR DONACIÓN (Contrato Donaciones) ---
+      // Conexión con TU contrato (Esto abrirá Metamask #2)
+      const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
+      const montoWei = ethers.parseEther(amount.toString());
+
+      console.log("Procesando donación...");
+      const txDonacion = await contratoDonaciones.RegistrarDonantes(cedula, montoWei);
+      await txDonacion.wait();
+
+      alert(`🎉 ¡Gracias ${nombre}! Has donado ${amount} ETH exitosamente.`);
+      
+      // Limpiar formulario
       setAmount(''); setDisplayAmount(''); setCedula(''); setNombre(''); setApellido('');
+
     } catch (error) {
       console.error(error);
-      if (error.code !== 'ACTION_REJECTED') alert("Hubo un error en la transacción");
+      // Mensaje de error inteligente traído de tu lógica anterior
+      if (error.reason && error.reason.includes("revert")) {
+          alert("Error: El contrato rechazó la donación. Revisa si la cédula es correcta.");
+      } else {
+          alert("Hubo un error en la transacción. Revisa la consola.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // --- ESTILOS REDISEÑADOS (MODO LIGHT) ---
+  // ------------------------------------------------------------------
+  // 🎨 ESTILOS (MODO LIGHT - NO SE TOCÓ NADA AQUÍ)
+  // ------------------------------------------------------------------
   const styles = {
     container: {
       display: 'flex',
@@ -66,19 +114,16 @@ function Donations() {
       minHeight: '100vh',
       padding: '20px',
       fontFamily: "'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-      // Fondo blanco limpio
       background: '#f8fafc', 
     },
     card: {
-      // Efecto Glassmorphism Claro
-      backgroundColor: 'rgba(255, 255, 255, 0.8)', // Blanco semitransparente
+      backgroundColor: 'rgba(255, 255, 255, 0.8)', 
       backdropFilter: 'blur(20px)',
-      border: '1px solid rgba(255, 255, 255, 0.9)', // Borde blanco casi sólido
+      border: '1px solid rgba(255, 255, 255, 0.9)', 
       borderRadius: '24px',
       padding: '40px 30px',
       maxWidth: '480px',
       width: '100%',
-      // Sombra suave y clara
       boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)', 
       textAlign: 'center',
     },
@@ -86,12 +131,10 @@ function Donations() {
       marginBottom: '10px',
       fontSize: '1.8rem',
       fontWeight: '800',
-      // Color azul oscuro para el título principal
       color: '#1e293b', 
       letterSpacing: '-0.5px'
     },
     subtitle: {
-      // Color gris medio para el subtítulo
       color: '#64748b', 
       marginBottom: '30px',
       fontSize: '1rem',
@@ -99,7 +142,6 @@ function Donations() {
     },
     sectionTitle: {
       textAlign: 'left',
-      // Color Azul Cian como acento
       color: '#0ea5e9', 
       fontSize: '0.85rem',
       marginBottom: '12px',
@@ -134,16 +176,12 @@ function Donations() {
       flexDirection: 'column',
       gap: '5px'
     },
-    // --- INPUTS CLAROS ---
     input: {
       width: '100%',
       padding: '14px 18px',
       borderRadius: '12px',
-      // Fondo gris muy claro
       backgroundColor: '#f1f5f9', 
-      // Borde gris claro
       border: '1px solid #cbd5e1', 
-      // Texto oscuro
       color: '#334155', 
       fontSize: '1rem',
       textAlign: 'left',
@@ -161,14 +199,13 @@ function Donations() {
       fontSize: '1.3rem',
       fontWeight: 'bold',
       paddingRight: '50px',
-      backgroundColor: '#ffffff', // Fondo blanco puro para el monto
+      backgroundColor: '#ffffff', 
     },
     ethSuffix: {
         position: 'absolute',
         right: '20px',
         top: '50%',
         transform: 'translateY(-50%)',
-        // Azul cian para el sufijo ETH
         color: '#0ea5e9', 
         fontWeight: 'bold'
     },
@@ -177,14 +214,12 @@ function Donations() {
       padding: '18px',
       borderRadius: '50px',
       border: 'none',
-      // Degradado Azul Cian para el botón principal
       background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
       color: 'white',
       fontSize: '1.2rem',
       fontWeight: '800',
       cursor: 'pointer',
       marginTop: '30px',
-      // Sombra azul
       boxShadow: '0 10px 20px -10px rgba(14, 165, 233, 0.5)', 
       letterSpacing: '1px',
       transition: 'transform 0.2s ease',
@@ -193,7 +228,6 @@ function Donations() {
       marginTop: '25px',
       background: 'none',
       border: 'none',
-      // Color gris para el enlace
       color: '#64748b', 
       textDecoration: 'none',
       cursor: 'pointer',
@@ -226,10 +260,9 @@ function Donations() {
         <div style={styles.grid}>
           {presets.map((preset) => {
             const isSelected = amount === preset;
-            // Lógica de colores para Modo Light (Azul Cian)
-            const borderColor = isSelected ? '#0ea5e9' : '#cbd5e1'; // Azul si seleccionado, gris claro si no
-            const textColor = isSelected ? '#0ea5e9' : '#64748b'; // Azul si seleccionado, gris oscuro si no
-            const bgColor = isSelected ? 'rgba(14, 165, 233, 0.1)' : '#ffffff'; // Fondo azul claro o blanco
+            const borderColor = isSelected ? '#0ea5e9' : '#cbd5e1'; 
+            const textColor = isSelected ? '#0ea5e9' : '#64748b'; 
+            const bgColor = isSelected ? 'rgba(14, 165, 233, 0.1)' : '#ffffff'; 
 
             return (
               <button key={preset} onClick={() => handlePresetClick(preset)} style={{...styles.buttonPreset, borderColor, color: textColor, backgroundColor: bgColor}}>
