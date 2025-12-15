@@ -15,7 +15,7 @@ function Donations() {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       
-      const contractAddress = "0x0000000000000000000000000000000000000000"; 
+      const contractAddress = "0x89C8Bd1e390f7a8797cb9D4C165f9379C723c566"; 
       
       const tx = await signer.sendTransaction({
         to: contractAddress,
