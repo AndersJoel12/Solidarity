@@ -1,173 +1,137 @@
 import React from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
-import Donations from "../components/Donations_panel"
+import Donations from "../components/Donations_panel";
+import '../components/Tailwind.css'
 
 function Landing() {
+  const bgImage = "https://images.unsplash.com/photo-1558788353-f76d92427f16?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80";
+
   return (
-    <div style={styles.page}>
-      {/* Header */}
-      <header style={styles.header}>
-        <div style={styles.logo}>PetSolidarity</div>
-        <nav style={styles.nav}>
-          <a href="#about" style={styles.link}>Sobre</a>
-          <a href="#contact" style={styles.link}>Contacto</a>
-        </nav>
-      </header>
+    // CONTENEDOR MAESTRO
+    // bg-fixed: ESTO hace que el perro NO se mueva cuando bajas con el scroll.
+    // bg-cover: Cubre toda la pantalla.
+    <div 
+      className="min-h-screen font-sans text-white bg-cover bg-center bg-fixed bg-no-repeat w-full"
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
+      
+      {/* CAPA OSCURA (OVERLAY) 
+          bg-black/60: El filtro oscuro para que las letras blancas resalten perfecto. */}
+      <div className="min-h-screen w-full bg-black/60 flex flex-col">
 
-      {/* Hero */}
-      <section style={styles.hero}>
-        <h1 style={styles.title}>Un aporte, una vida feliz 🐾</h1>
-        <p style={styles.subtitle}>
-          Tu apoyo transforma la vida de perritos y gatitos en necesidad.
-        </p>
-        <div style={styles.ctaGroup}>
-          <button style={styles.primaryBtn}>Donar</button>
-          <button style={styles.secondaryBtn}>Ver más</button>
-        </div>
-      </section>
+        {/* --- HEADER (STICKY) --- 
+            sticky top-0: Se queda pegado arriba cuando bajas.
+            backdrop-blur-md: Efecto de vidrio borroso.
+            z-50: Asegura que esté siempre encima de todo. */}
+        <header className="sticky top-0 z-50 flex justify-between items-center px-8 py-4 bg-black/40 backdrop-blur-md border-b border-white/10 shadow-lg">
+          <div className="font-extrabold text-2xl tracking-wider text-orange-500 cursor-pointer">
+            PetSolidarity
+          </div>
+          <nav className="flex gap-8">
+            <a href="#about" className="text-gray-200 hover:text-orange-400 font-medium transition duration-300 text-sm uppercase tracking-wide">Sobre Nosotros</a>
+            <a href="#contact" className="text-gray-200 hover:text-orange-400 font-medium transition duration-300 text-sm uppercase tracking-wide">Contacto</a>
+          </nav>
+        </header>
 
-      {/* Features */}
-      <section id="features" style={styles.section}>
-        <h2 style={styles.sectionTitle}>Lo que hacemos</h2>
-        <div style={styles.grid}>
-          <Feature
-            title="Rescate"
-            desc="Salvamos mascotas abandonadas y les damos una segunda oportunidad."
-            icon="🐶"
-          />
-          <Feature
-            title="Adopción"
-            desc="Conectamos familias con perritos y gatitos que buscan hogar."
-            icon="🐱"
-          />
-          <Feature
-            title="Solidaridad"
-            desc="Cada donación se convierte en alimento, medicinas y cuidados."
-            icon="❤️"
-          />
-        </div>
-      </section>
+        {/* --- HERO SECTION --- 
+            h-screen: Ocupa toda la altura de la pantalla inicial. */}
+        <section className="flex-grow flex flex-col justify-center items-center text-center px-4 py-24 min-h-[80vh]">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-2xl tracking-tight">
+            Un aporte, una vida feliz <span className="text-orange-500">🐾</span>
+          </h1>
+          <p className="text-xl md:text-2xl mb-10 max-w-3xl font-light text-gray-100 leading-relaxed drop-shadow-md">
+            Tu apoyo transforma la realidad de perritos y gatitos en necesidad. 
+            Ayuda transparente, directa y segura.
+          </p>
+          <div className="flex gap-6">
+            <a href="#contact" className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-orange-500/50 transform hover:-translate-y-1">
+              ¡Quiero Donar!
+            </a>
+            <button className="px-8 py-4 bg-transparent hover:bg-white/10 border-2 border-white rounded-full font-bold text-lg transition-all backdrop-blur-sm">
+              Saber más
+            </button>
+          </div>
+        </section>
 
-      {/* About */}
-      <section id="about" style={styles.sectionAlt}>
-        <h2 style={styles.sectionTitle}>Sobre PetSolidarity</h2>
-        <p style={styles.paragraph}>
-          Somos una comunidad dedicada a rescatar, cuidar y dar en adopción a mascotas
-          que necesitan amor. Tu ayuda hace posible que más animales tengan un futuro feliz.
-        </p>
-      </section>
+        {/* --- FEATURES --- */}
+        <section id="features" className="py-24 px-6 bg-black/50 backdrop-blur-sm border-t border-white/5">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold mb-16 text-center text-white">
+              <span className="border-b-4 border-orange-500 pb-2">Lo que hacemos</span>
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+              <Feature
+                title="Rescate"
+                desc="Salvamos mascotas abandonadas en las calles y les damos una segunda oportunidad de vida."
+                icon="🐶"
+              />
+              <Feature
+                title="Adopción"
+                desc="Conectamos familias amorosas con perritos y gatitos que buscan un hogar definitivo."
+                icon="🐱"
+              />
+              <Feature
+                title="Solidaridad"
+                desc="Cada donación se convierte directamente en alimento, medicinas y cuidados veterinarios."
+                icon="❤️"
+              />
+            </div>
+          </div>
+        </section>
 
-      {/* Contact */}
-      <section id="contact" style={styles.section}>
-        <h2 style={styles.sectionTitle}>Dona a PetSolidarity</h2>
-        <Donations/>
-      </section>
+        {/* --- ABOUT --- */}
+        <section id="about" className="py-24 px-6 bg-[#111827]/90">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-8 text-orange-400">Sobre PetSolidarity</h2>
+            <p className="text-xl leading-relaxed text-gray-300 font-light">
+              Somos una comunidad dedicada a rescatar, cuidar y dar en adopción a mascotas
+              que necesitan amor. Usamos la tecnología Blockchain para garantizar que tu ayuda
+              llegue íntegra a quien más lo necesita, sin intermediarios.
+            </p>
+          </div>
+        </section>
 
-      <footer style={styles.footer}>
-        <span>© {new Date().getFullYear()} PetSolidarity — Todos los derechos reservados.</span>
-        <div style={styles.socialIcons}>
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-        <FaFacebook size={28} color="#1877F2" />
-        </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-        <FaInstagram size={28} color="#E4405F" />
-        </a>
-        </div>
-    </footer>
+        {/* --- CONTACT / DONATIONS --- */}
+        <section id="contact" className="py-20 px-6 bg-black/80">
+          <div className="max-w-5xl mx-auto flex flex-col items-center">
+            <h2 className="text-4xl font-bold mb-4 text-white">Dona a PetSolidarity</h2>
+            <p className="text-gray-400 mb-12">Selecciona un monto y ayúdanos a seguir salvando vidas.</p>
+            
+            {/* Componente de Donaciones Integrado */}
+            <div className="w-full flex justify-center">
+               <Donations />
+            </div>
+          </div>
+        </section>
+
+        {/* --- FOOTER --- */}
+        <footer className="py-10 text-center bg-black border-t border-gray-800">
+          <div className="flex justify-center gap-8 mb-6">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition duration-300">
+              <FaFacebook size={32} className="text-blue-600 hover:text-blue-500" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition duration-300">
+              <FaInstagram size={32} className="text-pink-600 hover:text-pink-500" />
+            </a>
+          </div>
+          <span className="block text-gray-500 text-sm">© {new Date().getFullYear()} PetSolidarity — Todos los derechos reservados.</span>
+        </footer>
+
+      </div>
     </div>
   );
 }
 
+// Subcomponente Feature mejorado (Glassmorphism)
 function Feature({ title, desc, icon }) {
   return (
-    <div style={styles.card}>
-      <div style={styles.icon}>{icon}</div>
-      <h3 style={styles.cardTitle}>{title}</h3>
-      <p style={styles.cardDesc}>{desc}</p>
+    <div className="group bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 hover:bg-white/10 hover:border-orange-500/50 transition duration-500 hover:-translate-y-2 shadow-xl">
+      <div className="text-6xl mb-6 transform group-hover:scale-110 transition duration-500">{icon}</div>
+      <h3 className="text-2xl font-bold mb-4 text-orange-400 group-hover:text-orange-300 transition">{title}</h3>
+      <p className="text-base text-gray-300 leading-relaxed">{desc}</p>
     </div>
   );
 }
-
-const styles = {
-  page: {
-    fontFamily: "system-ui, sans-serif",
-    color: "#fff",
-    backgroundImage: "url('https://images.unsplash.com/photo-1558788353-f76d92427f16?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    minHeight: "100vh",
-    lineHeight: 1.5,
-  },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "16px 24px",
-    background: "rgba(0,0,0,0.5)",
-  },
-  logo: { fontWeight: 700 },
-  nav: { display: "flex", gap: "16px" },
-  link: { color: "#fff", textDecoration: "none" },
-  hero: {
-    textAlign: "center",
-    padding: "100px 24px",
-    background: "rgba(0,0,0,0.4)",
-  },
-  title: { fontSize: "2.5rem", marginBottom: "12px" },
-  subtitle: { fontSize: "1.2rem", marginBottom: "20px" },
-  ctaGroup: { display: "flex", gap: "12px", justifyContent: "center" },
-  primaryBtn: {
-    padding: "12px 18px",
-    background: "#f97316",
-    border: "none",
-    borderRadius: "8px",
-    color: "#fff",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
-  secondaryBtn: {
-    padding: "12px 18px",
-    background: "#374151",
-    border: "none",
-    borderRadius: "8px",
-    color: "#fff",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
-  section: { padding: "48px 24px", background: "rgba(0,0,0,0.5)" },
-  sectionAlt: { padding: "48px 24px", background: "rgba(0,0,0,0.7)" },
-  sectionTitle: { fontSize: "1.8rem", marginBottom: "20px" },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-    gap: "16px",
-  },
-  card: {
-    background: "rgba(255,255,255,0.1)",
-    borderRadius: "12px",
-    padding: "18px",
-  },
-  icon: { fontSize: "2rem" },
-  cardTitle: { margin: "12px 0 8px" },
-  cardDesc: { fontSize: "0.95rem" },
-  paragraph: { fontSize: "1rem" },
-  form: { display: "grid", gap: "12px", maxWidth: 400, margin: "0 auto" },
-  input: {
-    padding: "12px",
-    borderRadius: "8px",
-    border: "none",
-  },
-  textarea: {
-    padding: "12px",
-    borderRadius: "8px",
-    border: "none",
-    resize: "vertical",
-  },
-  footer: {
-    textAlign: "center",
-    padding: "20px",
-    background: "rgba(0,0,0,0.6)",
-  },
-};
 
 export default Landing;
