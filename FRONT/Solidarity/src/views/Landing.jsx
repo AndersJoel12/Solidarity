@@ -1,5 +1,6 @@
 import React from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+import Donations from "../components/Donations_panel"
 
 function Landing() {
   return (

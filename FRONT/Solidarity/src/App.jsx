@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Landing from './views/Landing'
 import './App.css'
 import Donations from './components/Donations_panel'
+import DonationsList from './components/Donation_list'
 
 
 function App() {
@@ -9,6 +10,8 @@ function App() {
 
   return (
     <>
+    <DonationsList />
+    <br />
     <Donations/>
     <br></br>
     <Landing/>
