@@ -12,15 +12,15 @@ const donacionesAddress = "0xa535795B26a2529A5fF2b87204fA8c410F509Fe0";
 const personasAddress = "0x83A6037870d3029E9a175A1D9EB775238fFA3dD5"; 
 
 
-// --- ICONO DE ETHEREUM ---
+// --- ICONO DE ETHEREUM (Colores adaptados al tema Naranja/Oscuro) ---
 const SmallEthIcon = () => (
   <svg width="18" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '10px', flexShrink: 0 }}>
-    <path d="M16 0L7.41 16.82L16 21.84V0Z" fill="#C0CBF6"/>
-    <path d="M16 0L16.08 0.255V21.84L24.59 16.82L16 0Z" fill="#627EEA"/>
+    <path d="M16 0L7.41 16.82L16 21.84V0Z" fill="#ffffff" opacity="0.8"/>
+    <path d="M16 0L16.08 0.255V21.84L24.59 16.82L16 0Z" fill="#F97316"/> {/* Naranja */}
     <path d="M16 21.84L24.59 16.82L16 12.87V21.84Z" fill="#141F30"/>
     <path d="M7.41 16.82L16 21.84V12.87L7.41 16.82Z" fill="#8A92B2"/>
-    <path d="M16 22.99V31.995L24.59 18.96L16 22.99Z" fill="#627EEA"/>
-    <path d="M7.41 18.96L16 31.995V22.99L7.41 18.96Z" fill="#C0CBF6"/>
+    <path d="M16 22.99V31.995L24.59 18.96L16 22.99Z" fill="#F97316"/> {/* Naranja */}
+    <path d="M7.41 18.96L16 31.995V22.99L7.41 18.96Z" fill="#ffffff" opacity="0.6"/>
   </svg>
 );
 
@@ -74,10 +74,9 @@ function Donations() {
 
   const handlePresetClick = (value) => { setAmount(value); setDisplayAmount(''); };
   
-  // 🟢 CAMBIO AQUI: Validación para evitar negativos
+  // Validación para evitar negativos
   const handleInputChange = (e) => { 
     const value = e.target.value; 
-    // Si el valor es negativo, no hacemos nada (no actualizamos el estado)
     if (value < 0) return;
     
     setDisplayAmount(value); 
@@ -165,36 +164,93 @@ function Donations() {
   };
 
 
-  // --- ESTILOS ---
+  // --- ESTILOS INSPIRADOS EN PETSOLIDARITY (DARK MODE + ORANGE) ---
+  const theme = {
+    orange: '#F97316', // El naranja de la captura
+    darkBg: '#111827', // Fondo oscuro profundo
+    cardBg: 'rgba(31, 41, 55, 0.75)', // Fondo semitransparente oscuro
+    inputBg: 'rgba(255, 255, 255, 0.1)', // Inputs oscuros
+    textWhite: '#F9FAFB',
+    textGray: '#9CA3AF',
+    border: 'rgba(255, 255, 255, 0.1)'
+  };
+
   const styles = {
     container: {
       display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh',
       padding: '40px 20px', fontFamily: "'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-      background: '#f8fafc', gap: '30px'
+      // Si tienes la imagen del perro, cámbialo por: backgroundImage: `url('TU_URL_AQUI')`, backgroundSize: 'cover'
+      background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), ${theme.darkBg}`, 
+      gap: '30px', color: theme.textWhite
     },
     card: {
-      backgroundColor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(20px)',
-      border: '1px solid rgba(255, 255, 255, 0.9)', borderRadius: '24px',
+      backgroundColor: theme.cardBg, 
+      backdropFilter: 'blur(12px)', // Efecto cristal
+      border: `1px solid ${theme.border}`, 
+      borderRadius: '16px',
       padding: '40px 30px', maxWidth: '480px', width: '100%',
-      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)', textAlign: 'center',
+      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)', 
+      textAlign: 'center',
     },
-    title: { marginBottom: '10px', fontSize: '1.8rem', fontWeight: '800', color: '#1e293b', letterSpacing: '-0.5px' },
-    subtitle: { color: '#64748b', marginBottom: '30px', fontSize: '1rem', fontWeight: '400' },
-    sectionTitle: { textAlign: 'left', color: '#0ea5e9', fontSize: '0.85rem', marginBottom: '12px', marginTop: '25px', fontWeight: '700', letterSpacing: '1.2px', textTransform: 'uppercase' },
+    title: { marginBottom: '10px', fontSize: '1.8rem', fontWeight: '800', color: theme.textWhite, letterSpacing: '-0.5px' },
+    subtitle: { color: theme.textGray, marginBottom: '30px', fontSize: '1rem', fontWeight: '400' },
+    sectionTitle: { textAlign: 'left', color: theme.orange, fontSize: '0.85rem', marginBottom: '12px', marginTop: '25px', fontWeight: '700', letterSpacing: '1.2px', textTransform: 'uppercase' },
     grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '25px' },
-    buttonPreset: { padding: '15px', borderRadius: '16px', borderWidth: '2px', borderStyle: 'solid', cursor: 'pointer', fontWeight: '700', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' },
+    
+    // Botones de montos predefinidos
+    buttonPreset: { 
+      padding: '15px', borderRadius: '12px', borderWidth: '1px', borderStyle: 'solid', 
+      cursor: 'pointer', fontWeight: '700', fontSize: '1.1rem', 
+      display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'all 0.3s ease' 
+    },
+    
     inputGroup: { marginBottom: '15px', display: 'flex', flexDirection: 'column', gap: '5px' },
-    input: { width: '100%', padding: '14px 18px', borderRadius: '12px', backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', color: '#334155', fontSize: '1rem', textAlign: 'left', display: 'block', outline: 'none', transition: 'border-color 0.3s ease, background-color 0.3s ease', boxSizing: 'border-box' },
+    
+    // Inputs estilo PetSolidarity (Oscuros)
+    input: { 
+      width: '100%', padding: '14px 18px', borderRadius: '8px', 
+      backgroundColor: theme.inputBg, 
+      border: '1px solid transparent', 
+      color: theme.textWhite, 
+      fontSize: '1rem', textAlign: 'left', display: 'block', outline: 'none', 
+      transition: 'border-color 0.3s ease', boxSizing: 'border-box' 
+    },
+
     amountInputWrapper: { marginTop: '20px', position: 'relative' },
-    amountInput: { textAlign: 'center', fontSize: '1.3rem', fontWeight: 'bold', paddingRight: '50px', backgroundColor: '#ffffff' },
-    ethSuffix: { position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', color: '#0ea5e9', fontWeight: 'bold' },
-    mainButton: { width: '100%', padding: '18px', borderRadius: '50px', border: 'none', background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', color: 'white', fontSize: '1.2rem', fontWeight: '800', cursor: 'pointer', marginTop: '30px', boxShadow: '0 10px 20px -10px rgba(14, 165, 233, 0.5)', letterSpacing: '1px', transition: 'transform 0.2s ease' },
-    searchButton: { width: '100%', padding: '15px', borderRadius: '12px', border: 'none', background: '#334155', color: 'white', fontSize: '1rem', fontWeight: '700', cursor: 'pointer', marginTop: '15px', transition: 'background 0.2s ease' },
-    resultBox: { marginTop: '20px', padding: '20px', backgroundColor: '#e0f2fe', borderRadius: '16px', border: '1px solid #bae6fd', color: '#0369a1', textAlign: 'left', animation: 'fadeIn 0.5s ease' },
+    amountInput: { textAlign: 'center', fontSize: '1.3rem', fontWeight: 'bold', paddingRight: '50px' },
+    ethSuffix: { position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', color: theme.orange, fontWeight: 'bold' },
+    
+    // Botón principal NARANJA
+    mainButton: { 
+      width: '100%', padding: '16px', borderRadius: '8px', border: 'none', 
+      background: theme.orange, 
+      color: 'white', fontSize: '1.1rem', fontWeight: '700', cursor: 'pointer', marginTop: '30px', 
+      boxShadow: '0 4px 6px -1px rgba(249, 115, 22, 0.3)', 
+      transition: 'transform 0.2s ease' 
+    },
+    
+    searchButton: { 
+      width: '100%', padding: '15px', borderRadius: '8px', border: 'none', 
+      background: theme.orange, 
+      color: 'white', fontSize: '1rem', fontWeight: '700', cursor: 'pointer', marginTop: '15px', 
+      transition: 'background 0.2s ease' 
+    },
+    
+    resultBox: { 
+      marginTop: '20px', padding: '20px', 
+      backgroundColor: 'rgba(0, 0, 0, 0.3)', 
+      borderRadius: '12px', border: `1px solid ${theme.orange}`, 
+      color: theme.textWhite, textAlign: 'left', animation: 'fadeIn 0.5s ease' 
+    },
   };
 
   return (
     <div style={styles.container}>
+      {/* Estilo para los placeholders (que no se pueden poner inline fácilmente) */}
+      <style>{`
+        ::placeholder { color: #6B7280; opacity: 1; }
+        input:focus { border: 1px solid #F97316 !important; }
+      `}</style>
       
       {/* ----------------- TARJETA 1: DONAR ----------------- */}
       <div style={styles.card}>
@@ -225,7 +281,8 @@ function Donations() {
                 onChange={(e) => onChangeSoloLetras(e, setNombre)} 
                 style={styles.input} 
             />
-            <span style={{ color: '#ef4444', fontSize: '0.75rem', fontWeight: 'bold', marginLeft: '5px' }}>
+            <span style={styles.errorMessage}></span>
+             <span style={{ color: '#ef4444', fontSize: '0.75rem', fontWeight: 'bold', marginLeft: '5px' }}>
               * campo obligatorio
             </span>
           </div>
@@ -248,9 +305,11 @@ function Donations() {
         <div style={styles.grid}>
           {presets.map((preset) => {
             const isSelected = amount === preset;
-            const borderColor = isSelected ? '#0ea5e9' : '#cbd5e1'; 
-            const textColor = isSelected ? '#0ea5e9' : '#64748b'; 
-            const bgColor = isSelected ? 'rgba(14, 165, 233, 0.1)' : '#ffffff'; 
+            // Estilos dinámicos para los botones de monto
+            const borderColor = isSelected ? theme.orange : theme.border; 
+            const textColor = isSelected ? theme.orange : theme.textGray; 
+            const bgColor = isSelected ? 'rgba(249, 115, 22, 0.1)' : 'transparent'; 
+            
             return (
               <button key={preset} onClick={() => handlePresetClick(preset)} style={{...styles.buttonPreset, borderColor, color: textColor, backgroundColor: bgColor}}>
                 <span>{preset} ETH</span> <SmallEthIcon />
@@ -263,13 +322,12 @@ function Donations() {
           <input 
             type="number" 
             step="0.01" 
-            min="0"  /* 🟢 AGREGADO: Evita decremento negativo en HTML */
+            min="0"  
             placeholder={placeholderText} 
             onFocus={() => setPlaceholderText('')} 
             onBlur={() => setPlaceholderText('Otra cantidad')} 
             value={displayAmount} 
             onChange={handleInputChange} 
-            // 🟢 AGREGADO: Evita escribir el signo menos (-) con el teclado
             onKeyDown={(e) => ["-", "e", "E"].includes(e.key) && e.preventDefault()}
             style={{...styles.input, ...styles.amountInput}} 
           />
@@ -289,7 +347,7 @@ function Donations() {
           <div style={styles.inputGroup}>
             <input 
                 type="text" 
-                placeholder="Buscar" 
+                placeholder="Buscar (Cédula o Address)" 
                 value={searchInput} 
                 onChange={onChangeBuscador} 
                 style={{...styles.input, fontSize:'0.9rem'}} 
@@ -307,11 +365,11 @@ function Donations() {
                   {/* CASO: PERSONA */}
                   {searchResult.type === 'person' && (
                     <>
-                        <p style={{margin:0, fontSize:'0.8rem', color:'#64748b', textTransform:'uppercase', fontWeight:'bold'}}>Donante Registrado</p>
-                        <h3 style={{margin:'5px 0 10px 0', color:'#0f172a'}}>{searchResult.nombre} {searchResult.apellido}</h3>
-                        <div style={{borderTop:'1px dashed #bae6fd', paddingTop:'10px'}}>
+                        <p style={{margin:0, fontSize:'0.8rem', color: theme.textGray, textTransform:'uppercase', fontWeight:'bold'}}>Donante Registrado</p>
+                        <h3 style={{margin:'5px 0 10px 0', color: theme.textWhite}}>{searchResult.nombre} {searchResult.apellido}</h3>
+                        <div style={{borderTop:`1px dashed ${theme.border}`, paddingTop:'10px'}}>
                             <span style={{fontWeight:'bold'}}>Total Donado:</span> 
-                            <span style={{float:'right', fontWeight:'bold', color:'#0284c7'}}>{searchResult.monto} ETH</span>
+                            <span style={{float:'right', fontWeight:'bold', color: theme.orange}}>{searchResult.monto} ETH</span>
                         </div>
                     </>
                   )}
@@ -319,13 +377,13 @@ function Donations() {
                   {/* CASO: CONTRATO */}
                   {searchResult.type === 'contract' && (
                     <>
-                        <p style={{margin:0, fontSize:'0.8rem', color:'#64748b', textTransform:'uppercase', fontWeight:'bold'}}>Smart Contract</p>
-                        <p style={{fontSize:'0.8rem', color: searchResult.isOfficial ? 'green' : 'orange', fontWeight:'bold', marginBottom:'10px'}}>
+                        <p style={{margin:0, fontSize:'0.8rem', color: theme.textGray, textTransform:'uppercase', fontWeight:'bold'}}>Smart Contract</p>
+                        <p style={{fontSize:'0.8rem', color: searchResult.isOfficial ? '#22c55e' : '#eab308', fontWeight:'bold', marginBottom:'10px'}}>
                             {searchResult.isOfficial ? "✅ Contrato Oficial" : "⚠️ Contrato Externo"}
                         </p>
-                        <div style={{borderTop:'1px dashed #bae6fd', paddingTop:'10px'}}>
+                        <div style={{borderTop:`1px dashed ${theme.border}`, paddingTop:'10px'}}>
                             <span style={{fontWeight:'bold'}}>Recaudado:</span> 
-                            <span style={{float:'right', fontWeight:'bold', color:'#0284c7'}}>{searchResult.balance} ETH</span>
+                            <span style={{float:'right', fontWeight:'bold', color: theme.orange}}>{searchResult.balance} ETH</span>
                         </div>
                     </>
                   )}
@@ -333,15 +391,15 @@ function Donations() {
                   {/* CASO: WALLET */}
                   {searchResult.type === 'wallet' && (
                     <>
-                        <p style={{margin:0, fontSize:'0.8rem', color:'#64748b', textTransform:'uppercase', fontWeight:'bold'}}>Billetera (Wallet)</p>
-                        <p style={{fontSize:'0.75rem', wordBreak:'break-all', color:'#334155', marginBottom:'10px'}}>{searchResult.address}</p>
-                        <div style={{borderTop:'1px dashed #bae6fd', paddingTop:'10px'}}>
+                        <p style={{margin:0, fontSize:'0.8rem', color: theme.textGray, textTransform:'uppercase', fontWeight:'bold'}}>Billetera (Wallet)</p>
+                        <p style={{fontSize:'0.75rem', wordBreak:'break-all', color: theme.textWhite, marginBottom:'10px'}}>{searchResult.address}</p>
+                        <div style={{borderTop:`1px dashed ${theme.border}`, paddingTop:'10px'}}>
                             <span style={{fontWeight:'bold'}}>Saldo:</span> 
-                            <span style={{float:'right', fontWeight:'bold', color:'#0284c7'}}>{searchResult.balance} ETH</span>
+                            <span style={{float:'right', fontWeight:'bold', color: theme.orange}}>{searchResult.balance} ETH</span>
                         </div>
                         <div style={{marginTop:'5px'}}>
                             <span style={{fontWeight:'bold', fontSize:'0.9rem'}}>Transacciones:</span> 
-                            <span style={{float:'right', fontWeight:'bold', color:'#334155'}}>{searchResult.txCount}</span>
+                            <span style={{float:'right', fontWeight:'bold', color: theme.textWhite}}>{searchResult.txCount}</span>
                         </div>
                     </>
                   )}
@@ -352,4 +410,5 @@ function Donations() {
     </div>
   );
 };   
+
 export default Donations;
