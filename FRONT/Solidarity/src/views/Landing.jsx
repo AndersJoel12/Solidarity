@@ -1,4 +1,6 @@
 import React from "react";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+
 
 function Landing() {
   return (
@@ -83,13 +85,18 @@ function Landing() {
       </section>
 
       {/* Footer */}
-      <footer style={styles.footer}>
+    <footer style={styles.footer}>
         <span>© {new Date().getFullYear()} MiApp — Todos los derechos reservados.</span>
-        <div>
-          <a href="#" style={styles.footerLink}>Privacidad</a>
-          <a href="#" style={styles.footerLink}>Términos</a>
-        </div>
-      </footer>
+        <div style={{ display: "flex", gap: "12px" }}>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+        <FaFacebook size={28} color="#1877F2" />
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+      <FaInstagram size={28} color="#E4405F" />
+    </a>
+  </div>
+</footer>
+
     </div>
   );
 }
