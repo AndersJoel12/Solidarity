@@ -1,13 +1,12 @@
 import React from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
-
 function Landing() {
   return (
     <div style={styles.page}>
       {/* Header */}
       <header style={styles.header}>
-        <div style={styles.logo}>Solidarity</div>
+        <div style={styles.logo}>PetSolidarity</div>
         <nav style={styles.nav}>
           <a href="#about" style={styles.link}>Sobre</a>
           <a href="#contact" style={styles.link}>Contacto</a>
@@ -16,60 +15,44 @@ function Landing() {
 
       {/* Hero */}
       <section style={styles.hero}>
-        <div style={styles.heroContent}>
-          <h1 style={styles.title}>Un pequeño aporte es un pequeño cambio para un perrito</h1>
-          <p style={styles.subtitle}>
-            ¡Tu apoyo transforma vidas!
-          </p>
-          <div style={styles.ctaGroup}>
-            <button style={styles.primaryBtn}>Donar</button>
-            <button style={styles.secondaryBtn}>Ver más</button>
-          </div>
-        </div>
-        <div style={styles.heroCard}>
-          <div style={styles.metric}>
-            <span style={styles.metricLabel}>Usuarios activos</span>
-            <span style={styles.metricValue}>1,284</span>
-          </div>
-          <div style={styles.metric}>
-            <span style={styles.metricLabel}>Tiempo</span>
-            <span style={styles.metricValue}>4m 12s</span>
-          </div>
-          <div style={styles.metric}>
-            <span style={styles.metricLabel}>Aportación</span>
-            <span style={styles.metricValue}>92%</span>
-          </div>
+        <h1 style={styles.title}>Un aporte, una vida feliz 🐾</h1>
+        <p style={styles.subtitle}>
+          Tu apoyo transforma la vida de perritos y gatitos en necesidad.
+        </p>
+        <div style={styles.ctaGroup}>
+          <button style={styles.primaryBtn}>Donar</button>
+          <button style={styles.secondaryBtn}>Ver más</button>
         </div>
       </section>
 
       {/* Features */}
       <section id="features" style={styles.section}>
-        <h2 style={styles.sectionTitle}>Cada aporte que das es una vida que salvas</h2>
+        <h2 style={styles.sectionTitle}>Lo que hacemos</h2>
         <div style={styles.grid}>
           <Feature
-            title="Rápida implementación"
-            desc="Estructura limpia con componentes listos para extender."
-            icon="⚡"
-          />
-          <Feature
-            title="Como encontrarnos"
-            desc="Instagram, Facebook."
-            icon="📱"
-          />
-          <Feature
             title="Rescate"
-            desc="Pensado para crecer, para rescartar vidas inocentes."
-            icon="📈"
+            desc="Salvamos mascotas abandonadas y les damos una segunda oportunidad."
+            icon="🐶"
+          />
+          <Feature
+            title="Adopción"
+            desc="Conectamos familias con perritos y gatitos que buscan hogar."
+            icon="🐱"
+          />
+          <Feature
+            title="Solidaridad"
+            desc="Cada donación se convierte en alimento, medicinas y cuidados."
+            icon="❤️"
           />
         </div>
       </section>
 
       {/* About */}
       <section id="about" style={styles.sectionAlt}>
-        <h2 style={styles.sectionTitle}>Solidarity</h2>
+        <h2 style={styles.sectionTitle}>Sobre PetSolidarity</h2>
         <p style={styles.paragraph}>
-          ¿Dónde se están generando estos millones de donaciones? ¡En todo el mundo, 
-          gracias a nuestra colaboración con la Fundación tepa !
+          Somos una comunidad dedicada a rescatar, cuidar y dar en adopción a mascotas
+          que necesitan amor. Tu ayuda hace posible que más animales tengan un futuro feliz.
         </p>
       </section>
 
@@ -84,14 +67,17 @@ function Landing() {
         </form>
       </section>
 
-      {/* Footer */}
       <footer style={styles.footer}>
-        <span>© {new Date().getFullYear()} MiApp — Todos los derechos reservados.</span>
-        <div>
-          <a href="#" style={styles.footerLink}>Privacidad</a>
-          <a href="#" style={styles.footerLink}>Términos</a>
+        <span>© {new Date().getFullYear()} PetSolidarity — Todos los derechos reservados.</span>
+        <div style={styles.socialIcons}>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+        <FaFacebook size={28} color="#1877F2" />
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+        <FaInstagram size={28} color="#E4405F" />
+        </a>
         </div>
-      </footer>
+    </footer>
     </div>
   );
 }
@@ -108,9 +94,12 @@ function Feature({ title, desc, icon }) {
 
 const styles = {
   page: {
-    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif",
-    color: "#0f172a",
-    background: "linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)",
+    fontFamily: "system-ui, sans-serif",
+    color: "#fff",
+    backgroundImage: "url('https://images.unsplash.com/photo-1558788353-f76d92427f16?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    minHeight: "100vh",
     lineHeight: 1.5,
   },
   header: {
@@ -118,149 +107,70 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "16px 24px",
-    position: "sticky",
-    top: 0,
-    background: "rgba(255,255,255,0.8)",
-    backdropFilter: "blur(8px)",
-    borderBottom: "1px solid #e2e8f0",
-    zIndex: 10,
+    background: "rgba(0,0,0,0.5)",
   },
-  logo: {
-    fontWeight: 700,
-    letterSpacing: "0.5px",
-  },
-  nav: {
-    display: "flex",
-    gap: "16px",
-  },
-  link: {
-    color: "#334155",
-    textDecoration: "none",
-    fontSize: "0.95rem",
-  },
+  logo: { fontWeight: 700 },
+  nav: { display: "flex", gap: "16px" },
+  link: { color: "#fff", textDecoration: "none" },
   hero: {
-    display: "grid",
-    gridTemplateColumns: "1.2fr 1fr",
-    gap: "24px",
-    padding: "64px 24px",
-    maxWidth: 1100,
-    margin: "0 auto",
+    textAlign: "center",
+    padding: "100px 24px",
+    background: "rgba(0,0,0,0.4)",
   },
-  heroContent: {
-    alignSelf: "center",
-  },
-  title: {
-    fontSize: "3rem",
-    lineHeight: 1.1,
-    margin: "0 0 12px",
-  },
-  subtitle: {
-    color: "#475569",
-    margin: "0 0 20px",
-    maxWidth: 600,
-  },
-  ctaGroup: {
-    display: "flex",
-    gap: "12px",
-  },
+  title: { fontSize: "2.5rem", marginBottom: "12px" },
+  subtitle: { fontSize: "1.2rem", marginBottom: "20px" },
+  ctaGroup: { display: "flex", gap: "12px", justifyContent: "center" },
   primaryBtn: {
     padding: "12px 18px",
-    background: "#0ea5e9",
-    color: "#fff",
+    background: "#f97316",
     border: "none",
-    borderRadius: "10px",
+    borderRadius: "8px",
+    color: "#fff",
+    fontWeight: "bold",
     cursor: "pointer",
-    fontWeight: 600,
-    boxShadow: "0 10px 20px rgba(14,165,233,0.2)",
   },
   secondaryBtn: {
     padding: "12px 18px",
-    background: "#e2e8f0",
-    color: "#0f172a",
+    background: "#374151",
     border: "none",
-    borderRadius: "10px",
+    borderRadius: "8px",
+    color: "#fff",
+    fontWeight: "bold",
     cursor: "pointer",
-    fontWeight: 600,
   },
-  heroCard: {
-    background: "#ffffff",
-    border: "1px solid #e2e8f0",
-    borderRadius: "16px",
-    padding: "20px",
-    display: "grid",
-    gap: "12px",
-    alignSelf: "center",
-    boxShadow: "0 8px 30px rgba(2, 6, 23, 0.06)",
-  },
-  metric: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "12px 14px",
-    background: "#f8fafc",
-    borderRadius: "12px",
-  },
-  metricLabel: { color: "#475569" },
-  metricValue: { fontWeight: 700 },
-  section: {
-    padding: "48px 24px",
-    maxWidth: 1100,
-    margin: "0 auto",
-  },
-  sectionAlt: {
-    padding: "48px 24px",
-    maxWidth: 900,
-    margin: "0 auto",
-    background: "#f8fafc",
-    borderRadius: "16px",
-  },
-  sectionTitle: {
-    fontSize: "1.8rem",
-    marginBottom: "20px",
-  },
+  section: { padding: "48px 24px", background: "rgba(0,0,0,0.5)" },
+  sectionAlt: { padding: "48px 24px", background: "rgba(0,0,0,0.7)" },
+  sectionTitle: { fontSize: "1.8rem", marginBottom: "20px" },
   grid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
     gap: "16px",
   },
   card: {
-    background: "#ffffff",
-    border: "1px solid #e2e8f0",
-    borderRadius: "16px",
+    background: "rgba(255,255,255,0.1)",
+    borderRadius: "12px",
     padding: "18px",
   },
-  icon: { fontSize: "1.6rem" },
-  cardTitle: { margin: "12px 0 8px", fontSize: "1.15rem" },
-  cardDesc: { color: "#475569" },
-  paragraph: { color: "#334155" },
-  form: {
-    display: "grid",
-    gap: "12px",
-    maxWidth: 520,
-  },
+  icon: { fontSize: "2rem" },
+  cardTitle: { margin: "12px 0 8px" },
+  cardDesc: { fontSize: "0.95rem" },
+  paragraph: { fontSize: "1rem" },
+  form: { display: "grid", gap: "12px", maxWidth: 400, margin: "0 auto" },
   input: {
-    padding: "12px 14px",
-    border: "1px solid #cbd5e1",
-    borderRadius: "10px",
+    padding: "12px",
+    borderRadius: "8px",
+    border: "none",
   },
   textarea: {
-    padding: "12px 14px",
-    border: "1px solid #cbd5e1",
-    borderRadius: "10px",
+    padding: "12px",
+    borderRadius: "8px",
+    border: "none",
     resize: "vertical",
   },
   footer: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "20px 24px",
-    borderTop: "1px solid #e2e8f0",
-    marginTop: "24px",
-    color: "#475569",
-  },
-  footerLink: {
-    marginLeft: "12px",
-    color: "#475569",
-    textDecoration: "none",
+    textAlign: "center",
+    padding: "20px",
+    background: "rgba(0,0,0,0.6)",
   },
 };
 
