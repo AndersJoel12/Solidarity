@@ -7,6 +7,7 @@ contract Donaciones {
         string Nombres;
         string Apellidos;
         string Cedula;
+        string Correo;
         uint256 Monto_Donacion; // CAMBIO: Ahora es un número entero positivo
     }
 
@@ -21,6 +22,7 @@ contract Donaciones {
     function RegistrarDonantes(
         string memory _cedula,
         string memory _nombres,
+        string memory _correo,
         string memory _apellidos,
         uint256 _montoDonacion // CAMBIO: Recibimos un número, no texto
     ) public {
@@ -32,6 +34,7 @@ contract Donaciones {
         donaciones[id] = Donacion({
             Nombres: _nombres,
             Apellidos: _apellidos,
+            Correo: _correo,
             Cedula: _cedula,
             Monto_Donacion: _montoDonacion
         });
