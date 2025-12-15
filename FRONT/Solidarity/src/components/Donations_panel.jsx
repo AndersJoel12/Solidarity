@@ -30,8 +30,9 @@ function Donations() {
       setLoading(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      // AQUÍ VA LA DIRECCIÓN QUE TE PASE TU COMPAÑERO
+      
       const contractAddress = "0x0000000000000000000000000000000000000000"; 
+      
       const tx = await signer.sendTransaction({
         to: contractAddress,
         value: ethers.parseEther(amount.toString()) 
@@ -48,20 +49,13 @@ function Donations() {
   };
 
   return (
-    // Este div de afuera es solo para centrar la caja en la pantalla
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 px-4 font-sans relative overflow-hidden">
+    // CAMBIO V4: "bg-gradient-to-br" ahora es "bg-linear-to-br"
+    <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-green-50 to-emerald-100 px-4 font-sans relative overflow-hidden">
       
-      {/* Decoración de fondo (círculos de colores) */}
       <div className="absolute top-10 right-10 w-64 h-64 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
       <div className="absolute bottom-10 left-10 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
 
-      {/* ================================================================================== */}
-      {/* 📍 AQUÍ EMPIEZA LA CAJA QUE PIDES */}
-      {/* Fíjate en las clases: bg-white/90 (fondo blanco), rounded-3xl (esquinas redondas), shadow-2xl (sombra) */}
-      {/* ================================================================================== */}
       <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 max-w-md w-full border border-white/50 relative z-10">
-          
-          {/* TODO EL CONTENIDO VA DENTRO DE ESE DIV */}
           
           <div className="text-center mb-8">
             <h2 className="text-3xl font-black text-gray-800 uppercase tracking-wide leading-tight">
@@ -80,7 +74,7 @@ function Donations() {
                 className={`
                   py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:-translate-y-1 border
                   ${amount === preset.toString() 
-                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30 scale-105 border-transparent' 
+                    ? 'bg-linear-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30 scale-105 border-transparent' 
                     : 'bg-gray-50 text-gray-600 hover:bg-white hover:shadow-md border-gray-100' 
                   }
                 `}
@@ -102,7 +96,7 @@ function Donations() {
               onChange={(e) => setAmount(e.target.value)}
               className="w-full bg-gray-50 border-2 border-transparent focus:bg-white text-gray-800 font-bold text-2xl rounded-2xl py-4 pl-12 pr-16 focus:outline-none focus:ring-4 focus:ring-green-100 focus:border-green-500 transition-all text-center shadow-inner"
             />
-            <span className="absolute right-9 top-1/2 transform -translate-y-1/2 text-gray-400 font-bold text-sm tracking-wider">
+            <span className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400 font-bold text-sm tracking-wider">
               SLD
             </span>
           </div>
@@ -111,7 +105,7 @@ function Donations() {
             className={`w-full group relative flex items-center justify-center py-4 rounded-full shadow-lg transform transition-all duration-300
               ${loading 
                 ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-95'
+                : 'bg-linear-to-r from-orange-500 to-orange-600 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-95'
               }
             `}
             onClick={handleDonate}
@@ -134,12 +128,9 @@ function Donations() {
                ¿Cómo funciona esta dApp?
             </button>
           </div>
-
-      {/* ================================================================================== */}
-      {/* 📍 AQUÍ TERMINA LA CAJA */}
-      {/* ================================================================================== */}
       </div>
     </div>
   );
 };   
+
 export default Donations;
