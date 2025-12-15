@@ -59,13 +59,8 @@ function Landing() {
 
       {/* Contact */}
       <section id="contact" style={styles.section}>
-        <h2 style={styles.sectionTitle}>Contacto</h2>
-        <form style={styles.form} onSubmit={(e) => e.preventDefault()}>
-          <input style={styles.input} type="text" placeholder="Tu nombre" />
-          <input style={styles.input} type="email" placeholder="Tu correo" />
-          <textarea style={styles.textarea} placeholder="Tu mensaje" rows={4} />
-          <button style={styles.primaryBtn} type="submit">Enviar</button>
-        </form>
+        <h2 style={styles.sectionTitle}>Dona a PetSolidarity</h2>
+        <Donations/>
       </section>
 
       <footer style={styles.footer}>

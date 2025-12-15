@@ -12,8 +12,6 @@ function App() {
     <>
     <DonationsList />
     <br />
-    <Donations/>
-    <br></br>
     <Landing/>
     </>
   )
