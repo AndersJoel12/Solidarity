@@ -1,138 +1,173 @@
 import { useState } from 'react';
 import { ethers } from 'ethers';
-import DonacionesABI from './Donaciones.json'; // El archivo que copiaste
+import DonacionesABI from './contracts/Donaciones.json';
+import PersonasABI from './contracts/Personas.json'; // <--- IMPORTANTE: EL NUEVO JSON
 
-// Pega aquí la dirección que te dio la terminal (ej: 0x5FbDB...)
-const contractAddress = "0x4917d4DA99Ae4f5ee9F9779D9d3a80436599Bf4E"; 
+// ⚠️ PEGA AQUÍ LAS DIRECCIONES QUE TE DIO TRUFFLE MIGRATE
+const donacionesAddress = "0xa535795B26a2529A5fF2b87204fA8c410F509Fe0"; 
+const personasAddress = "0x83A6037870d3029E9a175A1D9EB775238fFA3dD5"; 
+
 
 function Contrato() {
-  const [cedula, setCedula] = useState('');
-  const [nombres, setNombres] = useState('');
-  const [apellidos, setApellidos] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [monto, setMonto] = useState('');
+  const [account, setAccount] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // Función para conectar la Wallet (Metamask)
-  async function requestAccount() {
+  // --- ESTADOS PARA REGISTRO CIVIL (PROFE) ---
+  const [regCedula, setRegCedula] = useState('');
+  const [regNombre, setRegNombre] = useState('');
+  const [regApellido, setRegApellido] = useState('');
+
+  // --- ESTADOS PARA DONACIONES (TUYO) ---
+  const [donarCedula, setDonarCedula] = useState('');
+  const [donarMonto, setDonarMonto] = useState('');
+  const [datosEncontrados, setDatosEncontrados] = useState(null);
+
+  // 1. CONECTAR WALLET
+  async function connectWallet() {
     if (window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        console.log("Wallet conectada:", accounts[0]);
-      } catch (error) {
-        console.error("Error conectando wallet:", error);
-      }
-    } else {
-      alert("¡Instala Metamask!");
-    }
+        setAccount(accounts[0]);
+      } catch (error) { console.error(error); }
+    } else { alert("Instala Metamask"); }
   }
 
-  // Función para guardar en la Blockchain
-  async function registrarDonacion() {
-    if (!monto || !cedula) return;
-
-    // 1. Conectamos con el proveedor (Metamask)
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
-
-    // 2. Creamos la instancia del contrato
-    const contrato = new ethers.Contract(contractAddress, DonacionesABI.abi, signer);
-
+  // 2. FUNCIÓN NUEVA: AGREGAR PERSONA AL REGISTRO CIVIL
+  async function agregarPersonaAlCivil() {
+    if (!regCedula || !regNombre || !regApellido) return alert("Faltan datos pal registro!");
+    
     try {
-      // 3. Llamamos a la función del contrato
-      // IMPORTANTE: El monto hay que pasarlo a formato "BigInt" o String si es muy grande
-      const tx = await contrato.RegistrarDonantes(
-        cedula,
-        nombres,
-        apellidos,
-        correo,
-        monto // Como lo pusimos uint256, aquí pasamos el número directo
-      );
-
-      console.log("Transacción enviada:", tx.hash);
-      alert("Esperando confirmación...");
-
-      // 4. Esperamos a que la blockchain confirme
-      await tx.wait();
-      
-      alert("¡Listo papá! Donación registrada en la Blockchain.");
-    } catch (error) {
-      console.error("Error al registrar:", error);
-      alert("Error: Revisa la consola (F12). ¿Quizás la cédula ya existe?");
-    }
-  }
-
-  // Nueva variable para mostrar los datos que traemos
-  const [datosEncontrados, setDatosEncontrados] = useState(null);
-
-  async function consultarDonacion() {
-    if (!cedula) return alert("Epale, escribe la cédula en la cajita primero.");
-
-    try {
-      console.log("1. Buscando cédula:", cedula); // Chismoso 1
-      
+      setLoading(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
-      const contrato = new ethers.Contract(contractAddress, DonacionesABI.abi, provider);
-
-      console.log("2. Llamando al contrato..."); // Chismoso 2
-      const resultado = await contrato.obtenerPersonaPorCI(cedula);
+      const signer = await provider.getSigner();
       
-      console.log("3. LO QUE LLEGÓ DEL CONTRATO:", resultado); // Chismoso 3 (Aquí veremos la verdad)
+      // Creamos la conexión con el contrato del PROFE
+      const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
 
-      // Intentamos leer los datos (Probamos las dos formas: por nombre o por posición)
-      const nombre = resultado.Nombres || resultado[0];
-      const apellido = resultado.Apellidos || resultado[1];
-      const monto = resultado.Monto_Donacion || resultado[3]; // El 3 es porque es el cuarto dato del struct
-
-      setDatosEncontrados({
-        nombres: nombre,
-        apellidos: apellido,
-        monto: ethers.formatEther(monto)
-      });
+      console.log("Registrando en el contrato del Profe...");
       
-      console.log("4. Estado actualizado. Debería verse en pantalla.");
+      // Llamamos a la función "registrarPersonaEsencial" del profe
+      const tx = await contratoPersonas.registrarPersonaEsencial(
+        regCedula, 
+        regNombre, 
+        regApellido
+      );
+      
+      await tx.wait(); // Esperamos confirmación
+      
+      alert(`✅ ¡${regNombre} registrado en el Civil con éxito! Ahora puede donar.`);
+      setLoading(false);
+      
+      // Limpiamos
+      setRegCedula(''); setRegNombre(''); setRegApellido('');
 
     } catch (error) {
-      console.error("❌ ERROR FEO:", error); // Si sale rojo aquí, pégamelo
+      console.error(error);
+      setLoading(false);
+      alert("Error: ¿Quizás esa cédula ya existe en el Civil?");
+    }
+  }
+
+  // 3. REGISTRAR DONACIÓN (Igual que antes)
+  async function registrarDonacion() {
+    if (!donarMonto || !donarCedula) return alert("Llena los datos pues!");
+
+    try {
+      setLoading(true);
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
       
-      // Si el error dice "revert", es que el contrato nos rebotó (Cédula no existe)
-      if(error.message.includes("revert") || error.info?.error?.message.includes("no encontrada")) {
-        alert("El contrato dice que esa cédula NO existe.");
+      // Conexión con TU contrato
+      const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
+
+      const montoWei = ethers.parseEther(donarMonto);
+
+      const tx = await contratoDonaciones.RegistrarDonantes(donarCedula, montoWei);
+      await tx.wait();
+
+      alert("🎉 ¡Donación procesada correctamente!");
+      setLoading(false);
+      setDonarCedula(''); setDonarMonto('');
+
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      // Mensaje inteligente de error
+      if (error.reason && error.reason.includes("revert")) {
+          alert("Error: El contrato rechazó la donación. ¿Esa cédula está registrada arriba?");
       } else {
-        alert("Ocurrió un error. Revisa la consola (F12) para ver qué pasó.");
+          alert("Error desconocido. Revisa la consola.");
       }
-      setDatosEncontrados(null);
+    }
+  }
+
+  // 4. CONSULTAR DONACIÓN
+  async function consultarDonacion() {
+    if (!donarCedula) return alert("Escribe la cédula abajo para buscar.");
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, provider);
+      
+      const resultado = await contratoDonaciones.obtenerPersonaPorCI(donarCedula);
+      
+      setDatosEncontrados({
+        nombres: resultado.Nombres,
+        apellidos: resultado.Apellidos,
+        monto: ethers.formatEther(resultado.Monto_Donacion)
+      });
+    } catch (error) {
+      console.error(error);
+      alert("No conseguí donaciones con esa cédula.");
     }
   }
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
-      <h1>💸 Donaciones Web3</h1>
-      <button onClick={requestAccount} style={{ background: 'orange', padding: '10px' }}>
-        1. Conectar Wallet
-      </button>
+    <div style={{ padding: '20px', fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>
+      <h1>🇻🇪 Sistema Integrado Web3</h1>
+      
+      {!account ? (
+        <button onClick={connectWallet} style={{background:'orange', padding:'10px', width:'100%'}}>🦊 Conectar Metamask</button>
+      ) : <p style={{color:'green', textAlign:'center'}}>Conectado: {account}</p>}
 
-      <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px' }}>
-        <input placeholder="Cédula" onChange={e => setCedula(e.target.value)} />
-        <input placeholder="Nombres" onChange={e => setNombres(e.target.value)} />
-        <input placeholder="Apellidos" onChange={e => setApellidos(e.target.value)} />
-        <input placeholder="Correo" onChange={e => setCorreo(e.target.value)} />
-        <input type="number" placeholder="Monto" onChange={e => setMonto(e.target.value)} />
+      {/* --- ZONA 1: REGISTRO CIVIL (PROFE) --- */}
+      <div style={{background: '#f4f4f4', padding: '15px', borderRadius: '10px', marginTop: '20px', border: '2px solid #333'}}>
+        <h3>🏛️ Paso 1: Registro Civil (Admin)</h3>
+        <p style={{fontSize: '0.8em'}}>Registra a la persona aquí primero para que exista en la base de datos.</p>
         
-        <button onClick={registrarDonacion} style={{ background: '#4CAF50', color: 'white', padding: '10px' }}>
-          2. Registrar Donación
+        <div style={{display:'flex', gap:'5px', marginBottom:'10px'}}>
+            <input placeholder="Cédula" value={regCedula} onChange={e=>setRegCedula(e.target.value)} style={{padding:'8px', width:'30%'}}/>
+            <input placeholder="Nombre" value={regNombre} onChange={e=>setRegNombre(e.target.value)} style={{padding:'8px', width:'35%'}}/>
+            <input placeholder="Apellido" value={regApellido} onChange={e=>setRegApellido(e.target.value)} style={{padding:'8px', width:'35%'}}/>
+        </div>
+        <button onClick={agregarPersonaAlCivil} disabled={loading} style={{background:'#333', color:'white', padding:'10px', width:'100%'}}>
+            {loading ? "Registrando..." : "💾 Guardar en Registro Civil"}
         </button>
-        {/* BOTÓN NUEVO PARA CONSULTAR */}
-        <button onClick={consultarDonacion} style={{ background: '#2196F3', color: 'white', padding: '10px', marginTop: '10px' }}>
-          3. Consultar por Cédula
-        </button>
+      </div>
 
-        {/* AQUÍ MOSTRAMOS EL RESULTADO */}
+      <div style={{textAlign:'center', fontSize:'2rem', margin:'10px'}}>⬇️</div>
+
+      {/* --- ZONA 2: DONACIONES (TUYO) --- */}
+      <div style={{background: '#e8f5e9', padding: '15px', borderRadius: '10px', border: '2px solid #4CAF50'}}>
+        <h3>💸 Paso 2: Realizar Donación</h3>
+        <p style={{fontSize: '0.8em'}}>Usa una cédula que ya hayas registrado arriba.</p>
+        
+        <input placeholder="Cédula del Donante" value={donarCedula} onChange={e=>setDonarCedula(e.target.value)} style={{padding:'8px', width:'100%', marginBottom:'10px'}}/>
+        <input type="number" placeholder="Monto en ETH (ej: 0.1)" value={donarMonto} onChange={e=>setDonarMonto(e.target.value)} style={{padding:'8px', width:'100%', marginBottom:'10px'}}/>
+        
+        <div style={{display:'flex', gap:'10px'}}>
+            <button onClick={registrarDonacion} disabled={loading} style={{background:'#4CAF50', color:'white', padding:'10px', flex:1}}>
+                💰 Donar
+            </button>
+            <button onClick={consultarDonacion} style={{background:'#2196F3', color:'white', padding:'10px', flex:1}}>
+                🔍 Consultar
+            </button>
+        </div>
+
         {datosEncontrados && (
-          <div style={{ marginTop: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
-            <h3>📖 Datos en Blockchain:</h3>
-            <p><strong>Nombre:</strong> {datosEncontrados.nombres} {datosEncontrados.apellidos}</p>
-            <p><strong>Donó:</strong> {datosEncontrados.monto} ETH</p>
-          </div>
+            <div style={{marginTop:'15px', padding:'10px', background:'white', borderRadius:'5px'}}>
+                <strong>Datos Traídos:</strong> {datosEncontrados.nombres} {datosEncontrados.apellidos} <br/>
+                <strong>Donó:</strong> {datosEncontrados.monto} ETH
+            </div>
         )}
       </div>
     </div>
