@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 
-// --- 1. ICONOS DECORATIVOS ---
-const TokenIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#6366F1" strokeWidth="2"/>
-    <path d="M12 6V18" stroke="#6366F1" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M8 10H16" stroke="#6366F1" strokeWidth="2" strokeLinecap="round"/>
+// --- 1. ICONO DE ETHEREUM (Regresamos al original) ---
+const EthIcon = () => (
+  <svg className="w-6 h-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.925 23.96L16 24.075L16.08 23.96L24.585 18.96L16 32L7.41 18.96L15.925 23.96ZM16.08 0L16 0.255V21.84L24.59 16.82L16.08 0Z" fill="#627EEA"/>
+    <path d="M16 0L7.41 16.82L16 21.84V0Z" fill="#C0CBF6"/>
+    <path d="M16 22.99V31.995L24.59 18.96L16 22.99Z" fill="#627EEA"/>
+    <path d="M7.41 18.96L16 31.995V22.99L7.41 18.96Z" fill="#C0CBF6"/>
+    <path d="M16 21.84L24.59 16.82L16 12.87V21.84Z" fill="#141F30"/>
+    <path d="M7.41 16.82L16 21.84V12.87L7.41 16.82Z" fill="#627EEA"/>
   </svg>
 );
 
@@ -21,6 +24,8 @@ const Spinner = () => (
 function Donations() {
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // TUS OPCIONES (Ahora en ETH)
   const presets = [5, 15, 25, 50];
 
   const handleDonate = async () => {
@@ -31,6 +36,7 @@ function Donations() {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       
+      // Dirección del contrato (Pendiente de tu compañero)
       const contractAddress = "0x0000000000000000000000000000000000000000"; 
       
       const tx = await signer.sendTransaction({
@@ -38,7 +44,8 @@ function Donations() {
         value: ethers.parseEther(amount.toString()) 
       });
       await tx.wait();
-      alert(`¡Has donado ${amount} SLD exitosamente! 🌳`);
+      // Alerta actualizada a ETH
+      alert(`¡Has donado ${amount} ETH exitosamente! 🌳`);
       setAmount('');
     } catch (error) {
       console.error(error);
@@ -49,12 +56,12 @@ function Donations() {
   };
 
   return (
-    // CAMBIO V4: "bg-gradient-to-br" ahora es "bg-linear-to-br"
     <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-green-50 to-emerald-100 px-4 font-sans relative overflow-hidden">
       
       <div className="absolute top-10 right-10 w-64 h-64 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
       <div className="absolute bottom-10 left-10 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
 
+      {/* Tarjeta Principal */}
       <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 max-w-md w-full border border-white/50 relative z-10">
           
           <div className="text-center mb-8">
@@ -66,6 +73,7 @@ function Donations() {
             </p>
           </div>
 
+          {/* Botones de selección (Actualizados a ETH) */}
           <div className="grid grid-cols-2 gap-4 mb-6">
             {presets.map((preset) => (
               <button
@@ -79,14 +87,16 @@ function Donations() {
                   }
                 `}
               >
-                {preset} SLD
+                {preset} ETH
               </button>
             ))}
           </div>
 
+          {/* Input Manual con Icono de ETH */}
           <div className="relative mb-8 group">
             <div className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-opacity duration-300 ${amount ? 'opacity-100' : 'opacity-50'}`}>
-               <TokenIcon />
+               {/* Usamos el EthIcon aquí */}
+               <EthIcon />
             </div>
             <input
               type="number"
@@ -96,11 +106,13 @@ function Donations() {
               onChange={(e) => setAmount(e.target.value)}
               className="w-full bg-gray-50 border-2 border-transparent focus:bg-white text-gray-800 font-bold text-2xl rounded-2xl py-4 pl-12 pr-16 focus:outline-none focus:ring-4 focus:ring-green-100 focus:border-green-500 transition-all text-center shadow-inner"
             />
+            {/* Etiqueta actualizada a ETH */}
             <span className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400 font-bold text-sm tracking-wider">
-              SLD
+              ETH
             </span>
           </div>
 
+          {/* Botón Donar */}
           <button 
             className={`w-full group relative flex items-center justify-center py-4 rounded-full shadow-lg transform transition-all duration-300
               ${loading 
