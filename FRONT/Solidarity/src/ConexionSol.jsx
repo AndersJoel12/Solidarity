@@ -3,12 +3,13 @@ import { ethers } from 'ethers';
 import DonacionesABI from './Donaciones.json'; // El archivo que copiaste
 
 // Pega aquí la dirección que te dio la terminal (ej: 0x5FbDB...)
-const contractAddress = "0x84E270cB2511359e5A508753b2b7Efdabf2C8236"; 
+const contractAddress = "0x4917d4DA99Ae4f5ee9F9779D9d3a80436599Bf4E"; 
 
 function Contrato() {
   const [cedula, setCedula] = useState('');
   const [nombres, setNombres] = useState('');
   const [apellidos, setApellidos] = useState('');
+  const [correo, setCorreo] = useState('');
   const [monto, setMonto] = useState('');
 
   // Función para conectar la Wallet (Metamask)
@@ -21,7 +22,7 @@ function Contrato() {
         console.error("Error conectando wallet:", error);
       }
     } else {
-      alert("¡Instala Metamask chamo!");
+      alert("¡Instala Metamask!");
     }
   }
 
@@ -43,6 +44,7 @@ function Contrato() {
         cedula,
         nombres,
         apellidos,
+        correo,
         monto // Como lo pusimos uint256, aquí pasamos el número directo
       );
 
@@ -113,6 +115,7 @@ function Contrato() {
         <input placeholder="Cédula" onChange={e => setCedula(e.target.value)} />
         <input placeholder="Nombres" onChange={e => setNombres(e.target.value)} />
         <input placeholder="Apellidos" onChange={e => setApellidos(e.target.value)} />
+        <input placeholder="Correo" onChange={e => setCorreo(e.target.value)} />
         <input type="number" placeholder="Monto" onChange={e => setMonto(e.target.value)} />
         
         <button onClick={registrarDonacion} style={{ background: '#4CAF50', color: 'white', padding: '10px' }}>

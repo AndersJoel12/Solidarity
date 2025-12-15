@@ -545,7 +545,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "validator_revert_t_enum$_Genero_$131",
+                      "name": "validator_revert_t_enum$_Genero_$136",
                       "nodeType": "YulIdentifier",
                       "src": "467:36:2"
                     },
@@ -557,7 +557,7 @@
                 }
               ]
             },
-            "name": "abi_decode_t_enum$_Genero_$131",
+            "name": "abi_decode_t_enum$_Genero_$136",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -2632,7 +2632,7 @@
                           }
                         ],
                         "functionName": {
-                          "name": "abi_decode_t_enum$_Genero_$131",
+                          "name": "abi_decode_t_enum$_Genero_$136",
                           "nodeType": "YulIdentifier",
                           "src": "3782:30:2"
                         },
@@ -3534,7 +3534,7 @@
                 }
               ]
             },
-            "name": "abi_decode_tuple_t_uint256t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_enum$_Genero_$131t_uint256t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptr",
+            "name": "abi_decode_tuple_t_uint256t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_enum$_Genero_$136t_uint256t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptr",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -4153,7 +4153,7 @@
                           }
                         ],
                         "functionName": {
-                          "name": "convert_t_enum$_Genero_$131_to_t_uint8",
+                          "name": "convert_t_enum$_Genero_$136_to_t_uint8",
                           "nodeType": "YulIdentifier",
                           "src": "6120:38:2"
                         },
@@ -4174,7 +4174,7 @@
                 }
               ]
             },
-            "name": "abi_encode_t_enum$_Genero_$131_to_t_uint8",
+            "name": "abi_encode_t_enum$_Genero_$136_to_t_uint8",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -5986,7 +5986,7 @@
                           }
                         ],
                         "functionName": {
-                          "name": "abi_encode_t_enum$_Genero_$131_to_t_uint8",
+                          "name": "abi_encode_t_enum$_Genero_$136_to_t_uint8",
                           "nodeType": "YulIdentifier",
                           "src": "10085:41:2"
                         },
@@ -6826,7 +6826,7 @@
                 }
               ]
             },
-            "name": "abi_encode_t_struct$_Persona_$153_memory_ptr_to_t_struct$_Persona_$153_memory_ptr_fromStack",
+            "name": "abi_encode_t_struct$_Persona_$158_memory_ptr_to_t_struct$_Persona_$158_memory_ptr_fromStack",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -8133,7 +8133,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "abi_encode_t_struct$_Persona_$153_memory_ptr_to_t_struct$_Persona_$153_memory_ptr_fromStack",
+                      "name": "abi_encode_t_struct$_Persona_$158_memory_ptr_to_t_struct$_Persona_$158_memory_ptr_fromStack",
                       "nodeType": "YulIdentifier",
                       "src": "15253:91:2"
                     },
@@ -8150,7 +8150,7 @@
                 }
               ]
             },
-            "name": "abi_encode_tuple_t_struct$_Persona_$153_memory_ptr__to_t_struct$_Persona_$153_memory_ptr__fromStack_reversed",
+            "name": "abi_encode_tuple_t_struct$_Persona_$158_memory_ptr__to_t_struct$_Persona_$158_memory_ptr__fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -9125,7 +9125,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "validator_assert_t_enum$_Genero_$131",
+                      "name": "validator_assert_t_enum$_Genero_$136",
                       "nodeType": "YulIdentifier",
                       "src": "17211:36:2"
                     },
@@ -9137,7 +9137,7 @@
                 }
               ]
             },
-            "name": "cleanup_t_enum$_Genero_$131",
+            "name": "cleanup_t_enum$_Genero_$136",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -9217,7 +9217,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "cleanup_t_enum$_Genero_$131",
+                      "name": "cleanup_t_enum$_Genero_$136",
                       "nodeType": "YulIdentifier",
                       "src": "17440:27:2"
                     },
@@ -9234,7 +9234,7 @@
                 }
               ]
             },
-            "name": "convert_t_enum$_Genero_$131_to_t_uint8",
+            "name": "convert_t_enum$_Genero_$136_to_t_uint8",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -10527,7 +10527,7 @@
                 }
               ]
             },
-            "name": "validator_assert_t_enum$_Genero_$131",
+            "name": "validator_assert_t_enum$_Genero_$136",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -10619,7 +10619,7 @@
                 }
               ]
             },
-            "name": "validator_revert_t_enum$_Genero_$131",
+            "name": "validator_revert_t_enum$_Genero_$136",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -10734,7 +10734,7 @@
           }
         ]
       },
-      "contents": "{\n\n    function abi_decode_available_length_t_string_memory_ptr(src, length, end) -> array {\n        array := allocateMemory(array_allocation_size_t_string_memory_ptr(length))\n        mstore(array, length)\n        let dst := add(array, 0x20)\n        if gt(add(src, length), end) { revert(0, 0) }\n        copy_calldata_to_memory(src, dst, length)\n    }\n\n    function abi_decode_t_enum$_Genero_$131(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_enum$_Genero_$131(value)\n    }\n\n    // string\n    function abi_decode_t_string_memory_ptr(offset, end) -> array {\n        if iszero(slt(add(offset, 0x1f), end)) { revert(0, 0) }\n        let length := calldataload(offset)\n        array := abi_decode_available_length_t_string_memory_ptr(add(offset, 0x20), length, end)\n    }\n\n    function abi_decode_t_uint256(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_string_memory_ptr(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_string_memory_ptrt_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1, value2 {\n        if slt(sub(dataEnd, headStart), 96) { revert(0, 0) }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 64))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value2 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_uint256(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_uint256t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_enum$_Genero_$131t_uint256t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10 {\n        if slt(sub(dataEnd, headStart), 352) { revert(0, 0) }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 64))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value2 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 96))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value3 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 128\n\n            value4 := abi_decode_t_enum$_Genero_$131(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 160\n\n            value5 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 192))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value6 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 224))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value7 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 256))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value8 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 288))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value9 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 320))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value10 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    // bytes -> bytes\n    function abi_encode_t_bytes_storage_ptr_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(value, pos) -> ret {\n        let slotValue := sload(value)\n        let length := extract_byte_array_length(slotValue)\n        pos := array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, length)\n        switch and(slotValue, 1)\n        case 0 {\n            // short byte array\n            mstore(pos, and(slotValue, not(0xff)))\n            ret := add(pos, length)\n        }\n        case 1 {\n            // long byte array\n            let dataPos := array_dataslot_t_bytes_storage_ptr(value)\n            let i := 0\n            for { } lt(i, length) { i := add(i, 0x20) } {\n                mstore(add(pos, i), sload(dataPos))\n                dataPos := add(dataPos, 1)\n            }\n            ret := add(pos, length)\n        }\n    }\n\n    function abi_encode_t_enum$_Genero_$131_to_t_uint8(value, pos) {\n        mstore(pos, convert_t_enum$_Genero_$131_to_t_uint8(value))\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr(pos, length)\n        copy_memory_to_memory(add(value, 0x20), pos, length)\n        end := add(pos, round_up_to_mul_of_32(length))\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, length)\n        copy_memory_to_memory(add(value, 0x20), pos, length)\n        end := add(pos, length)\n    }\n\n    function abi_encode_t_stringliteral_2e61b84b835ceeef4c9b94d52c46ff17281d78fbabf7477219f93a75fad9ec84_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 37)\n\n        mstore(add(pos, 0), 0x506572736f6e6120636f6e206573612063c3a964756c61206e6f20656e636f6e)\n\n        mstore(add(pos, 32), \"trada\")\n\n        end := add(pos, 64)\n    }\n\n    function abi_encode_t_stringliteral_4492520edf8ec0bccdb74e65594c0f3de05f884ec327248b83c351ecdb26fb84_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 16)\n\n        mstore(add(pos, 0), \"CI no registrada\")\n\n        end := add(pos, 32)\n    }\n\n    function abi_encode_t_stringliteral_4c24a3674379563a49d6a23f49407f7f1371ac23c8edff2be57cada26fec79a9_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 13)\n\n        mstore(add(pos, 0), 0x4944206e6f2076c3a16c69646f00000000000000000000000000000000000000)\n\n        end := add(pos, 32)\n    }\n\n    function abi_encode_t_stringliteral_72d86be46c81b427b523d68f049742b4ec840af31e7731dbb625b1d2ac5a3cfd_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 21)\n\n        mstore(add(pos, 0), \"Persona no registrada\")\n\n        end := add(pos, 32)\n    }\n\n    function abi_encode_t_stringliteral_84c4c814bff23a31d4b49c8b4ae6cb71c1f5ae9e84be3d463cf159123c9a1fa8_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 24)\n\n        mstore(add(pos, 0), 0x4349206475706c6963616461206f20696e76c3a16c6964610000000000000000)\n\n        end := add(pos, 32)\n    }\n\n    function abi_encode_t_stringliteral_ce347d9b0456837dff490bd021558c71c9e413be9daa79d148ce2ba432075504_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 16)\n\n        mstore(add(pos, 0), \"CI ya registrada\")\n\n        end := add(pos, 32)\n    }\n\n    // struct Personas.Persona -> struct Personas.Persona\n    function abi_encode_t_struct$_Persona_$153_memory_ptr_to_t_struct$_Persona_$153_memory_ptr_fromStack(value, pos)  -> end  {\n        let tail := add(pos, 0x0140)\n\n        {\n            // nombres\n\n            let memberValue0 := mload(add(value, 0x00))\n\n            mstore(add(pos, 0x00), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // apellidos\n\n            let memberValue0 := mload(add(value, 0x20))\n\n            mstore(add(pos, 0x20), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // cedula\n\n            let memberValue0 := mload(add(value, 0x40))\n\n            mstore(add(pos, 0x40), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // genero\n\n            let memberValue0 := mload(add(value, 0x60))\n            abi_encode_t_enum$_Genero_$131_to_t_uint8(memberValue0, add(pos, 0x60))\n        }\n\n        {\n            // fechaNacimiento\n\n            let memberValue0 := mload(add(value, 0x80))\n            abi_encode_t_uint256_to_t_uint256(memberValue0, add(pos, 0x80))\n        }\n\n        {\n            // lugarNacimiento\n\n            let memberValue0 := mload(add(value, 0xa0))\n\n            mstore(add(pos, 0xa0), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // estadoCivil\n\n            let memberValue0 := mload(add(value, 0xc0))\n\n            mstore(add(pos, 0xc0), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // direccion\n\n            let memberValue0 := mload(add(value, 0xe0))\n\n            mstore(add(pos, 0xe0), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // telefono\n\n            let memberValue0 := mload(add(value, 0x0100))\n\n            mstore(add(pos, 0x0100), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // profesion\n\n            let memberValue0 := mload(add(value, 0x0120))\n\n            mstore(add(pos, 0x0120), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        end := tail\n    }\n\n    function abi_encode_t_uint256_to_t_uint256(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_packed_t_bytes_storage_ptr__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value0) -> end {\n\n        pos := abi_encode_t_bytes_storage_ptr_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        end := pos\n    }\n\n    function abi_encode_tuple_packed_t_string_memory_ptr__to_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value0) -> end {\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        end := pos\n    }\n\n    function abi_encode_tuple_t_stringliteral_2e61b84b835ceeef4c9b94d52c46ff17281d78fbabf7477219f93a75fad9ec84__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_2e61b84b835ceeef4c9b94d52c46ff17281d78fbabf7477219f93a75fad9ec84_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_4492520edf8ec0bccdb74e65594c0f3de05f884ec327248b83c351ecdb26fb84__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_4492520edf8ec0bccdb74e65594c0f3de05f884ec327248b83c351ecdb26fb84_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_4c24a3674379563a49d6a23f49407f7f1371ac23c8edff2be57cada26fec79a9__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_4c24a3674379563a49d6a23f49407f7f1371ac23c8edff2be57cada26fec79a9_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_72d86be46c81b427b523d68f049742b4ec840af31e7731dbb625b1d2ac5a3cfd__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_72d86be46c81b427b523d68f049742b4ec840af31e7731dbb625b1d2ac5a3cfd_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_84c4c814bff23a31d4b49c8b4ae6cb71c1f5ae9e84be3d463cf159123c9a1fa8__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_84c4c814bff23a31d4b49c8b4ae6cb71c1f5ae9e84be3d463cf159123c9a1fa8_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_ce347d9b0456837dff490bd021558c71c9e413be9daa79d148ce2ba432075504__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_ce347d9b0456837dff490bd021558c71c9e413be9daa79d148ce2ba432075504_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_struct$_Persona_$153_memory_ptr__to_t_struct$_Persona_$153_memory_ptr__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_struct$_Persona_$153_memory_ptr_to_t_struct$_Persona_$153_memory_ptr_fromStack(value0,  tail)\n\n    }\n\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function allocateMemory(size) -> memPtr {\n        memPtr := mload(64)\n        let newFreePtr := add(memPtr, size)\n        // protect against overflow\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n\n    function array_allocation_size_t_string_memory_ptr(length) -> size {\n        // Make sure we can allocate memory without overflow\n        if gt(length, 0xffffffffffffffff) { panic_error_0x41() }\n\n        // round up\n        size := and(add(length, 0x1f), not(0x1f))\n\n        // add length slot\n        size := add(size, 0x20)\n\n    }\n\n    function array_dataslot_t_bytes_storage_ptr(ptr) -> data {\n        data := ptr\n\n        mstore(0, ptr)\n        data := keccak256(0, 0x20)\n\n    }\n\n    function array_length_t_string_memory_ptr(value) -> length {\n\n        length := mload(value)\n\n    }\n\n    function array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function cleanup_t_enum$_Genero_$131(value) -> cleaned {\n        cleaned := value validator_assert_t_enum$_Genero_$131(value)\n    }\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function convert_t_enum$_Genero_$131_to_t_uint8(value) -> converted {\n        converted := cleanup_t_enum$_Genero_$131(value)\n    }\n\n    function copy_calldata_to_memory(src, dst, length) {\n        calldatacopy(dst, src, length)\n        // clear end\n        mstore(add(dst, length), 0)\n    }\n\n    function copy_memory_to_memory(src, dst, length) {\n        let i := 0\n        for { } lt(i, length) { i := add(i, 32) }\n        {\n            mstore(add(dst, i), mload(add(src, i)))\n        }\n        if gt(i, length)\n        {\n            // clear end\n            mstore(add(dst, length), 0)\n        }\n    }\n\n    function extract_byte_array_length(data) -> length {\n        length := div(data, 2)\n        let outOfPlaceEncoding := and(data, 1)\n        if iszero(outOfPlaceEncoding) {\n            length := and(length, 0x7f)\n        }\n\n        if eq(outOfPlaceEncoding, lt(length, 32)) {\n            panic_error_0x22()\n        }\n    }\n\n    function increment_t_uint256(value) -> ret {\n        value := cleanup_t_uint256(value)\n        if eq(value, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) { panic_error_0x11() }\n        ret := add(value, 1)\n    }\n\n    function panic_error_0x11() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x11)\n        revert(0, 0x24)\n    }\n\n    function panic_error_0x21() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x21)\n        revert(0, 0x24)\n    }\n\n    function panic_error_0x22() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x22)\n        revert(0, 0x24)\n    }\n\n    function panic_error_0x41() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n\n    function round_up_to_mul_of_32(value) -> result {\n        result := and(add(value, 31), not(31))\n    }\n\n    function validator_assert_t_enum$_Genero_$131(value) {\n        if iszero(lt(value, 3)) { panic_error_0x21() }\n    }\n\n    function validator_revert_t_enum$_Genero_$131(value) {\n        if iszero(lt(value, 3)) { revert(0, 0) }\n    }\n\n    function validator_revert_t_uint256(value) {\n        if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }\n    }\n\n}\n",
+      "contents": "{\n\n    function abi_decode_available_length_t_string_memory_ptr(src, length, end) -> array {\n        array := allocateMemory(array_allocation_size_t_string_memory_ptr(length))\n        mstore(array, length)\n        let dst := add(array, 0x20)\n        if gt(add(src, length), end) { revert(0, 0) }\n        copy_calldata_to_memory(src, dst, length)\n    }\n\n    function abi_decode_t_enum$_Genero_$136(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_enum$_Genero_$136(value)\n    }\n\n    // string\n    function abi_decode_t_string_memory_ptr(offset, end) -> array {\n        if iszero(slt(add(offset, 0x1f), end)) { revert(0, 0) }\n        let length := calldataload(offset)\n        array := abi_decode_available_length_t_string_memory_ptr(add(offset, 0x20), length, end)\n    }\n\n    function abi_decode_t_uint256(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_string_memory_ptr(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_string_memory_ptrt_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1, value2 {\n        if slt(sub(dataEnd, headStart), 96) { revert(0, 0) }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 64))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value2 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_uint256(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_uint256t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_enum$_Genero_$136t_uint256t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10 {\n        if slt(sub(dataEnd, headStart), 352) { revert(0, 0) }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 64))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value2 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 96))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value3 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 128\n\n            value4 := abi_decode_t_enum$_Genero_$136(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 160\n\n            value5 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 192))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value6 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 224))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value7 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 256))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value8 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 288))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value9 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 320))\n            if gt(offset, 0xffffffffffffffff) { revert(0, 0) }\n\n            value10 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    // bytes -> bytes\n    function abi_encode_t_bytes_storage_ptr_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(value, pos) -> ret {\n        let slotValue := sload(value)\n        let length := extract_byte_array_length(slotValue)\n        pos := array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, length)\n        switch and(slotValue, 1)\n        case 0 {\n            // short byte array\n            mstore(pos, and(slotValue, not(0xff)))\n            ret := add(pos, length)\n        }\n        case 1 {\n            // long byte array\n            let dataPos := array_dataslot_t_bytes_storage_ptr(value)\n            let i := 0\n            for { } lt(i, length) { i := add(i, 0x20) } {\n                mstore(add(pos, i), sload(dataPos))\n                dataPos := add(dataPos, 1)\n            }\n            ret := add(pos, length)\n        }\n    }\n\n    function abi_encode_t_enum$_Genero_$136_to_t_uint8(value, pos) {\n        mstore(pos, convert_t_enum$_Genero_$136_to_t_uint8(value))\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr(pos, length)\n        copy_memory_to_memory(add(value, 0x20), pos, length)\n        end := add(pos, round_up_to_mul_of_32(length))\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, length)\n        copy_memory_to_memory(add(value, 0x20), pos, length)\n        end := add(pos, length)\n    }\n\n    function abi_encode_t_stringliteral_2e61b84b835ceeef4c9b94d52c46ff17281d78fbabf7477219f93a75fad9ec84_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 37)\n\n        mstore(add(pos, 0), 0x506572736f6e6120636f6e206573612063c3a964756c61206e6f20656e636f6e)\n\n        mstore(add(pos, 32), \"trada\")\n\n        end := add(pos, 64)\n    }\n\n    function abi_encode_t_stringliteral_4492520edf8ec0bccdb74e65594c0f3de05f884ec327248b83c351ecdb26fb84_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 16)\n\n        mstore(add(pos, 0), \"CI no registrada\")\n\n        end := add(pos, 32)\n    }\n\n    function abi_encode_t_stringliteral_4c24a3674379563a49d6a23f49407f7f1371ac23c8edff2be57cada26fec79a9_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 13)\n\n        mstore(add(pos, 0), 0x4944206e6f2076c3a16c69646f00000000000000000000000000000000000000)\n\n        end := add(pos, 32)\n    }\n\n    function abi_encode_t_stringliteral_72d86be46c81b427b523d68f049742b4ec840af31e7731dbb625b1d2ac5a3cfd_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 21)\n\n        mstore(add(pos, 0), \"Persona no registrada\")\n\n        end := add(pos, 32)\n    }\n\n    function abi_encode_t_stringliteral_84c4c814bff23a31d4b49c8b4ae6cb71c1f5ae9e84be3d463cf159123c9a1fa8_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 24)\n\n        mstore(add(pos, 0), 0x4349206475706c6963616461206f20696e76c3a16c6964610000000000000000)\n\n        end := add(pos, 32)\n    }\n\n    function abi_encode_t_stringliteral_ce347d9b0456837dff490bd021558c71c9e413be9daa79d148ce2ba432075504_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 16)\n\n        mstore(add(pos, 0), \"CI ya registrada\")\n\n        end := add(pos, 32)\n    }\n\n    // struct Personas.Persona -> struct Personas.Persona\n    function abi_encode_t_struct$_Persona_$158_memory_ptr_to_t_struct$_Persona_$158_memory_ptr_fromStack(value, pos)  -> end  {\n        let tail := add(pos, 0x0140)\n\n        {\n            // nombres\n\n            let memberValue0 := mload(add(value, 0x00))\n\n            mstore(add(pos, 0x00), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // apellidos\n\n            let memberValue0 := mload(add(value, 0x20))\n\n            mstore(add(pos, 0x20), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // cedula\n\n            let memberValue0 := mload(add(value, 0x40))\n\n            mstore(add(pos, 0x40), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // genero\n\n            let memberValue0 := mload(add(value, 0x60))\n            abi_encode_t_enum$_Genero_$136_to_t_uint8(memberValue0, add(pos, 0x60))\n        }\n\n        {\n            // fechaNacimiento\n\n            let memberValue0 := mload(add(value, 0x80))\n            abi_encode_t_uint256_to_t_uint256(memberValue0, add(pos, 0x80))\n        }\n\n        {\n            // lugarNacimiento\n\n            let memberValue0 := mload(add(value, 0xa0))\n\n            mstore(add(pos, 0xa0), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // estadoCivil\n\n            let memberValue0 := mload(add(value, 0xc0))\n\n            mstore(add(pos, 0xc0), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // direccion\n\n            let memberValue0 := mload(add(value, 0xe0))\n\n            mstore(add(pos, 0xe0), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // telefono\n\n            let memberValue0 := mload(add(value, 0x0100))\n\n            mstore(add(pos, 0x0100), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        {\n            // profesion\n\n            let memberValue0 := mload(add(value, 0x0120))\n\n            mstore(add(pos, 0x0120), sub(tail, pos))\n            tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr(memberValue0, tail)\n\n        }\n\n        end := tail\n    }\n\n    function abi_encode_t_uint256_to_t_uint256(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_packed_t_bytes_storage_ptr__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value0) -> end {\n\n        pos := abi_encode_t_bytes_storage_ptr_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        end := pos\n    }\n\n    function abi_encode_tuple_packed_t_string_memory_ptr__to_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value0) -> end {\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        end := pos\n    }\n\n    function abi_encode_tuple_t_stringliteral_2e61b84b835ceeef4c9b94d52c46ff17281d78fbabf7477219f93a75fad9ec84__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_2e61b84b835ceeef4c9b94d52c46ff17281d78fbabf7477219f93a75fad9ec84_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_4492520edf8ec0bccdb74e65594c0f3de05f884ec327248b83c351ecdb26fb84__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_4492520edf8ec0bccdb74e65594c0f3de05f884ec327248b83c351ecdb26fb84_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_4c24a3674379563a49d6a23f49407f7f1371ac23c8edff2be57cada26fec79a9__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_4c24a3674379563a49d6a23f49407f7f1371ac23c8edff2be57cada26fec79a9_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_72d86be46c81b427b523d68f049742b4ec840af31e7731dbb625b1d2ac5a3cfd__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_72d86be46c81b427b523d68f049742b4ec840af31e7731dbb625b1d2ac5a3cfd_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_84c4c814bff23a31d4b49c8b4ae6cb71c1f5ae9e84be3d463cf159123c9a1fa8__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_84c4c814bff23a31d4b49c8b4ae6cb71c1f5ae9e84be3d463cf159123c9a1fa8_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_stringliteral_ce347d9b0456837dff490bd021558c71c9e413be9daa79d148ce2ba432075504__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_ce347d9b0456837dff490bd021558c71c9e413be9daa79d148ce2ba432075504_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_struct$_Persona_$158_memory_ptr__to_t_struct$_Persona_$158_memory_ptr__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_struct$_Persona_$158_memory_ptr_to_t_struct$_Persona_$158_memory_ptr_fromStack(value0,  tail)\n\n    }\n\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function allocateMemory(size) -> memPtr {\n        memPtr := mload(64)\n        let newFreePtr := add(memPtr, size)\n        // protect against overflow\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n\n    function array_allocation_size_t_string_memory_ptr(length) -> size {\n        // Make sure we can allocate memory without overflow\n        if gt(length, 0xffffffffffffffff) { panic_error_0x41() }\n\n        // round up\n        size := and(add(length, 0x1f), not(0x1f))\n\n        // add length slot\n        size := add(size, 0x20)\n\n    }\n\n    function array_dataslot_t_bytes_storage_ptr(ptr) -> data {\n        data := ptr\n\n        mstore(0, ptr)\n        data := keccak256(0, 0x20)\n\n    }\n\n    function array_length_t_string_memory_ptr(value) -> length {\n\n        length := mload(value)\n\n    }\n\n    function array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function cleanup_t_enum$_Genero_$136(value) -> cleaned {\n        cleaned := value validator_assert_t_enum$_Genero_$136(value)\n    }\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function convert_t_enum$_Genero_$136_to_t_uint8(value) -> converted {\n        converted := cleanup_t_enum$_Genero_$136(value)\n    }\n\n    function copy_calldata_to_memory(src, dst, length) {\n        calldatacopy(dst, src, length)\n        // clear end\n        mstore(add(dst, length), 0)\n    }\n\n    function copy_memory_to_memory(src, dst, length) {\n        let i := 0\n        for { } lt(i, length) { i := add(i, 32) }\n        {\n            mstore(add(dst, i), mload(add(src, i)))\n        }\n        if gt(i, length)\n        {\n            // clear end\n            mstore(add(dst, length), 0)\n        }\n    }\n\n    function extract_byte_array_length(data) -> length {\n        length := div(data, 2)\n        let outOfPlaceEncoding := and(data, 1)\n        if iszero(outOfPlaceEncoding) {\n            length := and(length, 0x7f)\n        }\n\n        if eq(outOfPlaceEncoding, lt(length, 32)) {\n            panic_error_0x22()\n        }\n    }\n\n    function increment_t_uint256(value) -> ret {\n        value := cleanup_t_uint256(value)\n        if eq(value, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) { panic_error_0x11() }\n        ret := add(value, 1)\n    }\n\n    function panic_error_0x11() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x11)\n        revert(0, 0x24)\n    }\n\n    function panic_error_0x21() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x21)\n        revert(0, 0x24)\n    }\n\n    function panic_error_0x22() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x22)\n        revert(0, 0x24)\n    }\n\n    function panic_error_0x41() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n\n    function round_up_to_mul_of_32(value) -> result {\n        result := and(add(value, 31), not(31))\n    }\n\n    function validator_assert_t_enum$_Genero_$136(value) {\n        if iszero(lt(value, 3)) { panic_error_0x21() }\n    }\n\n    function validator_revert_t_enum$_Genero_$136(value) {\n        if iszero(lt(value, 3)) { revert(0, 0) }\n    }\n\n    function validator_revert_t_uint256(value) {\n        if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }\n    }\n\n}\n",
       "id": 2,
       "language": "Yul",
       "name": "#utility.yul"
@@ -10748,15 +10748,15 @@
     "absolutePath": "project:/contracts/Persona.sol",
     "exportedSymbols": {
       "Personas": [
-        384
+        389
       ]
     },
-    "id": 385,
+    "id": 390,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 126,
+        "id": 131,
         "literals": [
           "solidity",
           "^",
@@ -10772,37 +10772,37 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "documentation": {
-          "id": 127,
+          "id": 132,
           "nodeType": "StructuredDocumentation",
           "src": "60:232:1",
           "text": " @title Registro Civil\n @dev Contrato para el registro de personas en el Registro Civil de Venezuela\n @author Your Name\n @notice Este contrato permite registrar y consultar datos de personas en el Registro Civil"
         },
         "fullyImplemented": true,
-        "id": 384,
+        "id": 389,
         "linearizedBaseContracts": [
-          384
+          389
         ],
         "name": "Personas",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Personas.Genero",
-            "id": 131,
+            "id": 136,
             "members": [
               {
-                "id": 128,
+                "id": 133,
                 "name": "Masculino",
                 "nodeType": "EnumValue",
                 "src": "393:9:1"
               },
               {
-                "id": 129,
+                "id": 134,
                 "name": "Femenino",
                 "nodeType": "EnumValue",
                 "src": "404:8:1"
               },
               {
-                "id": 130,
+                "id": 135,
                 "name": "Otro",
                 "nodeType": "EnumValue",
                 "src": "414:4:1"
@@ -10814,15 +10814,15 @@
           },
           {
             "canonicalName": "Personas.Persona",
-            "id": 153,
+            "id": 158,
             "members": [
               {
                 "constant": false,
-                "id": 133,
+                "id": 138,
                 "mutability": "mutable",
                 "name": "nombres",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "525:14:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -10831,7 +10831,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 132,
+                  "id": 137,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "525:6:1",
@@ -10844,11 +10844,11 @@
               },
               {
                 "constant": false,
-                "id": 135,
+                "id": 140,
                 "mutability": "mutable",
                 "name": "apellidos",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "575:16:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -10857,7 +10857,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 134,
+                  "id": 139,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "575:6:1",
@@ -10870,11 +10870,11 @@
               },
               {
                 "constant": false,
-                "id": 137,
+                "id": 142,
                 "mutability": "mutable",
                 "name": "cedula",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "629:13:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -10883,7 +10883,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 136,
+                  "id": 141,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "629:6:1",
@@ -10896,32 +10896,32 @@
               },
               {
                 "constant": false,
-                "id": 140,
+                "id": 145,
                 "mutability": "mutable",
                 "name": "genero",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "688:13:1",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_Genero_$131",
+                  "typeIdentifier": "t_enum$_Genero_$136",
                   "typeString": "enum Personas.Genero"
                 },
                 "typeName": {
-                  "id": 139,
+                  "id": 144,
                   "nodeType": "UserDefinedTypeName",
                   "pathNode": {
-                    "id": 138,
+                    "id": 143,
                     "name": "Genero",
                     "nodeType": "IdentifierPath",
-                    "referencedDeclaration": 131,
+                    "referencedDeclaration": 136,
                     "src": "688:6:1"
                   },
-                  "referencedDeclaration": 131,
+                  "referencedDeclaration": 136,
                   "src": "688:6:1",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Genero_$131",
+                    "typeIdentifier": "t_enum$_Genero_$136",
                     "typeString": "enum Personas.Genero"
                   }
                 },
@@ -10929,11 +10929,11 @@
               },
               {
                 "constant": false,
-                "id": 142,
+                "id": 147,
                 "mutability": "mutable",
                 "name": "fechaNacimiento",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "737:23:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -10942,7 +10942,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 141,
+                  "id": 146,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "737:7:1",
@@ -10955,11 +10955,11 @@
               },
               {
                 "constant": false,
-                "id": 144,
+                "id": 149,
                 "mutability": "mutable",
                 "name": "lugarNacimiento",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "809:22:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -10968,7 +10968,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 143,
+                  "id": 148,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "809:6:1",
@@ -10981,11 +10981,11 @@
               },
               {
                 "constant": false,
-                "id": 146,
+                "id": 151,
                 "mutability": "mutable",
                 "name": "estadoCivil",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "865:18:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -10994,7 +10994,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 145,
+                  "id": 150,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "865:6:1",
@@ -11007,11 +11007,11 @@
               },
               {
                 "constant": false,
-                "id": 148,
+                "id": 153,
                 "mutability": "mutable",
                 "name": "direccion",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "924:16:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -11020,7 +11020,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 147,
+                  "id": 152,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "924:6:1",
@@ -11033,11 +11033,11 @@
               },
               {
                 "constant": false,
-                "id": 150,
+                "id": 155,
                 "mutability": "mutable",
                 "name": "telefono",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "979:15:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -11046,7 +11046,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 149,
+                  "id": 154,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "979:6:1",
@@ -11059,11 +11059,11 @@
               },
               {
                 "constant": false,
-                "id": 152,
+                "id": 157,
                 "mutability": "mutable",
                 "name": "profesion",
                 "nodeType": "VariableDeclaration",
-                "scope": 153,
+                "scope": 158,
                 "src": "1029:16:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -11072,7 +11072,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 151,
+                  "id": 156,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "1029:6:1",
@@ -11086,17 +11086,17 @@
             ],
             "name": "Persona",
             "nodeType": "StructDefinition",
-            "scope": 384,
+            "scope": 389,
             "src": "499:581:1",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 156,
+            "id": 161,
             "mutability": "mutable",
             "name": "nextId",
             "nodeType": "VariableDeclaration",
-            "scope": 384,
+            "scope": 389,
             "src": "1130:26:1",
             "stateVariable": true,
             "storageLocation": "default",
@@ -11105,7 +11105,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 154,
+              "id": 159,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "1130:7:1",
@@ -11116,7 +11116,7 @@
             },
             "value": {
               "hexValue": "31",
-              "id": 155,
+              "id": 160,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -11134,22 +11134,22 @@
           },
           {
             "constant": false,
-            "id": 161,
+            "id": 166,
             "mutability": "mutable",
             "name": "personas",
             "nodeType": "VariableDeclaration",
-            "scope": 384,
+            "scope": 389,
             "src": "1234:44:1",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$153_storage_$",
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$158_storage_$",
               "typeString": "mapping(uint256 => struct Personas.Persona)"
             },
             "typeName": {
-              "id": 160,
+              "id": 165,
               "keyType": {
-                "id": 157,
+                "id": 162,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "1242:7:1",
@@ -11161,23 +11161,23 @@
               "nodeType": "Mapping",
               "src": "1234:27:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$153_storage_$",
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$158_storage_$",
                 "typeString": "mapping(uint256 => struct Personas.Persona)"
               },
               "valueType": {
-                "id": 159,
+                "id": 164,
                 "nodeType": "UserDefinedTypeName",
                 "pathNode": {
-                  "id": 158,
+                  "id": 163,
                   "name": "Persona",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 153,
+                  "referencedDeclaration": 158,
                   "src": "1253:7:1"
                 },
-                "referencedDeclaration": 153,
+                "referencedDeclaration": 158,
                 "src": "1253:7:1",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Persona_$153_storage_ptr",
+                  "typeIdentifier": "t_struct$_Persona_$158_storage_ptr",
                   "typeString": "struct Personas.Persona"
                 }
               }
@@ -11186,11 +11186,11 @@
           },
           {
             "constant": false,
-            "id": 165,
+            "id": 170,
             "mutability": "mutable",
             "name": "ciAIdPersona",
             "nodeType": "VariableDeclaration",
-            "scope": 384,
+            "scope": 389,
             "src": "1359:47:1",
             "stateVariable": true,
             "storageLocation": "default",
@@ -11199,9 +11199,9 @@
               "typeString": "mapping(string => uint256)"
             },
             "typeName": {
-              "id": 164,
+              "id": 169,
               "keyType": {
-                "id": 162,
+                "id": 167,
                 "name": "string",
                 "nodeType": "ElementaryTypeName",
                 "src": "1367:6:1",
@@ -11217,7 +11217,7 @@
                 "typeString": "mapping(string => uint256)"
               },
               "valueType": {
-                "id": 163,
+                "id": 168,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "1377:7:1",
@@ -11231,7 +11231,7 @@
           },
           {
             "body": {
-              "id": 213,
+              "id": 218,
               "nodeType": "Block",
               "src": "1827:501:1",
               "statements": [
@@ -11243,31 +11243,31 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 180,
+                        "id": 185,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "baseExpression": {
-                            "id": 176,
+                            "id": 181,
                             "name": "ciAIdPersona",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 165,
+                            "referencedDeclaration": 170,
                             "src": "1846:12:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                               "typeString": "mapping(string memory => uint256)"
                             }
                           },
-                          "id": 178,
+                          "id": 183,
                           "indexExpression": {
-                            "id": 177,
+                            "id": 182,
                             "name": "_cedula",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 168,
+                            "referencedDeclaration": 173,
                             "src": "1859:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_string_memory_ptr",
@@ -11289,7 +11289,7 @@
                         "operator": "==",
                         "rightExpression": {
                           "hexValue": "30",
-                          "id": 179,
+                          "id": 184,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11311,7 +11311,7 @@
                       },
                       {
                         "hexValue": "43492079612072656769737472616461",
-                        "id": 181,
+                        "id": 186,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -11337,7 +11337,7 @@
                           "typeString": "literal_string \"CI ya registrada\""
                         }
                       ],
-                      "id": 175,
+                      "id": 180,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -11351,7 +11351,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 182,
+                    "id": 187,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11366,22 +11366,22 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 183,
+                  "id": 188,
                   "nodeType": "ExpressionStatement",
                   "src": "1838:55:1"
                 },
                 {
                   "assignments": [
-                    185
+                    190
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 185,
+                      "id": 190,
                       "mutability": "mutable",
                       "name": "id",
                       "nodeType": "VariableDeclaration",
-                      "scope": 213,
+                      "scope": 218,
                       "src": "1904:10:1",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -11390,7 +11390,7 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 184,
+                        "id": 189,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
                         "src": "1904:7:1",
@@ -11402,9 +11402,9 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 188,
+                  "id": 193,
                   "initialValue": {
-                    "id": 187,
+                    "id": 192,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11414,11 +11414,11 @@
                     "prefix": false,
                     "src": "1917:8:1",
                     "subExpression": {
-                      "id": 186,
+                      "id": 191,
                       "name": "nextId",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 156,
+                      "referencedDeclaration": 161,
                       "src": "1917:6:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -11435,31 +11435,31 @@
                 },
                 {
                   "expression": {
-                    "id": 193,
+                    "id": 198,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "baseExpression": {
-                        "id": 189,
+                        "id": 194,
                         "name": "ciAIdPersona",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 165,
+                        "referencedDeclaration": 170,
                         "src": "1936:12:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                           "typeString": "mapping(string memory => uint256)"
                         }
                       },
-                      "id": 191,
+                      "id": 196,
                       "indexExpression": {
-                        "id": 190,
+                        "id": 195,
                         "name": "_cedula",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 168,
+                        "referencedDeclaration": 173,
                         "src": "1949:7:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -11480,11 +11480,11 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 192,
+                      "id": 197,
                       "name": "id",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 185,
+                      "referencedDeclaration": 190,
                       "src": "1960:2:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -11497,37 +11497,37 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 194,
+                  "id": 199,
                   "nodeType": "ExpressionStatement",
                   "src": "1936:26:1"
                 },
                 {
                   "expression": {
-                    "id": 211,
+                    "id": 216,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "baseExpression": {
-                        "id": 195,
+                        "id": 200,
                         "name": "personas",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 161,
+                        "referencedDeclaration": 166,
                         "src": "1973:8:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$153_storage_$",
+                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$158_storage_$",
                           "typeString": "mapping(uint256 => struct Personas.Persona storage ref)"
                         }
                       },
-                      "id": 197,
+                      "id": 202,
                       "indexExpression": {
-                        "id": 196,
+                        "id": 201,
                         "name": "id",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 185,
+                        "referencedDeclaration": 190,
                         "src": "1982:2:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -11541,7 +11541,7 @@
                       "nodeType": "IndexAccess",
                       "src": "1973:12:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Persona_$153_storage",
+                        "typeIdentifier": "t_struct$_Persona_$158_storage",
                         "typeString": "struct Personas.Persona storage ref"
                       }
                     },
@@ -11550,11 +11550,11 @@
                     "rightHandSide": {
                       "arguments": [
                         {
-                          "id": 199,
+                          "id": 204,
                           "name": "_nombres",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 170,
+                          "referencedDeclaration": 175,
                           "src": "2020:8:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -11562,11 +11562,11 @@
                           }
                         },
                         {
-                          "id": 200,
+                          "id": 205,
                           "name": "_apellidos",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 172,
+                          "referencedDeclaration": 177,
                           "src": "2054:10:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -11574,11 +11574,11 @@
                           }
                         },
                         {
-                          "id": 201,
+                          "id": 206,
                           "name": "_cedula",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 168,
+                          "referencedDeclaration": 173,
                           "src": "2087:7:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -11587,18 +11587,18 @@
                         },
                         {
                           "expression": {
-                            "id": 202,
+                            "id": 207,
                             "name": "Genero",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 131,
+                            "referencedDeclaration": 136,
                             "src": "2117:6:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_enum$_Genero_$131_$",
+                              "typeIdentifier": "t_type$_t_enum$_Genero_$136_$",
                               "typeString": "type(enum Personas.Genero)"
                             }
                           },
-                          "id": 203,
+                          "id": 208,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11607,13 +11607,13 @@
                           "nodeType": "MemberAccess",
                           "src": "2117:11:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_enum$_Genero_$131",
+                            "typeIdentifier": "t_enum$_Genero_$136",
                             "typeString": "enum Personas.Genero"
                           }
                         },
                         {
                           "hexValue": "30",
-                          "id": 204,
+                          "id": 209,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11629,7 +11629,7 @@
                         },
                         {
                           "hexValue": "",
-                          "id": 205,
+                          "id": 210,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11645,7 +11645,7 @@
                         },
                         {
                           "hexValue": "",
-                          "id": 206,
+                          "id": 211,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11661,7 +11661,7 @@
                         },
                         {
                           "hexValue": "",
-                          "id": 207,
+                          "id": 212,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11677,7 +11677,7 @@
                         },
                         {
                           "hexValue": "",
-                          "id": 208,
+                          "id": 213,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11693,7 +11693,7 @@
                         },
                         {
                           "hexValue": "",
-                          "id": 209,
+                          "id": 214,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11723,7 +11723,7 @@
                             "typeString": "string memory"
                           },
                           {
-                            "typeIdentifier": "t_enum$_Genero_$131",
+                            "typeIdentifier": "t_enum$_Genero_$136",
                             "typeString": "enum Personas.Genero"
                           },
                           {
@@ -11751,18 +11751,18 @@
                             "typeString": "literal_string \"\""
                           }
                         ],
-                        "id": 198,
+                        "id": 203,
                         "name": "Persona",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 153,
+                        "referencedDeclaration": 158,
                         "src": "1988:7:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_Persona_$153_storage_ptr_$",
+                          "typeIdentifier": "t_type$_t_struct$_Persona_$158_storage_ptr_$",
                           "typeString": "type(struct Personas.Persona storage pointer)"
                         }
                       },
-                      "id": 210,
+                      "id": 215,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -11784,46 +11784,46 @@
                       "src": "1988:332:1",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Persona_$153_memory_ptr",
+                        "typeIdentifier": "t_struct$_Persona_$158_memory_ptr",
                         "typeString": "struct Personas.Persona memory"
                       }
                     },
                     "src": "1973:347:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Persona_$153_storage",
+                      "typeIdentifier": "t_struct$_Persona_$158_storage",
                       "typeString": "struct Personas.Persona storage ref"
                     }
                   },
-                  "id": 212,
+                  "id": 217,
                   "nodeType": "ExpressionStatement",
                   "src": "1973:347:1"
                 }
               ]
             },
             "documentation": {
-              "id": 166,
+              "id": 171,
               "nodeType": "StructuredDocumentation",
               "src": "1415:258:1",
               "text": " @dev Registra una persona con sus datos esenciales (solo cédula, nombres y apellidos)\n @param _cedula Número de cédula de identidad\n @param _nombres Nombres de la persona\n @param _apellidos Apellidos de la persona"
             },
             "functionSelector": "c8315e1c",
-            "id": 214,
+            "id": 219,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "registrarPersonaEsencial",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 173,
+              "id": 178,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 168,
+                  "id": 173,
                   "mutability": "mutable",
                   "name": "_cedula",
                   "nodeType": "VariableDeclaration",
-                  "scope": 214,
+                  "scope": 219,
                   "src": "1723:21:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -11832,7 +11832,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 167,
+                    "id": 172,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1723:6:1",
@@ -11845,11 +11845,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 170,
+                  "id": 175,
                   "mutability": "mutable",
                   "name": "_nombres",
                   "nodeType": "VariableDeclaration",
-                  "scope": 214,
+                  "scope": 219,
                   "src": "1755:22:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -11858,7 +11858,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 169,
+                    "id": 174,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1755:6:1",
@@ -11871,11 +11871,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 172,
+                  "id": 177,
                   "mutability": "mutable",
                   "name": "_apellidos",
                   "nodeType": "VariableDeclaration",
-                  "scope": 214,
+                  "scope": 219,
                   "src": "1788:24:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -11884,7 +11884,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 171,
+                    "id": 176,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1788:6:1",
@@ -11899,12 +11899,12 @@
               "src": "1712:107:1"
             },
             "returnParameters": {
-              "id": 174,
+              "id": 179,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1827:0:1"
             },
-            "scope": 384,
+            "scope": 389,
             "src": "1679:649:1",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -11912,7 +11912,7 @@
           },
           {
             "body": {
-              "id": 280,
+              "id": 285,
               "nodeType": "Block",
               "src": "3383:596:1",
               "statements": [
@@ -11924,17 +11924,17 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 244,
+                        "id": 249,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
-                          "id": 242,
+                          "id": 247,
                           "name": "_id",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 217,
+                          "referencedDeclaration": 222,
                           "src": "3402:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -11944,11 +11944,11 @@
                         "nodeType": "BinaryOperation",
                         "operator": "<",
                         "rightExpression": {
-                          "id": 243,
+                          "id": 248,
                           "name": "nextId",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 156,
+                          "referencedDeclaration": 161,
                           "src": "3408:6:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -11963,7 +11963,7 @@
                       },
                       {
                         "hexValue": "4944206e6f2076c3a16c69646f",
-                        "id": 245,
+                        "id": 250,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -11989,7 +11989,7 @@
                           "typeString": "literal_string hex\"4944206e6f2076c3a16c69646f\""
                         }
                       ],
-                      "id": 241,
+                      "id": 246,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -12003,7 +12003,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 246,
+                    "id": 251,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12018,7 +12018,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 247,
+                  "id": 252,
                   "nodeType": "ExpressionStatement",
                   "src": "3394:45:1"
                 },
@@ -12030,7 +12030,7 @@
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
                         },
-                        "id": 259,
+                        "id": 264,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -12040,31 +12040,31 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           },
-                          "id": 253,
+                          "id": 258,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftExpression": {
                             "baseExpression": {
-                              "id": 249,
+                              "id": 254,
                               "name": "ciAIdPersona",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 165,
+                              "referencedDeclaration": 170,
                               "src": "3458:12:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                                 "typeString": "mapping(string memory => uint256)"
                               }
                             },
-                            "id": 251,
+                            "id": 256,
                             "indexExpression": {
-                              "id": 250,
+                              "id": 255,
                               "name": "_cedula",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 223,
+                              "referencedDeclaration": 228,
                               "src": "3471:7:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_string_memory_ptr",
@@ -12086,7 +12086,7 @@
                           "operator": "==",
                           "rightExpression": {
                             "hexValue": "30",
-                            "id": 252,
+                            "id": 257,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -12113,31 +12113,31 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           },
-                          "id": 258,
+                          "id": 263,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftExpression": {
                             "baseExpression": {
-                              "id": 254,
+                              "id": 259,
                               "name": "ciAIdPersona",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 165,
+                              "referencedDeclaration": 170,
                               "src": "3488:12:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                                 "typeString": "mapping(string memory => uint256)"
                               }
                             },
-                            "id": 256,
+                            "id": 261,
                             "indexExpression": {
-                              "id": 255,
+                              "id": 260,
                               "name": "_cedula",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 223,
+                              "referencedDeclaration": 228,
                               "src": "3501:7:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_string_memory_ptr",
@@ -12158,11 +12158,11 @@
                           "nodeType": "BinaryOperation",
                           "operator": "==",
                           "rightExpression": {
-                            "id": 257,
+                            "id": 262,
                             "name": "_id",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 217,
+                            "referencedDeclaration": 222,
                             "src": "3513:3:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -12183,7 +12183,7 @@
                       },
                       {
                         "hexValue": "4349206475706c6963616461206f20696e76c3a16c696461",
-                        "id": 260,
+                        "id": 265,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -12209,7 +12209,7 @@
                           "typeString": "literal_string hex\"4349206475706c6963616461206f20696e76c3a16c696461\""
                         }
                       ],
-                      "id": 248,
+                      "id": 253,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -12223,7 +12223,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 261,
+                    "id": 266,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12238,37 +12238,37 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 262,
+                  "id": 267,
                   "nodeType": "ExpressionStatement",
                   "src": "3450:102:1"
                 },
                 {
                   "expression": {
-                    "id": 278,
+                    "id": 283,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "baseExpression": {
-                        "id": 263,
+                        "id": 268,
                         "name": "personas",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 161,
+                        "referencedDeclaration": 166,
                         "src": "3565:8:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$153_storage_$",
+                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$158_storage_$",
                           "typeString": "mapping(uint256 => struct Personas.Persona storage ref)"
                         }
                       },
-                      "id": 265,
+                      "id": 270,
                       "indexExpression": {
-                        "id": 264,
+                        "id": 269,
                         "name": "_id",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 217,
+                        "referencedDeclaration": 222,
                         "src": "3574:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -12282,7 +12282,7 @@
                       "nodeType": "IndexAccess",
                       "src": "3565:13:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Persona_$153_storage",
+                        "typeIdentifier": "t_struct$_Persona_$158_storage",
                         "typeString": "struct Personas.Persona storage ref"
                       }
                     },
@@ -12291,11 +12291,11 @@
                     "rightHandSide": {
                       "arguments": [
                         {
-                          "id": 267,
+                          "id": 272,
                           "name": "_nombres",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 219,
+                          "referencedDeclaration": 224,
                           "src": "3613:8:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -12303,11 +12303,11 @@
                           }
                         },
                         {
-                          "id": 268,
+                          "id": 273,
                           "name": "_apellidos",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 221,
+                          "referencedDeclaration": 226,
                           "src": "3647:10:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -12315,11 +12315,11 @@
                           }
                         },
                         {
-                          "id": 269,
+                          "id": 274,
                           "name": "_cedula",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 223,
+                          "referencedDeclaration": 228,
                           "src": "3680:7:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -12327,23 +12327,23 @@
                           }
                         },
                         {
-                          "id": 270,
+                          "id": 275,
                           "name": "_genero",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 226,
+                          "referencedDeclaration": 231,
                           "src": "3710:7:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_enum$_Genero_$131",
+                            "typeIdentifier": "t_enum$_Genero_$136",
                             "typeString": "enum Personas.Genero"
                           }
                         },
                         {
-                          "id": 271,
+                          "id": 276,
                           "name": "_fechaNacimiento",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 228,
+                          "referencedDeclaration": 233,
                           "src": "3749:16:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -12351,11 +12351,11 @@
                           }
                         },
                         {
-                          "id": 272,
+                          "id": 277,
                           "name": "_lugarNacimiento",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 230,
+                          "referencedDeclaration": 235,
                           "src": "3797:16:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -12363,11 +12363,11 @@
                           }
                         },
                         {
-                          "id": 273,
+                          "id": 278,
                           "name": "_estadoCivil",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 232,
+                          "referencedDeclaration": 237,
                           "src": "3841:12:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -12375,11 +12375,11 @@
                           }
                         },
                         {
-                          "id": 274,
+                          "id": 279,
                           "name": "_direccion",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 234,
+                          "referencedDeclaration": 239,
                           "src": "3879:10:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -12387,11 +12387,11 @@
                           }
                         },
                         {
-                          "id": 275,
+                          "id": 280,
                           "name": "_telefono",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 236,
+                          "referencedDeclaration": 241,
                           "src": "3914:9:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -12399,11 +12399,11 @@
                           }
                         },
                         {
-                          "id": 276,
+                          "id": 281,
                           "name": "_profesion",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 238,
+                          "referencedDeclaration": 243,
                           "src": "3949:10:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -12426,7 +12426,7 @@
                             "typeString": "string memory"
                           },
                           {
-                            "typeIdentifier": "t_enum$_Genero_$131",
+                            "typeIdentifier": "t_enum$_Genero_$136",
                             "typeString": "enum Personas.Genero"
                           },
                           {
@@ -12454,18 +12454,18 @@
                             "typeString": "string memory"
                           }
                         ],
-                        "id": 266,
+                        "id": 271,
                         "name": "Persona",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 153,
+                        "referencedDeclaration": 158,
                         "src": "3581:7:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_Persona_$153_storage_ptr_$",
+                          "typeIdentifier": "t_type$_t_struct$_Persona_$158_storage_ptr_$",
                           "typeString": "type(struct Personas.Persona storage pointer)"
                         }
                       },
-                      "id": 277,
+                      "id": 282,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -12487,46 +12487,46 @@
                       "src": "3581:390:1",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Persona_$153_memory_ptr",
+                        "typeIdentifier": "t_struct$_Persona_$158_memory_ptr",
                         "typeString": "struct Personas.Persona memory"
                       }
                     },
                     "src": "3565:406:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Persona_$153_storage",
+                      "typeIdentifier": "t_struct$_Persona_$158_storage",
                       "typeString": "struct Personas.Persona storage ref"
                     }
                   },
-                  "id": 279,
+                  "id": 284,
                   "nodeType": "ExpressionStatement",
                   "src": "3565:406:1"
                 }
               ]
             },
             "documentation": {
-              "id": 215,
+              "id": 220,
               "nodeType": "StructuredDocumentation",
               "src": "2336:637:1",
               "text": " @dev Registra o actualiza todos los datos de una persona\n @param _id ID único de la persona\n @param _nombres Nombres de la persona\n @param _apellidos Apellidos de la persona\n @param _cedula Número de cédula de identidad\n @param _genero Género de la persona\n @param _fechaNacimiento Fecha de nacimiento como timestamp\n @param _lugarNacimiento Lugar de nacimiento\n @param _estadoCivil Estado civil de la persona\n @param _direccion Dirección de residencia\n @param _telefono Número de teléfono\n @param _profesion Profesión u ocupación"
             },
             "functionSelector": "245bc3a8",
-            "id": 281,
+            "id": 286,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "registrarPersona",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 239,
+              "id": 244,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 217,
+                  "id": 222,
                   "mutability": "mutable",
                   "name": "_id",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3015:11:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -12535,7 +12535,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 216,
+                    "id": 221,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "3015:7:1",
@@ -12548,11 +12548,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 219,
+                  "id": 224,
                   "mutability": "mutable",
                   "name": "_nombres",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3037:22:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -12561,7 +12561,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 218,
+                    "id": 223,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3037:6:1",
@@ -12574,11 +12574,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 221,
+                  "id": 226,
                   "mutability": "mutable",
                   "name": "_apellidos",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3070:24:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -12587,7 +12587,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 220,
+                    "id": 225,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3070:6:1",
@@ -12600,11 +12600,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 223,
+                  "id": 228,
                   "mutability": "mutable",
                   "name": "_cedula",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3105:21:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -12613,7 +12613,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 222,
+                    "id": 227,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3105:6:1",
@@ -12626,32 +12626,32 @@
                 },
                 {
                   "constant": false,
-                  "id": 226,
+                  "id": 231,
                   "mutability": "mutable",
                   "name": "_genero",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3137:14:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Genero_$131",
+                    "typeIdentifier": "t_enum$_Genero_$136",
                     "typeString": "enum Personas.Genero"
                   },
                   "typeName": {
-                    "id": 225,
+                    "id": 230,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 224,
+                      "id": 229,
                       "name": "Genero",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 131,
+                      "referencedDeclaration": 136,
                       "src": "3137:6:1"
                     },
-                    "referencedDeclaration": 131,
+                    "referencedDeclaration": 136,
                     "src": "3137:6:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Genero_$131",
+                      "typeIdentifier": "t_enum$_Genero_$136",
                       "typeString": "enum Personas.Genero"
                     }
                   },
@@ -12659,11 +12659,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 228,
+                  "id": 233,
                   "mutability": "mutable",
                   "name": "_fechaNacimiento",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3162:24:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -12672,7 +12672,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 227,
+                    "id": 232,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "3162:7:1",
@@ -12685,11 +12685,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 230,
+                  "id": 235,
                   "mutability": "mutable",
                   "name": "_lugarNacimiento",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3197:30:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -12698,7 +12698,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 229,
+                    "id": 234,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3197:6:1",
@@ -12711,11 +12711,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 232,
+                  "id": 237,
                   "mutability": "mutable",
                   "name": "_estadoCivil",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3238:26:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -12724,7 +12724,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 231,
+                    "id": 236,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3238:6:1",
@@ -12737,11 +12737,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 234,
+                  "id": 239,
                   "mutability": "mutable",
                   "name": "_direccion",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3275:24:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -12750,7 +12750,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 233,
+                    "id": 238,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3275:6:1",
@@ -12763,11 +12763,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 236,
+                  "id": 241,
                   "mutability": "mutable",
                   "name": "_telefono",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3310:23:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -12776,7 +12776,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 235,
+                    "id": 240,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3310:6:1",
@@ -12789,11 +12789,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 238,
+                  "id": 243,
                   "mutability": "mutable",
                   "name": "_profesion",
                   "nodeType": "VariableDeclaration",
-                  "scope": 281,
+                  "scope": 286,
                   "src": "3344:24:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -12802,7 +12802,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 237,
+                    "id": 242,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3344:6:1",
@@ -12817,12 +12817,12 @@
               "src": "3004:371:1"
             },
             "returnParameters": {
-              "id": 240,
+              "id": 245,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "3383:0:1"
             },
-            "scope": 384,
+            "scope": 389,
             "src": "2979:1000:1",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -12830,7 +12830,7 @@
           },
           {
             "body": {
-              "id": 302,
+              "id": 307,
               "nodeType": "Block",
               "src": "4247:105:1",
               "statements": [
@@ -12842,31 +12842,31 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 294,
+                        "id": 299,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "baseExpression": {
-                            "id": 290,
+                            "id": 295,
                             "name": "ciAIdPersona",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 165,
+                            "referencedDeclaration": 170,
                             "src": "4266:12:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                               "typeString": "mapping(string memory => uint256)"
                             }
                           },
-                          "id": 292,
+                          "id": 297,
                           "indexExpression": {
-                            "id": 291,
+                            "id": 296,
                             "name": "_ci",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 284,
+                            "referencedDeclaration": 289,
                             "src": "4279:3:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_string_memory_ptr",
@@ -12888,7 +12888,7 @@
                         "operator": "!=",
                         "rightExpression": {
                           "hexValue": "30",
-                          "id": 293,
+                          "id": 298,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -12910,7 +12910,7 @@
                       },
                       {
                         "hexValue": "4349206e6f2072656769737472616461",
-                        "id": 295,
+                        "id": 300,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -12936,7 +12936,7 @@
                           "typeString": "literal_string \"CI no registrada\""
                         }
                       ],
-                      "id": 289,
+                      "id": 294,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -12950,7 +12950,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 296,
+                    "id": 301,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12965,31 +12965,31 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 297,
+                  "id": 302,
                   "nodeType": "ExpressionStatement",
                   "src": "4258:51:1"
                 },
                 {
                   "expression": {
                     "baseExpression": {
-                      "id": 298,
+                      "id": 303,
                       "name": "ciAIdPersona",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 165,
+                      "referencedDeclaration": 170,
                       "src": "4327:12:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                         "typeString": "mapping(string memory => uint256)"
                       }
                     },
-                    "id": 300,
+                    "id": 305,
                     "indexExpression": {
-                      "id": 299,
+                      "id": 304,
                       "name": "_ci",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 284,
+                      "referencedDeclaration": 289,
                       "src": "4340:3:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
@@ -13007,37 +13007,37 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 288,
-                  "id": 301,
+                  "functionReturnParameters": 293,
+                  "id": 306,
                   "nodeType": "Return",
                   "src": "4320:24:1"
                 }
               ]
             },
             "documentation": {
-              "id": 282,
+              "id": 287,
               "nodeType": "StructuredDocumentation",
               "src": "3987:181:1",
               "text": " @dev Obtiene el ID de una persona a partir de su cédula de identidad\n @param _ci Número de cédula de identidad\n @return ID único de la persona"
             },
             "functionSelector": "8aa64c5e",
-            "id": 303,
+            "id": 308,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "obtenerIdPorCi",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 285,
+              "id": 290,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 284,
+                  "id": 289,
                   "mutability": "mutable",
                   "name": "_ci",
                   "nodeType": "VariableDeclaration",
-                  "scope": 303,
+                  "scope": 308,
                   "src": "4198:17:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -13046,7 +13046,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 283,
+                    "id": 288,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "4198:6:1",
@@ -13061,16 +13061,16 @@
               "src": "4197:19:1"
             },
             "returnParameters": {
-              "id": 288,
+              "id": 293,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 287,
+                  "id": 292,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 303,
+                  "scope": 308,
                   "src": "4238:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13079,7 +13079,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 286,
+                    "id": 291,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "4238:7:1",
@@ -13093,7 +13093,7 @@
               ],
               "src": "4237:9:1"
             },
-            "scope": 384,
+            "scope": 389,
             "src": "4174:178:1",
             "stateMutability": "view",
             "virtual": false,
@@ -13101,13 +13101,13 @@
           },
           {
             "body": {
-              "id": 350,
+              "id": 355,
               "nodeType": "Block",
               "src": "4688:270:1",
               "statements": [
                 {
                   "body": {
-                    "id": 344,
+                    "id": 349,
                     "nodeType": "Block",
                     "src": "4736:150:1",
                     "statements": [
@@ -13117,7 +13117,7 @@
                             "typeIdentifier": "t_bytes32",
                             "typeString": "bytes32"
                           },
-                          "id": 337,
+                          "id": 342,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -13129,24 +13129,24 @@
                                   {
                                     "expression": {
                                       "baseExpression": {
-                                        "id": 325,
+                                        "id": 330,
                                         "name": "personas",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 161,
+                                        "referencedDeclaration": 166,
                                         "src": "4771:8:1",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$153_storage_$",
+                                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$158_storage_$",
                                           "typeString": "mapping(uint256 => struct Personas.Persona storage ref)"
                                         }
                                       },
-                                      "id": 327,
+                                      "id": 332,
                                       "indexExpression": {
-                                        "id": 326,
+                                        "id": 331,
                                         "name": "i",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 313,
+                                        "referencedDeclaration": 318,
                                         "src": "4780:1:1",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_uint256",
@@ -13160,18 +13160,18 @@
                                       "nodeType": "IndexAccess",
                                       "src": "4771:11:1",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Persona_$153_storage",
+                                        "typeIdentifier": "t_struct$_Persona_$158_storage",
                                         "typeString": "struct Personas.Persona storage ref"
                                       }
                                     },
-                                    "id": 328,
+                                    "id": 333,
                                     "isConstant": false,
                                     "isLValue": true,
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "memberName": "cedula",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 137,
+                                    "referencedDeclaration": 142,
                                     "src": "4771:18:1",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_string_storage",
@@ -13186,7 +13186,7 @@
                                       "typeString": "string storage ref"
                                     }
                                   ],
-                                  "id": 324,
+                                  "id": 329,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
@@ -13198,14 +13198,14 @@
                                     "typeString": "type(bytes storage pointer)"
                                   },
                                   "typeName": {
-                                    "id": 323,
+                                    "id": 328,
                                     "name": "bytes",
                                     "nodeType": "ElementaryTypeName",
                                     "src": "4765:5:1",
                                     "typeDescriptions": {}
                                   }
                                 },
-                                "id": 329,
+                                "id": 334,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -13228,7 +13228,7 @@
                                   "typeString": "bytes storage pointer"
                                 }
                               ],
-                              "id": 322,
+                              "id": 327,
                               "name": "keccak256",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
@@ -13239,7 +13239,7 @@
                                 "typeString": "function (bytes memory) pure returns (bytes32)"
                               }
                             },
-                            "id": 330,
+                            "id": 335,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -13261,11 +13261,11 @@
                               {
                                 "arguments": [
                                   {
-                                    "id": 334,
+                                    "id": 339,
                                     "name": "_cedula",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 306,
+                                    "referencedDeclaration": 311,
                                     "src": "4811:7:1",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_string_memory_ptr",
@@ -13280,7 +13280,7 @@
                                       "typeString": "string memory"
                                     }
                                   ],
-                                  "id": 333,
+                                  "id": 338,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
@@ -13292,14 +13292,14 @@
                                     "typeString": "type(bytes storage pointer)"
                                   },
                                   "typeName": {
-                                    "id": 332,
+                                    "id": 337,
                                     "name": "bytes",
                                     "nodeType": "ElementaryTypeName",
                                     "src": "4805:5:1",
                                     "typeDescriptions": {}
                                   }
                                 },
-                                "id": 335,
+                                "id": 340,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -13322,7 +13322,7 @@
                                   "typeString": "bytes memory"
                                 }
                               ],
-                              "id": 331,
+                              "id": 336,
                               "name": "keccak256",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
@@ -13333,7 +13333,7 @@
                                 "typeString": "function (bytes memory) pure returns (bytes32)"
                               }
                             },
-                            "id": 336,
+                            "id": 341,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -13354,35 +13354,35 @@
                             "typeString": "bool"
                           }
                         },
-                        "id": 343,
+                        "id": 348,
                         "nodeType": "IfStatement",
                         "src": "4751:124:1",
                         "trueBody": {
-                          "id": 342,
+                          "id": 347,
                           "nodeType": "Block",
                           "src": "4822:53:1",
                           "statements": [
                             {
                               "expression": {
                                 "baseExpression": {
-                                  "id": 338,
+                                  "id": 343,
                                   "name": "personas",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 161,
+                                  "referencedDeclaration": 166,
                                   "src": "4848:8:1",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$153_storage_$",
+                                    "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$158_storage_$",
                                     "typeString": "mapping(uint256 => struct Personas.Persona storage ref)"
                                   }
                                 },
-                                "id": 340,
+                                "id": 345,
                                 "indexExpression": {
-                                  "id": 339,
+                                  "id": 344,
                                   "name": "i",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 313,
+                                  "referencedDeclaration": 318,
                                   "src": "4857:1:1",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -13396,12 +13396,12 @@
                                 "nodeType": "IndexAccess",
                                 "src": "4848:11:1",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_Persona_$153_storage",
+                                  "typeIdentifier": "t_struct$_Persona_$158_storage",
                                   "typeString": "struct Personas.Persona storage ref"
                                 }
                               },
-                              "functionReturnParameters": 311,
-                              "id": 341,
+                              "functionReturnParameters": 316,
+                              "id": 346,
                               "nodeType": "Return",
                               "src": "4841:18:1"
                             }
@@ -13415,17 +13415,17 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 318,
+                    "id": 323,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
-                      "id": 316,
+                      "id": 321,
                       "name": "i",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 313,
+                      "referencedDeclaration": 318,
                       "src": "4719:1:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -13435,11 +13435,11 @@
                     "nodeType": "BinaryOperation",
                     "operator": "<",
                     "rightExpression": {
-                      "id": 317,
+                      "id": 322,
                       "name": "nextId",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 156,
+                      "referencedDeclaration": 161,
                       "src": "4723:6:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -13452,19 +13452,19 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 345,
+                  "id": 350,
                   "initializationExpression": {
                     "assignments": [
-                      313
+                      318
                     ],
                     "declarations": [
                       {
                         "constant": false,
-                        "id": 313,
+                        "id": 318,
                         "mutability": "mutable",
                         "name": "i",
                         "nodeType": "VariableDeclaration",
-                        "scope": 345,
+                        "scope": 350,
                         "src": "4704:9:1",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -13473,7 +13473,7 @@
                           "typeString": "uint256"
                         },
                         "typeName": {
-                          "id": 312,
+                          "id": 317,
                           "name": "uint256",
                           "nodeType": "ElementaryTypeName",
                           "src": "4704:7:1",
@@ -13485,10 +13485,10 @@
                         "visibility": "internal"
                       }
                     ],
-                    "id": 315,
+                    "id": 320,
                     "initialValue": {
                       "hexValue": "30",
-                      "id": 314,
+                      "id": 319,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -13507,7 +13507,7 @@
                   },
                   "loopExpression": {
                     "expression": {
-                      "id": 320,
+                      "id": 325,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -13517,11 +13517,11 @@
                       "prefix": false,
                       "src": "4731:3:1",
                       "subExpression": {
-                        "id": 319,
+                        "id": 324,
                         "name": "i",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 313,
+                        "referencedDeclaration": 318,
                         "src": "4731:1:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -13533,7 +13533,7 @@
                         "typeString": "uint256"
                       }
                     },
-                    "id": 321,
+                    "id": 326,
                     "nodeType": "ExpressionStatement",
                     "src": "4731:3:1"
                   },
@@ -13545,7 +13545,7 @@
                     "arguments": [
                       {
                         "hexValue": "506572736f6e6120636f6e206573612063c3a964756c61206e6f20656e636f6e7472616461",
-                        "id": 347,
+                        "id": 352,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -13567,7 +13567,7 @@
                           "typeString": "literal_string hex\"506572736f6e6120636f6e206573612063c3a964756c61206e6f20656e636f6e7472616461\""
                         }
                       ],
-                      "id": 346,
+                      "id": 351,
                       "name": "revert",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -13581,7 +13581,7 @@
                         "typeString": "function (string memory) pure"
                       }
                     },
-                    "id": 348,
+                    "id": 353,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -13596,36 +13596,36 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 349,
+                  "id": 354,
                   "nodeType": "ExpressionStatement",
                   "src": "4896:54:1"
                 }
               ]
             },
             "documentation": {
-              "id": 304,
+              "id": 309,
               "nodeType": "StructuredDocumentation",
               "src": "4360:233:1",
               "text": " @dev Obtiene los datos de una persona a partir de su cédula de identidad (CI).\n @param _cedula Cédula de identidad de la persona a buscar.\n @return Datos de la persona (revert si no se encuentra)."
             },
             "functionSelector": "d4ccd109",
-            "id": 351,
+            "id": 356,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "obtenerPersonaPorCI",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 307,
+              "id": 312,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 306,
+                  "id": 311,
                   "mutability": "mutable",
                   "name": "_cedula",
                   "nodeType": "VariableDeclaration",
-                  "scope": 351,
+                  "scope": 356,
                   "src": "4628:21:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -13634,7 +13634,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 305,
+                    "id": 310,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "4628:6:1",
@@ -13649,37 +13649,37 @@
               "src": "4627:23:1"
             },
             "returnParameters": {
-              "id": 311,
+              "id": 316,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 310,
+                  "id": 315,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 351,
+                  "scope": 356,
                   "src": "4672:14:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Persona_$153_memory_ptr",
+                    "typeIdentifier": "t_struct$_Persona_$158_memory_ptr",
                     "typeString": "struct Personas.Persona"
                   },
                   "typeName": {
-                    "id": 309,
+                    "id": 314,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 308,
+                      "id": 313,
                       "name": "Persona",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 153,
+                      "referencedDeclaration": 158,
                       "src": "4672:7:1"
                     },
-                    "referencedDeclaration": 153,
+                    "referencedDeclaration": 158,
                     "src": "4672:7:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Persona_$153_storage_ptr",
+                      "typeIdentifier": "t_struct$_Persona_$158_storage_ptr",
                       "typeString": "struct Personas.Persona"
                     }
                   },
@@ -13688,7 +13688,7 @@
               ],
               "src": "4671:16:1"
             },
-            "scope": 384,
+            "scope": 389,
             "src": "4599:359:1",
             "stateMutability": "view",
             "virtual": false,
@@ -13696,7 +13696,7 @@
           },
           {
             "body": {
-              "id": 382,
+              "id": 387,
               "nodeType": "Block",
               "src": "5227:138:1",
               "statements": [
@@ -13708,7 +13708,7 @@
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
                         },
-                        "id": 374,
+                        "id": 379,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -13718,17 +13718,17 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           },
-                          "id": 363,
+                          "id": 368,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftExpression": {
-                            "id": 361,
+                            "id": 366,
                             "name": "_id",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 354,
+                            "referencedDeclaration": 359,
                             "src": "5246:3:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -13738,11 +13738,11 @@
                           "nodeType": "BinaryOperation",
                           "operator": "<",
                           "rightExpression": {
-                            "id": 362,
+                            "id": 367,
                             "name": "nextId",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 156,
+                            "referencedDeclaration": 161,
                             "src": "5252:6:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -13762,7 +13762,7 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           },
-                          "id": 373,
+                          "id": 378,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -13773,24 +13773,24 @@
                                 {
                                   "expression": {
                                     "baseExpression": {
-                                      "id": 366,
+                                      "id": 371,
                                       "name": "personas",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 161,
+                                      "referencedDeclaration": 166,
                                       "src": "5268:8:1",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$153_storage_$",
+                                        "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$158_storage_$",
                                         "typeString": "mapping(uint256 => struct Personas.Persona storage ref)"
                                       }
                                     },
-                                    "id": 368,
+                                    "id": 373,
                                     "indexExpression": {
-                                      "id": 367,
+                                      "id": 372,
                                       "name": "_id",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 354,
+                                      "referencedDeclaration": 359,
                                       "src": "5277:3:1",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint256",
@@ -13804,18 +13804,18 @@
                                     "nodeType": "IndexAccess",
                                     "src": "5268:13:1",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_struct$_Persona_$153_storage",
+                                      "typeIdentifier": "t_struct$_Persona_$158_storage",
                                       "typeString": "struct Personas.Persona storage ref"
                                     }
                                   },
-                                  "id": 369,
+                                  "id": 374,
                                   "isConstant": false,
                                   "isLValue": true,
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "memberName": "cedula",
                                   "nodeType": "MemberAccess",
-                                  "referencedDeclaration": 137,
+                                  "referencedDeclaration": 142,
                                   "src": "5268:20:1",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_storage",
@@ -13830,7 +13830,7 @@
                                     "typeString": "string storage ref"
                                   }
                                 ],
-                                "id": 365,
+                                "id": 370,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": true,
@@ -13842,14 +13842,14 @@
                                   "typeString": "type(bytes storage pointer)"
                                 },
                                 "typeName": {
-                                  "id": 364,
+                                  "id": 369,
                                   "name": "bytes",
                                   "nodeType": "ElementaryTypeName",
                                   "src": "5262:5:1",
                                   "typeDescriptions": {}
                                 }
                               },
-                              "id": 370,
+                              "id": 375,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -13864,7 +13864,7 @@
                                 "typeString": "bytes storage pointer"
                               }
                             },
-                            "id": 371,
+                            "id": 376,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -13881,7 +13881,7 @@
                           "operator": ">",
                           "rightExpression": {
                             "hexValue": "30",
-                            "id": 372,
+                            "id": 377,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -13909,7 +13909,7 @@
                       },
                       {
                         "hexValue": "506572736f6e61206e6f2072656769737472616461",
-                        "id": 375,
+                        "id": 380,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -13935,7 +13935,7 @@
                           "typeString": "literal_string \"Persona no registrada\""
                         }
                       ],
-                      "id": 360,
+                      "id": 365,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -13949,7 +13949,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 376,
+                    "id": 381,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -13964,31 +13964,31 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 377,
+                  "id": 382,
                   "nodeType": "ExpressionStatement",
                   "src": "5238:88:1"
                 },
                 {
                   "expression": {
                     "baseExpression": {
-                      "id": 378,
+                      "id": 383,
                       "name": "personas",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 161,
+                      "referencedDeclaration": 166,
                       "src": "5344:8:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$153_storage_$",
+                        "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Persona_$158_storage_$",
                         "typeString": "mapping(uint256 => struct Personas.Persona storage ref)"
                       }
                     },
-                    "id": 380,
+                    "id": 385,
                     "indexExpression": {
-                      "id": 379,
+                      "id": 384,
                       "name": "_id",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 354,
+                      "referencedDeclaration": 359,
                       "src": "5353:3:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -14002,41 +14002,41 @@
                     "nodeType": "IndexAccess",
                     "src": "5344:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Persona_$153_storage",
+                      "typeIdentifier": "t_struct$_Persona_$158_storage",
                       "typeString": "struct Personas.Persona storage ref"
                     }
                   },
-                  "functionReturnParameters": 359,
-                  "id": 381,
+                  "functionReturnParameters": 364,
+                  "id": 386,
                   "nodeType": "Return",
                   "src": "5337:20:1"
                 }
               ]
             },
             "documentation": {
-              "id": 352,
+              "id": 357,
               "nodeType": "StructuredDocumentation",
               "src": "4966:176:1",
               "text": " @dev Obtiene todos los datos de una persona a partir de su ID\n @param _id ID único de la persona\n @return Estructura Persona con todos los datos"
             },
             "functionSelector": "22c9c8bc",
-            "id": 383,
+            "id": 388,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "obtenerDatosPersona",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 355,
+              "id": 360,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 354,
+                  "id": 359,
                   "mutability": "mutable",
                   "name": "_id",
                   "nodeType": "VariableDeclaration",
-                  "scope": 383,
+                  "scope": 388,
                   "src": "5177:11:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -14045,7 +14045,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 353,
+                    "id": 358,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "5177:7:1",
@@ -14060,37 +14060,37 @@
               "src": "5176:13:1"
             },
             "returnParameters": {
-              "id": 359,
+              "id": 364,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 358,
+                  "id": 363,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 383,
+                  "scope": 388,
                   "src": "5211:14:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Persona_$153_memory_ptr",
+                    "typeIdentifier": "t_struct$_Persona_$158_memory_ptr",
                     "typeString": "struct Personas.Persona"
                   },
                   "typeName": {
-                    "id": 357,
+                    "id": 362,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 356,
+                      "id": 361,
                       "name": "Persona",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 153,
+                      "referencedDeclaration": 158,
                       "src": "5211:7:1"
                     },
-                    "referencedDeclaration": 153,
+                    "referencedDeclaration": 158,
                     "src": "5211:7:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Persona_$153_storage_ptr",
+                      "typeIdentifier": "t_struct$_Persona_$158_storage_ptr",
                       "typeString": "struct Personas.Persona"
                     }
                   },
@@ -14099,14 +14099,14 @@
               ],
               "src": "5210:16:1"
             },
-            "scope": 384,
+            "scope": 389,
             "src": "5148:217:1",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 385,
+        "scope": 390,
         "src": "294:5074:1"
       }
     ],
@@ -14118,7 +14118,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-12-15T01:41:42.978Z",
+  "updatedAt": "2025-12-15T00:29:29.360Z",
   "devdoc": {
     "author": "Your Name",
     "details": "Contrato para el registro de personas en el Registro Civil de Venezuela",
