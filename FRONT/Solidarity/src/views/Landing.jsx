@@ -5,9 +5,8 @@ function Landing() {
     <div style={styles.page}>
       {/* Header */}
       <header style={styles.header}>
-        <div style={styles.logo}>MiApp</div>
+        <div style={styles.logo}>Solidarity</div>
         <nav style={styles.nav}>
-          <a href="#features" style={styles.link}>Características</a>
           <a href="#about" style={styles.link}>Sobre</a>
           <a href="#contact" style={styles.link}>Contacto</a>
         </nav>
@@ -16,13 +15,13 @@ function Landing() {
       {/* Hero */}
       <section style={styles.hero}>
         <div style={styles.heroContent}>
-          <h1 style={styles.title}>Organiza, analiza y actúa.</h1>
+          <h1 style={styles.title}>Un pequeño aporte es un pequeño cambio para un perrito</h1>
           <p style={styles.subtitle}>
-            Una landing minimalista para presentar tu producto o aplicación. Rápida, clara y lista para crecer.
+            ¡Tu apoyo transforma vidas!
           </p>
           <div style={styles.ctaGroup}>
-            <button style={styles.primaryBtn}>Comenzar</button>
-            <button style={styles.secondaryBtn}>Ver demo</button>
+            <button style={styles.primaryBtn}>Donar</button>
+            <button style={styles.secondaryBtn}>Ver más</button>
           </div>
         </div>
         <div style={styles.heroCard}>
@@ -31,11 +30,11 @@ function Landing() {
             <span style={styles.metricValue}>1,284</span>
           </div>
           <div style={styles.metric}>
-            <span style={styles.metricLabel}>Tiempo medio</span>
+            <span style={styles.metricLabel}>Tiempo</span>
             <span style={styles.metricValue}>4m 12s</span>
           </div>
           <div style={styles.metric}>
-            <span style={styles.metricLabel}>Satisfacción</span>
+            <span style={styles.metricLabel}>Aportación</span>
             <span style={styles.metricValue}>92%</span>
           </div>
         </div>
@@ -43,7 +42,7 @@ function Landing() {
 
       {/* Features */}
       <section id="features" style={styles.section}>
-        <h2 style={styles.sectionTitle}>Características clave</h2>
+        <h2 style={styles.sectionTitle}>Cada aporte que das es una vida que salvas</h2>
         <div style={styles.grid}>
           <Feature
             title="Rápida implementación"
@@ -51,13 +50,13 @@ function Landing() {
             icon="⚡"
           />
           <Feature
-            title="Diseño responsive"
-            desc="Se adapta a móviles, tablets y escritorio sin esfuerzos."
+            title="Como encontrarnos"
+            desc="Instagram, Facebook."
             icon="📱"
           />
           <Feature
-            title="Escalable"
-            desc="Pensado para crecer con rutas, estado global y APIs."
+            title="Rescate"
+            desc="Pensado para crecer, para rescartar vidas inocentes."
             icon="📈"
           />
         </div>
@@ -65,10 +64,10 @@ function Landing() {
 
       {/* About */}
       <section id="about" style={styles.sectionAlt}>
-        <h2 style={styles.sectionTitle}>Sobre el proyecto</h2>
+        <h2 style={styles.sectionTitle}>Solidarity</h2>
         <p style={styles.paragraph}>
-          Esta landing está hecha con React y estilos inline para que puedas copiar y pegar.
-          Puedes migrar los estilos a CSS o Tailwind, y conectar con tu backend cuando lo necesites.
+          ¿Dónde se están generando estos millones de donaciones? ¡En todo el mundo, 
+          gracias a nuestra colaboración con la Fundación tepa !
         </p>
       </section>
 
