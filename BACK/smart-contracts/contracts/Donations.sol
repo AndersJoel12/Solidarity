@@ -22,48 +22,42 @@ contract Donaciones {
 
     uint256 private nextId = 1;
     uint256 public totalRecaudado;
-    address public registroCivilAddress; // Dirección del otro contrato
+    
+    address public registroCivilAddress; 
+    address payable public cuentaBeneficiaria; 
 
     mapping(uint256 => Donacion) private donaciones;
     mapping(string => uint256) private ci2Donacion;
 
-    // 1. CONSTRUCTOR: Se ejecuta una sola vez al desplegar.
-    // Recibe la dirección del contrato de Personas para conectarse automáticamente.
-    constructor(address _registroCivilAddress) {
+    constructor(address _registroCivilAddress, address payable _cuentaBeneficiaria) {
         registroCivilAddress = _registroCivilAddress;
+        cuentaBeneficiaria = _cuentaBeneficiaria;
     }
 
-    // Función extra por si necesitas cambiar la dirección en el futuro
     function setRegistroCivilAddress(address _address) public {
         registroCivilAddress = _address;
     }
 
-    // 2. PAYABLE: ¡La palabra clave que faltaba!
-    // Ahora esta función acepta dinero real (ETH).
+    function cambiarCuentaBeneficiaria(address payable _nuevaCuenta) public {
+        cuentaBeneficiaria = _nuevaCuenta;
+    }
+
     function RegistrarDonantes(string calldata _cedula, uint256 _montoDonacion) public payable {
         
-        // Validaciones lógicas
+        // 1. CHECKS (Validaciones)
         require(ci2Donacion[_cedula] == 0, "Esta cedula ya dono anteriormente");
         require(registroCivilAddress != address(0), "Contrato Registro Civil no conectado");
         require(_montoDonacion > 0, "La donacion debe ser mayor a 0");
-
-        // 3. SEGURIDAD FINANCIERA:
-        // Verificamos que los ETH enviados (msg.value) sean IGUALES al monto que dices donar.
         require(msg.value == _montoDonacion, "El monto enviado no coincide con el valor en ETH");
 
-        // PASO A: Validamos existencia en el otro contrato
         IPersonas registroCivil = IPersonas(registroCivilAddress);
-        
-        // Si la cédula no existe, el otro contrato podría fallar o devolver 0.
-        // Es bueno envolver esto en un try/catch o asegurar que la llamada sea segura,
-        // pero por ahora confiamos en la lógica básica.
         uint256 idPersonaEnRegistro = registroCivil.obtenerIdPorCi(_cedula);
         require(idPersonaEnRegistro != 0, "La cedula no existe en el Registro Civil");
 
-        // PASO B: Obtenemos Nombres y Apellidos
         (string memory nombre, string memory apellido) = registroCivil.obtenerNombresApellidos(_cedula);
 
-        // PASO C: Guardar Donación en la Blockchain
+        // 2. EFFECTS (Guardamos los datos ANTES de soltar el dinero)
+        // Esto protege al contrato de ataques de reentrada
         uint256 id = nextId;
         ci2Donacion[_cedula] = id;
 
@@ -75,21 +69,23 @@ contract Donaciones {
         totalRecaudado += _montoDonacion; 
         nextId++;
 
-        // PASO D: Emitir Evento
+        // 3. INTERACTIONS (Soltamos el dinero)
+        // Usamos .call en lugar de .transfer para evitar el error "deprecated"
+        // y permitir enviar a billeteras inteligentes.
+        (bool success, ) = cuentaBeneficiaria.call{value: msg.value}("");
+        require(success, "Fallo el envio de ETH a la fundacion");
+
+        // 4. EVENTO
         emit NuevaDonacion(_cedula, nombre, apellido, _montoDonacion);
     }
 
-    // Función auxiliar para ver los datos desde React
     function obtenerPersonaPorCI(string memory _cedula) public view returns (string memory Nombres, string memory Apellidos, uint256 Monto_Donacion) {
         uint256 id = ci2Donacion[_cedula];
         require(id != 0, "No se encontro donacion");
         
         Donacion memory d = donaciones[id];
-        
-        // Volvemos a consultar los nombres al registro para mostrarlos frescos
         IPersonas registroCivil = IPersonas(registroCivilAddress);
         (string memory nom, string memory ape) = registroCivil.obtenerNombresApellidos(_cedula);
-        
         return (nom, ape, d.Monto);
     }
 }

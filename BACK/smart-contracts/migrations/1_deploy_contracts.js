@@ -1,19 +1,25 @@
 const Personas = artifacts.require("Personas");
 const Donaciones = artifacts.require("Donaciones");
 
-module.exports = async function (deployer) {
-  // 1. Primero desplegamos el contrato de Personas (Registro Civil)
+module.exports = async function (deployer, network, accounts) {
+  // accounts es un array con las 10 cuentas de Ganache.
+  // accounts[0] = Tu cuenta (Deployer)
+  // accounts[1] = Digamos que esta será la CUENTA DE LA FUNDACIÓN (Beneficiaria)
+  
+  const cuentaFundacion = accounts[1]; 
+  // O puedes poner una dirección fija si quieres: const cuentaFundacion = "0x123...";
+
+  // 1. Desplegamos Personas
   await deployer.deploy(Personas);
   const personasInstance = await Personas.deployed();
 
-  // 2. Ahora desplegamos Donaciones y LE PASAMOS la dirección de Personas
-  // Esto llena el "constructor" que creamos en Solidity
-  await deployer.deploy(Donaciones, personasInstance.address);
+  // 2. Desplegamos Donaciones pasando:
+  //    - La dirección de Personas
+  //    - La dirección de la Fundación
+  await deployer.deploy(Donaciones, personasInstance.address, cuentaFundacion);
   
   console.log("------------------------------------------------");
-  console.log("✅ Personas Address:", personasInstance.address);
-  // Nota: Truffle no siempre devuelve la instancia en el return del deploy, 
-  // pero la dirección se guarda en el build.
-  console.log("⚠️ REVISA LA CONSOLA AL TERMINAR PARA VER LA ADDRESS DE DONACIONES");
+  console.log("✅ Contratos Desplegados");
+  console.log("💰 El dinero irá automáticamente a:", cuentaFundacion);
   console.log("------------------------------------------------");
-}
+};

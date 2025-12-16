@@ -45,7 +45,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_ci\",\"type\":\"string\"}],\"name\":\"obtenerIdPorCi\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_cedula\",\"type\":\"string\"}],\"name\":\"obtenerNombresApellidos\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Donations.sol\":\"IPersonas\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Donations.sol\":{\"keccak256\":\"0x093861b9bc54afd16f6ba7850384468f1d8ef6ae9c2d05a50f2e9888748fbd63\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://efd838b72891440d1231bb790cf0539d01d37c7f4cce3d3876c67660c97b3753\",\"dweb:/ipfs/QmUzMptgcwLVCseFLkeVc3oZPKCTDgKMRURqrUwLVNsNTj\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_ci\",\"type\":\"string\"}],\"name\":\"obtenerIdPorCi\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_cedula\",\"type\":\"string\"}],\"name\":\"obtenerNombresApellidos\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Donations.sol\":\"IPersonas\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Donations.sol\":{\"keccak256\":\"0x5257478b09a1894a885d1dc1b7897290f973edbf0e07027e6e2d4df98189d30a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6b110a412b8192d4ff6535d8b83d0b594a9be7d7e211240bfdca7640d4fdcf35\",\"dweb:/ipfs/QmcciQHK6jW1wE1UwKpL3EV8xvR27VY3v5JPwLCbvxgF1n\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -53,19 +53,19 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\ninterface IPersonas {\r\n    function obtenerIdPorCi(string memory _ci) external view returns (uint256);\r\n    function obtenerNombresApellidos(string memory _cedula) external view returns (string memory, string memory);\r\n}\r\n\r\ncontract Donaciones {\r\n\r\n    struct Donacion {\r\n        string Cedula;\r\n        uint256 Monto; \r\n    }\r\n\r\n    event NuevaDonacion(\r\n        string indexed cedula, \r\n        string nombres, \r\n        string apellidos, \r\n        uint256 monto\r\n    );\r\n\r\n    uint256 private nextId = 1;\r\n    uint256 public totalRecaudado;\r\n    address public registroCivilAddress; // Dirección del otro contrato\r\n\r\n    mapping(uint256 => Donacion) private donaciones;\r\n    mapping(string => uint256) private ci2Donacion;\r\n\r\n    // 1. CONSTRUCTOR: Se ejecuta una sola vez al desplegar.\r\n    // Recibe la dirección del contrato de Personas para conectarse automáticamente.\r\n    constructor(address _registroCivilAddress) {\r\n        registroCivilAddress = _registroCivilAddress;\r\n    }\r\n\r\n    // Función extra por si necesitas cambiar la dirección en el futuro\r\n    function setRegistroCivilAddress(address _address) public {\r\n        registroCivilAddress = _address;\r\n    }\r\n\r\n    // 2. PAYABLE: ¡La palabra clave que faltaba!\r\n    // Ahora esta función acepta dinero real (ETH).\r\n    function RegistrarDonantes(string calldata _cedula, uint256 _montoDonacion) public payable {\r\n        \r\n        // Validaciones lógicas\r\n        require(ci2Donacion[_cedula] == 0, \"Esta cedula ya dono anteriormente\");\r\n        require(registroCivilAddress != address(0), \"Contrato Registro Civil no conectado\");\r\n        require(_montoDonacion > 0, \"La donacion debe ser mayor a 0\");\r\n\r\n        // 3. SEGURIDAD FINANCIERA:\r\n        // Verificamos que los ETH enviados (msg.value) sean IGUALES al monto que dices donar.\r\n        require(msg.value == _montoDonacion, \"El monto enviado no coincide con el valor en ETH\");\r\n\r\n        // PASO A: Validamos existencia en el otro contrato\r\n        IPersonas registroCivil = IPersonas(registroCivilAddress);\r\n        \r\n        // Si la cédula no existe, el otro contrato podría fallar o devolver 0.\r\n        // Es bueno envolver esto en un try/catch o asegurar que la llamada sea segura,\r\n        // pero por ahora confiamos en la lógica básica.\r\n        uint256 idPersonaEnRegistro = registroCivil.obtenerIdPorCi(_cedula);\r\n        require(idPersonaEnRegistro != 0, \"La cedula no existe en el Registro Civil\");\r\n\r\n        // PASO B: Obtenemos Nombres y Apellidos\r\n        (string memory nombre, string memory apellido) = registroCivil.obtenerNombresApellidos(_cedula);\r\n\r\n        // PASO C: Guardar Donación en la Blockchain\r\n        uint256 id = nextId;\r\n        ci2Donacion[_cedula] = id;\r\n\r\n        donaciones[id] = Donacion({\r\n            Cedula: _cedula,\r\n            Monto: _montoDonacion\r\n        });\r\n\r\n        totalRecaudado += _montoDonacion; \r\n        nextId++;\r\n\r\n        // PASO D: Emitir Evento\r\n        emit NuevaDonacion(_cedula, nombre, apellido, _montoDonacion);\r\n    }\r\n\r\n    // Función auxiliar para ver los datos desde React\r\n    function obtenerPersonaPorCI(string memory _cedula) public view returns (string memory Nombres, string memory Apellidos, uint256 Monto_Donacion) {\r\n        uint256 id = ci2Donacion[_cedula];\r\n        require(id != 0, \"No se encontro donacion\");\r\n        \r\n        Donacion memory d = donaciones[id];\r\n        \r\n        // Volvemos a consultar los nombres al registro para mostrarlos frescos\r\n        IPersonas registroCivil = IPersonas(registroCivilAddress);\r\n        (string memory nom, string memory ape) = registroCivil.obtenerNombresApellidos(_cedula);\r\n        \r\n        return (nom, ape, d.Monto);\r\n    }\r\n}",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\ninterface IPersonas {\r\n    function obtenerIdPorCi(string memory _ci) external view returns (uint256);\r\n    function obtenerNombresApellidos(string memory _cedula) external view returns (string memory, string memory);\r\n}\r\n\r\ncontract Donaciones {\r\n\r\n    struct Donacion {\r\n        string Cedula;\r\n        uint256 Monto; \r\n    }\r\n\r\n    event NuevaDonacion(\r\n        string indexed cedula, \r\n        string nombres, \r\n        string apellidos, \r\n        uint256 monto\r\n    );\r\n\r\n    uint256 private nextId = 1;\r\n    uint256 public totalRecaudado;\r\n    \r\n    address public registroCivilAddress; \r\n    address payable public cuentaBeneficiaria; \r\n\r\n    mapping(uint256 => Donacion) private donaciones;\r\n    mapping(string => uint256) private ci2Donacion;\r\n\r\n    constructor(address _registroCivilAddress, address payable _cuentaBeneficiaria) {\r\n        registroCivilAddress = _registroCivilAddress;\r\n        cuentaBeneficiaria = _cuentaBeneficiaria;\r\n    }\r\n\r\n    function setRegistroCivilAddress(address _address) public {\r\n        registroCivilAddress = _address;\r\n    }\r\n\r\n    function cambiarCuentaBeneficiaria(address payable _nuevaCuenta) public {\r\n        cuentaBeneficiaria = _nuevaCuenta;\r\n    }\r\n\r\n    function RegistrarDonantes(string calldata _cedula, uint256 _montoDonacion) public payable {\r\n        \r\n        // 1. CHECKS (Validaciones)\r\n        require(ci2Donacion[_cedula] == 0, \"Esta cedula ya dono anteriormente\");\r\n        require(registroCivilAddress != address(0), \"Contrato Registro Civil no conectado\");\r\n        require(_montoDonacion > 0, \"La donacion debe ser mayor a 0\");\r\n        require(msg.value == _montoDonacion, \"El monto enviado no coincide con el valor en ETH\");\r\n\r\n        IPersonas registroCivil = IPersonas(registroCivilAddress);\r\n        uint256 idPersonaEnRegistro = registroCivil.obtenerIdPorCi(_cedula);\r\n        require(idPersonaEnRegistro != 0, \"La cedula no existe en el Registro Civil\");\r\n\r\n        (string memory nombre, string memory apellido) = registroCivil.obtenerNombresApellidos(_cedula);\r\n\r\n        // 2. EFFECTS (Guardamos los datos ANTES de soltar el dinero)\r\n        // Esto protege al contrato de ataques de reentrada\r\n        uint256 id = nextId;\r\n        ci2Donacion[_cedula] = id;\r\n\r\n        donaciones[id] = Donacion({\r\n            Cedula: _cedula,\r\n            Monto: _montoDonacion\r\n        });\r\n\r\n        totalRecaudado += _montoDonacion; \r\n        nextId++;\r\n\r\n        // 3. INTERACTIONS (Soltamos el dinero)\r\n        // Usamos .call en lugar de .transfer para evitar el error \"deprecated\"\r\n        // y permitir enviar a billeteras inteligentes.\r\n        (bool success, ) = cuentaBeneficiaria.call{value: msg.value}(\"\");\r\n        require(success, \"Fallo el envio de ETH a la fundacion\");\r\n\r\n        // 4. EVENTO\r\n        emit NuevaDonacion(_cedula, nombre, apellido, _montoDonacion);\r\n    }\r\n\r\n    function obtenerPersonaPorCI(string memory _cedula) public view returns (string memory Nombres, string memory Apellidos, uint256 Monto_Donacion) {\r\n        uint256 id = ci2Donacion[_cedula];\r\n        require(id != 0, \"No se encontro donacion\");\r\n        \r\n        Donacion memory d = donaciones[id];\r\n        IPersonas registroCivil = IPersonas(registroCivilAddress);\r\n        (string memory nom, string memory ape) = registroCivil.obtenerNombresApellidos(_cedula);\r\n        return (nom, ape, d.Monto);\r\n    }\r\n}",
   "sourcePath": "C:\\Users\\Usuario\\Desktop\\Solidity\\BACK\\smart-contracts\\contracts\\Donations.sol",
   "ast": {
     "absolutePath": "project:/contracts/Donations.sol",
     "exportedSymbols": {
       "Donaciones": [
-        229
+        262
       ],
       "IPersonas": [
         18
       ]
     },
-    "id": 230,
+    "id": 263,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -280,7 +280,7 @@
             "visibility": "external"
           }
         ],
-        "scope": 230,
+        "scope": 263,
         "src": "60:220:0"
       },
       {
@@ -289,9 +289,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 229,
+        "id": 262,
         "linearizedBaseContracts": [
-          229
+          262
         ],
         "name": "Donaciones",
         "nodeType": "ContractDefinition",
@@ -355,7 +355,7 @@
             ],
             "name": "Donacion",
             "nodeType": "StructDefinition",
-            "scope": 229,
+            "scope": 262,
             "src": "313:73:0",
             "visibility": "public"
           },
@@ -487,7 +487,7 @@
             "mutability": "mutable",
             "name": "nextId",
             "nodeType": "VariableDeclaration",
-            "scope": 229,
+            "scope": 262,
             "src": "540:26:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -530,7 +530,7 @@
             "mutability": "mutable",
             "name": "totalRecaudado",
             "nodeType": "VariableDeclaration",
-            "scope": 229,
+            "scope": 262,
             "src": "573:29:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -557,8 +557,8 @@
             "mutability": "mutable",
             "name": "registroCivilAddress",
             "nodeType": "VariableDeclaration",
-            "scope": 229,
-            "src": "609:35:0",
+            "scope": 262,
+            "src": "615:35:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -569,7 +569,7 @@
               "id": 39,
               "name": "address",
               "nodeType": "ElementaryTypeName",
-              "src": "609:7:0",
+              "src": "615:7:0",
               "stateMutability": "nonpayable",
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
@@ -580,12 +580,40 @@
           },
           {
             "constant": false,
-            "id": 45,
+            "functionSelector": "ba688795",
+            "id": 42,
+            "mutability": "mutable",
+            "name": "cuentaBeneficiaria",
+            "nodeType": "VariableDeclaration",
+            "scope": 262,
+            "src": "658:41:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address_payable",
+              "typeString": "address payable"
+            },
+            "typeName": {
+              "id": 41,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "658:15:0",
+              "stateMutability": "payable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address_payable",
+                "typeString": "address payable"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 47,
             "mutability": "mutable",
             "name": "donaciones",
             "nodeType": "VariableDeclaration",
-            "scope": 229,
-            "src": "685:47:0",
+            "scope": 262,
+            "src": "709:47:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -593,35 +621,35 @@
               "typeString": "mapping(uint256 => struct Donaciones.Donacion)"
             },
             "typeName": {
-              "id": 44,
+              "id": 46,
               "keyType": {
-                "id": 41,
+                "id": 43,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "693:7:0",
+                "src": "717:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
                 }
               },
               "nodeType": "Mapping",
-              "src": "685:28:0",
+              "src": "709:28:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Donacion_$23_storage_$",
                 "typeString": "mapping(uint256 => struct Donaciones.Donacion)"
               },
               "valueType": {
-                "id": 43,
+                "id": 45,
                 "nodeType": "UserDefinedTypeName",
                 "pathNode": {
-                  "id": 42,
+                  "id": 44,
                   "name": "Donacion",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 23,
-                  "src": "704:8:0"
+                  "src": "728:8:0"
                 },
                 "referencedDeclaration": 23,
-                "src": "704:8:0",
+                "src": "728:8:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_struct$_Donacion_$23_storage_ptr",
                   "typeString": "struct Donaciones.Donacion"
@@ -632,12 +660,12 @@
           },
           {
             "constant": false,
-            "id": 49,
+            "id": 51,
             "mutability": "mutable",
             "name": "ci2Donacion",
             "nodeType": "VariableDeclaration",
-            "scope": 229,
-            "src": "739:46:0",
+            "scope": 262,
+            "src": "763:46:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -645,28 +673,28 @@
               "typeString": "mapping(string => uint256)"
             },
             "typeName": {
-              "id": 48,
+              "id": 50,
               "keyType": {
-                "id": 46,
+                "id": 48,
                 "name": "string",
                 "nodeType": "ElementaryTypeName",
-                "src": "747:6:0",
+                "src": "771:6:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_string_storage_ptr",
                   "typeString": "string"
                 }
               },
               "nodeType": "Mapping",
-              "src": "739:26:0",
+              "src": "763:26:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                 "typeString": "mapping(string => uint256)"
               },
               "valueType": {
-                "id": 47,
+                "id": 49,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "757:7:0",
+                "src": "781:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
@@ -677,24 +705,24 @@
           },
           {
             "body": {
-              "id": 58,
+              "id": 66,
               "nodeType": "Block",
-              "src": "987:63:0",
+              "src": "898:114:0",
               "statements": [
                 {
                   "expression": {
-                    "id": 56,
+                    "id": 60,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 54,
+                      "id": 58,
                       "name": "registroCivilAddress",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 40,
-                      "src": "998:20:0",
+                      "src": "909:20:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -703,47 +731,90 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 55,
+                      "id": 59,
                       "name": "_registroCivilAddress",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 51,
-                      "src": "1021:21:0",
+                      "referencedDeclaration": 53,
+                      "src": "932:21:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-                    "src": "998:44:0",
+                    "src": "909:44:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "id": 57,
+                  "id": 61,
                   "nodeType": "ExpressionStatement",
-                  "src": "998:44:0"
+                  "src": "909:44:0"
+                },
+                {
+                  "expression": {
+                    "id": 64,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 62,
+                      "name": "cuentaBeneficiaria",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 42,
+                      "src": "964:18:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 63,
+                      "name": "_cuentaBeneficiaria",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 55,
+                      "src": "985:19:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "src": "964:40:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "id": 65,
+                  "nodeType": "ExpressionStatement",
+                  "src": "964:40:0"
                 }
               ]
             },
-            "id": 59,
+            "id": 67,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 52,
+              "id": 56,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51,
+                  "id": 53,
                   "mutability": "mutable",
                   "name": "_registroCivilAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 59,
-                  "src": "956:29:0",
+                  "scope": 67,
+                  "src": "830:29:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -751,10 +822,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 50,
+                    "id": 52,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "956:7:0",
+                    "src": "830:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -762,42 +833,69 @@
                     }
                   },
                   "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 55,
+                  "mutability": "mutable",
+                  "name": "_cuentaBeneficiaria",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 67,
+                  "src": "861:35:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  },
+                  "typeName": {
+                    "id": 54,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "861:15:0",
+                    "stateMutability": "payable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "visibility": "internal"
                 }
               ],
-              "src": "955:31:0"
+              "src": "829:68:0"
             },
             "returnParameters": {
-              "id": 53,
+              "id": 57,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "987:0:0"
+              "src": "898:0:0"
             },
-            "scope": 229,
-            "src": "944:106:0",
+            "scope": 262,
+            "src": "818:194:0",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 68,
+              "id": 76,
               "nodeType": "Block",
-              "src": "1191:50:0",
+              "src": "1078:50:0",
               "statements": [
                 {
                   "expression": {
-                    "id": 66,
+                    "id": 74,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 64,
+                      "id": 72,
                       "name": "registroCivilAddress",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 40,
-                      "src": "1202:20:0",
+                      "src": "1089:20:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -806,48 +904,48 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 65,
+                      "id": 73,
                       "name": "_address",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 61,
-                      "src": "1225:8:0",
+                      "referencedDeclaration": 69,
+                      "src": "1112:8:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-                    "src": "1202:31:0",
+                    "src": "1089:31:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "id": 67,
+                  "id": 75,
                   "nodeType": "ExpressionStatement",
-                  "src": "1202:31:0"
+                  "src": "1089:31:0"
                 }
               ]
             },
             "functionSelector": "80acceb3",
-            "id": 69,
+            "id": 77,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "setRegistroCivilAddress",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 62,
+              "id": 70,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 61,
+                  "id": 69,
                   "mutability": "mutable",
                   "name": "_address",
                   "nodeType": "VariableDeclaration",
-                  "scope": 69,
-                  "src": "1166:16:0",
+                  "scope": 77,
+                  "src": "1053:16:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -855,10 +953,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 60,
+                    "id": 68,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1166:7:0",
+                    "src": "1053:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -868,25 +966,129 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1165:18:0"
+              "src": "1052:18:0"
             },
             "returnParameters": {
-              "id": 63,
+              "id": 71,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1191:0:0"
+              "src": "1078:0:0"
             },
-            "scope": 229,
-            "src": "1133:108:0",
+            "scope": 262,
+            "src": "1020:108:0",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 173,
+              "id": 86,
               "nodeType": "Block",
-              "src": "1446:1644:0",
+              "src": "1208:52:0",
+              "statements": [
+                {
+                  "expression": {
+                    "id": 84,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 82,
+                      "name": "cuentaBeneficiaria",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 42,
+                      "src": "1219:18:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 83,
+                      "name": "_nuevaCuenta",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 79,
+                      "src": "1240:12:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "src": "1219:33:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "id": 85,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1219:33:0"
+                }
+              ]
+            },
+            "functionSelector": "a0791a14",
+            "id": 87,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "cambiarCuentaBeneficiaria",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 80,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 79,
+                  "mutability": "mutable",
+                  "name": "_nuevaCuenta",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 87,
+                  "src": "1171:28:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  },
+                  "typeName": {
+                    "id": 78,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1171:15:0",
+                    "stateMutability": "payable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1170:30:0"
+            },
+            "returnParameters": {
+              "id": 81,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1208:0:0"
+            },
+            "scope": 262,
+            "src": "1136:124:0",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 206,
+              "nodeType": "Block",
+              "src": "1359:1555:0",
               "statements": [
                 {
                   "expression": {
@@ -896,32 +1098,32 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 81,
+                        "id": 99,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "baseExpression": {
-                            "id": 77,
+                            "id": 95,
                             "name": "ci2Donacion",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 49,
-                            "src": "1509:11:0",
+                            "referencedDeclaration": 51,
+                            "src": "1425:11:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                               "typeString": "mapping(string memory => uint256)"
                             }
                           },
-                          "id": 79,
+                          "id": 97,
                           "indexExpression": {
-                            "id": 78,
+                            "id": 96,
                             "name": "_cedula",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 71,
-                            "src": "1521:7:0",
+                            "referencedDeclaration": 89,
+                            "src": "1437:7:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_string_calldata_ptr",
                               "typeString": "string calldata"
@@ -932,7 +1134,7 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "nodeType": "IndexAccess",
-                          "src": "1509:20:0",
+                          "src": "1425:20:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -942,21 +1144,21 @@
                         "operator": "==",
                         "rightExpression": {
                           "hexValue": "30",
-                          "id": 80,
+                          "id": 98,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "kind": "number",
                           "lValueRequested": false,
                           "nodeType": "Literal",
-                          "src": "1533:1:0",
+                          "src": "1449:1:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_rational_0_by_1",
                             "typeString": "int_const 0"
                           },
                           "value": "0"
                         },
-                        "src": "1509:25:0",
+                        "src": "1425:25:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -964,14 +1166,14 @@
                       },
                       {
                         "hexValue": "4573746120636564756c6120796120646f6e6f20616e746572696f726d656e7465",
-                        "id": 82,
+                        "id": 100,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "1536:35:0",
+                        "src": "1452:35:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_a68662e37e151312bd82b74bee6fbf92adbd848c2e4090086b383ba893be36dd",
                           "typeString": "literal_string \"Esta cedula ya dono anteriormente\""
@@ -990,7 +1192,7 @@
                           "typeString": "literal_string \"Esta cedula ya dono anteriormente\""
                         }
                       ],
-                      "id": 76,
+                      "id": 94,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -998,13 +1200,13 @@
                         4294967278
                       ],
                       "referencedDeclaration": 4294967278,
-                      "src": "1501:7:0",
+                      "src": "1417:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 83,
+                    "id": 101,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1012,16 +1214,16 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1501:71:0",
+                    "src": "1417:71:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 84,
+                  "id": 102,
                   "nodeType": "ExpressionStatement",
-                  "src": "1501:71:0"
+                  "src": "1417:71:0"
                 },
                 {
                   "expression": {
@@ -1031,18 +1233,18 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 91,
+                        "id": 109,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
-                          "id": 86,
+                          "id": 104,
                           "name": "registroCivilAddress",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 40,
-                          "src": "1591:20:0",
+                          "src": "1507:20:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1054,14 +1256,14 @@
                           "arguments": [
                             {
                               "hexValue": "30",
-                              "id": 89,
+                              "id": 107,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
                               "kind": "number",
                               "lValueRequested": false,
                               "nodeType": "Literal",
-                              "src": "1623:1:0",
+                              "src": "1539:1:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_rational_0_by_1",
                                 "typeString": "int_const 0"
@@ -1076,26 +1278,26 @@
                                 "typeString": "int_const 0"
                               }
                             ],
-                            "id": 88,
+                            "id": 106,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "lValueRequested": false,
                             "nodeType": "ElementaryTypeNameExpression",
-                            "src": "1615:7:0",
+                            "src": "1531:7:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_type$_t_address_$",
                               "typeString": "type(address)"
                             },
                             "typeName": {
-                              "id": 87,
+                              "id": 105,
                               "name": "address",
                               "nodeType": "ElementaryTypeName",
-                              "src": "1615:7:0",
+                              "src": "1531:7:0",
                               "typeDescriptions": {}
                             }
                           },
-                          "id": 90,
+                          "id": 108,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -1103,14 +1305,14 @@
                           "lValueRequested": false,
                           "names": [],
                           "nodeType": "FunctionCall",
-                          "src": "1615:10:0",
+                          "src": "1531:10:0",
                           "tryCall": false,
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-                        "src": "1591:34:0",
+                        "src": "1507:34:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -1118,14 +1320,14 @@
                       },
                       {
                         "hexValue": "436f6e747261746f20526567697374726f20436976696c206e6f20636f6e65637461646f",
-                        "id": 92,
+                        "id": 110,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "1627:38:0",
+                        "src": "1543:38:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_c218bf447c85a4442ea9767dc5c75c8b887785b0c63e8f2a864987a50707031e",
                           "typeString": "literal_string \"Contrato Registro Civil no conectado\""
@@ -1144,7 +1346,7 @@
                           "typeString": "literal_string \"Contrato Registro Civil no conectado\""
                         }
                       ],
-                      "id": 85,
+                      "id": 103,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -1152,13 +1354,13 @@
                         4294967278
                       ],
                       "referencedDeclaration": 4294967278,
-                      "src": "1583:7:0",
+                      "src": "1499:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 93,
+                    "id": 111,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1166,16 +1368,16 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1583:83:0",
+                    "src": "1499:83:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 94,
+                  "id": 112,
                   "nodeType": "ExpressionStatement",
-                  "src": "1583:83:0"
+                  "src": "1499:83:0"
                 },
                 {
                   "expression": {
@@ -1185,18 +1387,18 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 98,
+                        "id": 116,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
-                          "id": 96,
+                          "id": 114,
                           "name": "_montoDonacion",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 73,
-                          "src": "1685:14:0",
+                          "referencedDeclaration": 91,
+                          "src": "1601:14:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -1206,21 +1408,21 @@
                         "operator": ">",
                         "rightExpression": {
                           "hexValue": "30",
-                          "id": 97,
+                          "id": 115,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "kind": "number",
                           "lValueRequested": false,
                           "nodeType": "Literal",
-                          "src": "1702:1:0",
+                          "src": "1618:1:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_rational_0_by_1",
                             "typeString": "int_const 0"
                           },
                           "value": "0"
                         },
-                        "src": "1685:18:0",
+                        "src": "1601:18:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -1228,14 +1430,14 @@
                       },
                       {
                         "hexValue": "4c6120646f6e6163696f6e206465626520736572206d61796f7220612030",
-                        "id": 99,
+                        "id": 117,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "1705:32:0",
+                        "src": "1621:32:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_e315a2585864606db667c26f6f79ad4a5b25bf1ad6b74b26538ec4ec71829423",
                           "typeString": "literal_string \"La donacion debe ser mayor a 0\""
@@ -1254,7 +1456,7 @@
                           "typeString": "literal_string \"La donacion debe ser mayor a 0\""
                         }
                       ],
-                      "id": 95,
+                      "id": 113,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -1262,13 +1464,13 @@
                         4294967278
                       ],
                       "referencedDeclaration": 4294967278,
-                      "src": "1677:7:0",
+                      "src": "1593:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 100,
+                    "id": 118,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1276,16 +1478,16 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1677:61:0",
+                    "src": "1593:61:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 101,
+                  "id": 119,
                   "nodeType": "ExpressionStatement",
-                  "src": "1677:61:0"
+                  "src": "1593:61:0"
                 },
                 {
                   "expression": {
@@ -1295,32 +1497,32 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 106,
+                        "id": 124,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "expression": {
-                            "id": 103,
+                            "id": 121,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 4294967281,
-                            "src": "1892:3:0",
+                            "src": "1673:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 104,
+                          "id": 122,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "memberName": "value",
                           "nodeType": "MemberAccess",
-                          "src": "1892:9:0",
+                          "src": "1673:9:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -1329,18 +1531,18 @@
                         "nodeType": "BinaryOperation",
                         "operator": "==",
                         "rightExpression": {
-                          "id": 105,
+                          "id": 123,
                           "name": "_montoDonacion",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 73,
-                          "src": "1905:14:0",
+                          "referencedDeclaration": 91,
+                          "src": "1686:14:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         },
-                        "src": "1892:27:0",
+                        "src": "1673:27:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -1348,14 +1550,14 @@
                       },
                       {
                         "hexValue": "456c206d6f6e746f20656e766961646f206e6f20636f696e6369646520636f6e20656c2076616c6f7220656e20455448",
-                        "id": 107,
+                        "id": 125,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "1921:50:0",
+                        "src": "1702:50:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_fa45de90103f6c32e099a37b17afaf2ee8f5ebedf279e9dfbeae402178f70923",
                           "typeString": "literal_string \"El monto enviado no coincide con el valor en ETH\""
@@ -1374,7 +1576,7 @@
                           "typeString": "literal_string \"El monto enviado no coincide con el valor en ETH\""
                         }
                       ],
-                      "id": 102,
+                      "id": 120,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -1382,13 +1584,13 @@
                         4294967278
                       ],
                       "referencedDeclaration": 4294967278,
-                      "src": "1884:7:0",
+                      "src": "1665:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 108,
+                    "id": 126,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1396,30 +1598,30 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1884:88:0",
+                    "src": "1665:88:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 109,
+                  "id": 127,
                   "nodeType": "ExpressionStatement",
-                  "src": "1884:88:0"
+                  "src": "1665:88:0"
                 },
                 {
                   "assignments": [
-                    112
+                    130
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 112,
+                      "id": 130,
                       "mutability": "mutable",
                       "name": "registroCivil",
                       "nodeType": "VariableDeclaration",
-                      "scope": 173,
-                      "src": "2046:23:0",
+                      "scope": 206,
+                      "src": "1766:23:0",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -1427,17 +1629,17 @@
                         "typeString": "contract IPersonas"
                       },
                       "typeName": {
-                        "id": 111,
+                        "id": 129,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 110,
+                          "id": 128,
                           "name": "IPersonas",
                           "nodeType": "IdentifierPath",
                           "referencedDeclaration": 18,
-                          "src": "2046:9:0"
+                          "src": "1766:9:0"
                         },
                         "referencedDeclaration": 18,
-                        "src": "2046:9:0",
+                        "src": "1766:9:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_IPersonas_$18",
                           "typeString": "contract IPersonas"
@@ -1446,16 +1648,16 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 116,
+                  "id": 134,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 114,
+                        "id": 132,
                         "name": "registroCivilAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 40,
-                        "src": "2082:20:0",
+                        "src": "1802:20:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -1469,18 +1671,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 113,
+                      "id": 131,
                       "name": "IPersonas",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 18,
-                      "src": "2072:9:0",
+                      "src": "1792:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_type$_t_contract$_IPersonas_$18_$",
                         "typeString": "type(contract IPersonas)"
                       }
                     },
-                    "id": 115,
+                    "id": 133,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1488,7 +1690,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "2072:31:0",
+                    "src": "1792:31:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_contract$_IPersonas_$18",
@@ -1496,21 +1698,21 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "2046:57:0"
+                  "src": "1766:57:0"
                 },
                 {
                   "assignments": [
-                    118
+                    136
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 118,
+                      "id": 136,
                       "mutability": "mutable",
                       "name": "idPersonaEnRegistro",
                       "nodeType": "VariableDeclaration",
-                      "scope": 173,
-                      "src": "2356:27:0",
+                      "scope": 206,
+                      "src": "1834:27:0",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -1518,10 +1720,10 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 117,
+                        "id": 135,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
-                        "src": "2356:7:0",
+                        "src": "1834:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1530,16 +1732,16 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 123,
+                  "id": 141,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 121,
+                        "id": 139,
                         "name": "_cedula",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 71,
-                        "src": "2415:7:0",
+                        "referencedDeclaration": 89,
+                        "src": "1893:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
@@ -1554,18 +1756,18 @@
                         }
                       ],
                       "expression": {
-                        "id": 119,
+                        "id": 137,
                         "name": "registroCivil",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 112,
-                        "src": "2386:13:0",
+                        "referencedDeclaration": 130,
+                        "src": "1864:13:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_IPersonas_$18",
                           "typeString": "contract IPersonas"
                         }
                       },
-                      "id": 120,
+                      "id": 138,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1573,13 +1775,13 @@
                       "memberName": "obtenerIdPorCi",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 8,
-                      "src": "2386:28:0",
+                      "src": "1864:28:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$_t_string_memory_ptr_$returns$_t_uint256_$",
                         "typeString": "function (string memory) view external returns (uint256)"
                       }
                     },
-                    "id": 122,
+                    "id": 140,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1587,7 +1789,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "2386:37:0",
+                    "src": "1864:37:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
@@ -1595,7 +1797,7 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "2356:67:0"
+                  "src": "1834:67:0"
                 },
                 {
                   "expression": {
@@ -1605,18 +1807,18 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 127,
+                        "id": 145,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
-                          "id": 125,
+                          "id": 143,
                           "name": "idPersonaEnRegistro",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 118,
-                          "src": "2442:19:0",
+                          "referencedDeclaration": 136,
+                          "src": "1920:19:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -1626,21 +1828,21 @@
                         "operator": "!=",
                         "rightExpression": {
                           "hexValue": "30",
-                          "id": 126,
+                          "id": 144,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "kind": "number",
                           "lValueRequested": false,
                           "nodeType": "Literal",
-                          "src": "2465:1:0",
+                          "src": "1943:1:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_rational_0_by_1",
                             "typeString": "int_const 0"
                           },
                           "value": "0"
                         },
-                        "src": "2442:24:0",
+                        "src": "1920:24:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -1648,14 +1850,14 @@
                       },
                       {
                         "hexValue": "4c6120636564756c61206e6f2065786973746520656e20656c20526567697374726f20436976696c",
-                        "id": 128,
+                        "id": 146,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "2468:42:0",
+                        "src": "1946:42:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_784b58514e765c462ec83cbfc78bed7ca8af53025206ece43b265d98e41af182",
                           "typeString": "literal_string \"La cedula no existe en el Registro Civil\""
@@ -1674,7 +1876,7 @@
                           "typeString": "literal_string \"La cedula no existe en el Registro Civil\""
                         }
                       ],
-                      "id": 124,
+                      "id": 142,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -1682,13 +1884,13 @@
                         4294967278
                       ],
                       "referencedDeclaration": 4294967278,
-                      "src": "2434:7:0",
+                      "src": "1912:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 129,
+                    "id": 147,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1696,31 +1898,31 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "2434:77:0",
+                    "src": "1912:77:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 130,
+                  "id": 148,
                   "nodeType": "ExpressionStatement",
-                  "src": "2434:77:0"
+                  "src": "1912:77:0"
                 },
                 {
                   "assignments": [
-                    132,
-                    134
+                    150,
+                    152
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 132,
+                      "id": 150,
                       "mutability": "mutable",
                       "name": "nombre",
                       "nodeType": "VariableDeclaration",
-                      "scope": 173,
-                      "src": "2575:20:0",
+                      "scope": 206,
+                      "src": "2003:20:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -1728,10 +1930,10 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 131,
+                        "id": 149,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
-                        "src": "2575:6:0",
+                        "src": "2003:6:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage_ptr",
                           "typeString": "string"
@@ -1741,12 +1943,12 @@
                     },
                     {
                       "constant": false,
-                      "id": 134,
+                      "id": 152,
                       "mutability": "mutable",
                       "name": "apellido",
                       "nodeType": "VariableDeclaration",
-                      "scope": 173,
-                      "src": "2597:22:0",
+                      "scope": 206,
+                      "src": "2025:22:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -1754,10 +1956,10 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 133,
+                        "id": 151,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
-                        "src": "2597:6:0",
+                        "src": "2025:6:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage_ptr",
                           "typeString": "string"
@@ -1766,16 +1968,16 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 139,
+                  "id": 157,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 137,
+                        "id": 155,
                         "name": "_cedula",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 71,
-                        "src": "2661:7:0",
+                        "referencedDeclaration": 89,
+                        "src": "2089:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
@@ -1790,18 +1992,18 @@
                         }
                       ],
                       "expression": {
-                        "id": 135,
+                        "id": 153,
                         "name": "registroCivil",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 112,
-                        "src": "2623:13:0",
+                        "referencedDeclaration": 130,
+                        "src": "2051:13:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_IPersonas_$18",
                           "typeString": "contract IPersonas"
                         }
                       },
-                      "id": 136,
+                      "id": 154,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1809,13 +2011,13 @@
                       "memberName": "obtenerNombresApellidos",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 17,
-                      "src": "2623:37:0",
+                      "src": "2051:37:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$_t_string_memory_ptr_$returns$_t_string_memory_ptr_$_t_string_memory_ptr_$",
                         "typeString": "function (string memory) view external returns (string memory,string memory)"
                       }
                     },
-                    "id": 138,
+                    "id": 156,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1823,7 +2025,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "2623:46:0",
+                    "src": "2051:46:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$_t_string_memory_ptr_$_t_string_memory_ptr_$",
@@ -1831,21 +2033,21 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "2574:95:0"
+                  "src": "2002:95:0"
                 },
                 {
                   "assignments": [
-                    141
+                    159
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 141,
+                      "id": 159,
                       "mutability": "mutable",
                       "name": "id",
                       "nodeType": "VariableDeclaration",
-                      "scope": 173,
-                      "src": "2737:10:0",
+                      "scope": 206,
+                      "src": "2242:10:0",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -1853,10 +2055,10 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 140,
+                        "id": 158,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
-                        "src": "2737:7:0",
+                        "src": "2242:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1865,50 +2067,50 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 143,
+                  "id": 161,
                   "initialValue": {
-                    "id": 142,
+                    "id": 160,
                     "name": "nextId",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
                     "referencedDeclaration": 36,
-                    "src": "2750:6:0",
+                    "src": "2255:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "2737:19:0"
+                  "src": "2242:19:0"
                 },
                 {
                   "expression": {
-                    "id": 148,
+                    "id": 166,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "baseExpression": {
-                        "id": 144,
+                        "id": 162,
                         "name": "ci2Donacion",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 49,
-                        "src": "2767:11:0",
+                        "referencedDeclaration": 51,
+                        "src": "2272:11:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                           "typeString": "mapping(string memory => uint256)"
                         }
                       },
-                      "id": 146,
+                      "id": 164,
                       "indexExpression": {
-                        "id": 145,
+                        "id": 163,
                         "name": "_cedula",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 71,
-                        "src": "2779:7:0",
+                        "referencedDeclaration": 89,
+                        "src": "2284:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
@@ -1919,7 +2121,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "2767:20:0",
+                      "src": "2272:20:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -1928,55 +2130,55 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 147,
+                      "id": 165,
                       "name": "id",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 141,
-                      "src": "2790:2:0",
+                      "referencedDeclaration": 159,
+                      "src": "2295:2:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "2767:25:0",
+                    "src": "2272:25:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 149,
+                  "id": 167,
                   "nodeType": "ExpressionStatement",
-                  "src": "2767:25:0"
+                  "src": "2272:25:0"
                 },
                 {
                   "expression": {
-                    "id": 157,
+                    "id": 175,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "baseExpression": {
-                        "id": 150,
+                        "id": 168,
                         "name": "donaciones",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 45,
-                        "src": "2805:10:0",
+                        "referencedDeclaration": 47,
+                        "src": "2310:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Donacion_$23_storage_$",
                           "typeString": "mapping(uint256 => struct Donaciones.Donacion storage ref)"
                         }
                       },
-                      "id": 152,
+                      "id": 170,
                       "indexExpression": {
-                        "id": 151,
+                        "id": 169,
                         "name": "id",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 141,
-                        "src": "2816:2:0",
+                        "referencedDeclaration": 159,
+                        "src": "2321:2:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1987,7 +2189,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "2805:14:0",
+                      "src": "2310:14:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_Donacion_$23_storage",
                         "typeString": "struct Donaciones.Donacion storage ref"
@@ -1998,24 +2200,24 @@
                     "rightHandSide": {
                       "arguments": [
                         {
-                          "id": 154,
+                          "id": 172,
                           "name": "_cedula",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 71,
-                          "src": "2854:7:0",
+                          "referencedDeclaration": 89,
+                          "src": "2359:7:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_calldata_ptr",
                             "typeString": "string calldata"
                           }
                         },
                         {
-                          "id": 155,
+                          "id": 173,
                           "name": "_montoDonacion",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 73,
-                          "src": "2883:14:0",
+                          "referencedDeclaration": 91,
+                          "src": "2388:14:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -2033,18 +2235,18 @@
                             "typeString": "uint256"
                           }
                         ],
-                        "id": 153,
+                        "id": 171,
                         "name": "Donacion",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 23,
-                        "src": "2822:8:0",
+                        "src": "2327:8:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_type$_t_struct$_Donacion_$23_storage_ptr_$",
                           "typeString": "type(struct Donaciones.Donacion storage pointer)"
                         }
                       },
-                      "id": 156,
+                      "id": 174,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2055,37 +2257,37 @@
                         "Monto"
                       ],
                       "nodeType": "FunctionCall",
-                      "src": "2822:87:0",
+                      "src": "2327:87:0",
                       "tryCall": false,
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_Donacion_$23_memory_ptr",
                         "typeString": "struct Donaciones.Donacion memory"
                       }
                     },
-                    "src": "2805:104:0",
+                    "src": "2310:104:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_struct$_Donacion_$23_storage",
                       "typeString": "struct Donaciones.Donacion storage ref"
                     }
                   },
-                  "id": 158,
+                  "id": 176,
                   "nodeType": "ExpressionStatement",
-                  "src": "2805:104:0"
+                  "src": "2310:104:0"
                 },
                 {
                   "expression": {
-                    "id": 161,
+                    "id": 179,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 159,
+                      "id": 177,
                       "name": "totalRecaudado",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 38,
-                      "src": "2922:14:0",
+                      "src": "2427:14:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -2094,30 +2296,30 @@
                     "nodeType": "Assignment",
                     "operator": "+=",
                     "rightHandSide": {
-                      "id": 160,
+                      "id": 178,
                       "name": "_montoDonacion",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 73,
-                      "src": "2940:14:0",
+                      "referencedDeclaration": 91,
+                      "src": "2445:14:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "2922:32:0",
+                    "src": "2427:32:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 162,
+                  "id": 180,
                   "nodeType": "ExpressionStatement",
-                  "src": "2922:32:0"
+                  "src": "2427:32:0"
                 },
                 {
                   "expression": {
-                    "id": 164,
+                    "id": 182,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2125,14 +2327,14 @@
                     "nodeType": "UnaryOperation",
                     "operator": "++",
                     "prefix": false,
-                    "src": "2966:8:0",
+                    "src": "2471:8:0",
                     "subExpression": {
-                      "id": 163,
+                      "id": 181,
                       "name": "nextId",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 36,
-                      "src": "2966:6:0",
+                      "src": "2471:6:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -2143,56 +2345,286 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 165,
+                  "id": 183,
                   "nodeType": "ExpressionStatement",
-                  "src": "2966:8:0"
+                  "src": "2471:8:0"
+                },
+                {
+                  "assignments": [
+                    185,
+                    null
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 185,
+                      "mutability": "mutable",
+                      "name": "success",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 206,
+                      "src": "2680:12:0",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "typeName": {
+                        "id": 184,
+                        "name": "bool",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "2680:4:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "visibility": "internal"
+                    },
+                    null
+                  ],
+                  "id": 193,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "hexValue": "",
+                        "id": 191,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "2740:2:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+                          "typeString": "literal_string \"\""
+                        },
+                        "value": ""
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+                          "typeString": "literal_string \"\""
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+                            "typeString": "literal_string \"\""
+                          }
+                        ],
+                        "expression": {
+                          "id": 186,
+                          "name": "cuentaBeneficiaria",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 42,
+                          "src": "2698:18:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        },
+                        "id": 187,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "call",
+                        "nodeType": "MemberAccess",
+                        "src": "2698:23:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_barecall_payable$_t_bytes_memory_ptr_$returns$_t_bool_$_t_bytes_memory_ptr_$",
+                          "typeString": "function (bytes memory) payable returns (bool,bytes memory)"
+                        }
+                      },
+                      "id": 190,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "names": [
+                        "value"
+                      ],
+                      "nodeType": "FunctionCallOptions",
+                      "options": [
+                        {
+                          "expression": {
+                            "id": 188,
+                            "name": "msg",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 4294967281,
+                            "src": "2729:3:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_message",
+                              "typeString": "msg"
+                            }
+                          },
+                          "id": 189,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "value",
+                          "nodeType": "MemberAccess",
+                          "src": "2729:9:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "src": "2698:41:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_barecall_payable$_t_bytes_memory_ptr_$returns$_t_bool_$_t_bytes_memory_ptr_$value",
+                        "typeString": "function (bytes memory) payable returns (bool,bytes memory)"
+                      }
+                    },
+                    "id": 192,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2698:45:0",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_bool_$_t_bytes_memory_ptr_$",
+                      "typeString": "tuple(bool,bytes memory)"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "2679:64:0"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 195,
+                        "name": "success",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 185,
+                        "src": "2762:7:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "hexValue": "46616c6c6f20656c20656e76696f206465204554482061206c612066756e646163696f6e",
+                        "id": 196,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "2771:38:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_45161323f27114eb045b5c73aa9b9fe8fe79f6f43aaa22ae1693fbc5e2c4f22f",
+                          "typeString": "literal_string \"Fallo el envio de ETH a la fundacion\""
+                        },
+                        "value": "Fallo el envio de ETH a la fundacion"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_45161323f27114eb045b5c73aa9b9fe8fe79f6f43aaa22ae1693fbc5e2c4f22f",
+                          "typeString": "literal_string \"Fallo el envio de ETH a la fundacion\""
+                        }
+                      ],
+                      "id": 194,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        4294967278,
+                        4294967278
+                      ],
+                      "referencedDeclaration": 4294967278,
+                      "src": "2754:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 197,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2754:56:0",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 198,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2754:56:0"
                 },
                 {
                   "eventCall": {
                     "arguments": [
                       {
-                        "id": 167,
+                        "id": 200,
                         "name": "_cedula",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 71,
-                        "src": "3040:7:0",
+                        "referencedDeclaration": 89,
+                        "src": "2864:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
                         }
                       },
                       {
-                        "id": 168,
+                        "id": 201,
                         "name": "nombre",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 132,
-                        "src": "3049:6:0",
+                        "referencedDeclaration": 150,
+                        "src": "2873:6:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
                         }
                       },
                       {
-                        "id": 169,
+                        "id": 202,
                         "name": "apellido",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 134,
-                        "src": "3057:8:0",
+                        "referencedDeclaration": 152,
+                        "src": "2881:8:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
                         }
                       },
                       {
-                        "id": 170,
+                        "id": 203,
                         "name": "_montoDonacion",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 73,
-                        "src": "3067:14:0",
+                        "referencedDeclaration": 91,
+                        "src": "2891:14:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2218,18 +2650,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 166,
+                      "id": 199,
                       "name": "NuevaDonacion",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 33,
-                      "src": "3026:13:0",
+                      "src": "2850:13:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint256_$returns$__$",
                         "typeString": "function (string memory,string memory,string memory,uint256)"
                       }
                     },
-                    "id": 171,
+                    "id": 204,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2237,38 +2669,38 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "3026:56:0",
+                    "src": "2850:56:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 172,
+                  "id": 205,
                   "nodeType": "EmitStatement",
-                  "src": "3021:61:0"
+                  "src": "2845:61:0"
                 }
               ]
             },
             "functionSelector": "093d68c3",
-            "id": 174,
+            "id": 207,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "RegistrarDonantes",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 74,
+              "id": 92,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 71,
+                  "id": 89,
                   "mutability": "mutable",
                   "name": "_cedula",
                   "nodeType": "VariableDeclaration",
-                  "scope": 174,
-                  "src": "1382:23:0",
+                  "scope": 207,
+                  "src": "1295:23:0",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -2276,10 +2708,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 70,
+                    "id": 88,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1382:6:0",
+                    "src": "1295:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -2289,12 +2721,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 73,
+                  "id": 91,
                   "mutability": "mutable",
                   "name": "_montoDonacion",
                   "nodeType": "VariableDeclaration",
-                  "scope": 174,
-                  "src": "1407:22:0",
+                  "scope": 207,
+                  "src": "1320:22:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2302,10 +2734,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 72,
+                    "id": 90,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1407:7:0",
+                    "src": "1320:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -2314,39 +2746,39 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1381:49:0"
+              "src": "1294:49:0"
             },
             "returnParameters": {
-              "id": 75,
+              "id": 93,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1446:0:0"
+              "src": "1359:0:0"
             },
-            "scope": 229,
-            "src": "1355:1735:0",
+            "scope": 262,
+            "src": "1268:1646:0",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 227,
+              "id": 260,
               "nodeType": "Block",
-              "src": "3300:465:0",
+              "src": "3067:364:0",
               "statements": [
                 {
                   "assignments": [
-                    186
+                    219
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 186,
+                      "id": 219,
                       "mutability": "mutable",
                       "name": "id",
                       "nodeType": "VariableDeclaration",
-                      "scope": 227,
-                      "src": "3311:10:0",
+                      "scope": 260,
+                      "src": "3078:10:0",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -2354,10 +2786,10 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 185,
+                        "id": 218,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
-                        "src": "3311:7:0",
+                        "src": "3078:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2366,28 +2798,28 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 190,
+                  "id": 223,
                   "initialValue": {
                     "baseExpression": {
-                      "id": 187,
+                      "id": 220,
                       "name": "ci2Donacion",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 49,
-                      "src": "3324:11:0",
+                      "referencedDeclaration": 51,
+                      "src": "3091:11:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
                         "typeString": "mapping(string memory => uint256)"
                       }
                     },
-                    "id": 189,
+                    "id": 222,
                     "indexExpression": {
-                      "id": 188,
+                      "id": 221,
                       "name": "_cedula",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 176,
-                      "src": "3336:7:0",
+                      "referencedDeclaration": 209,
+                      "src": "3103:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
                         "typeString": "string memory"
@@ -2398,14 +2830,14 @@
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "IndexAccess",
-                    "src": "3324:20:0",
+                    "src": "3091:20:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "3311:33:0"
+                  "src": "3078:33:0"
                 },
                 {
                   "expression": {
@@ -2415,18 +2847,18 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 194,
+                        "id": 227,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
-                          "id": 192,
+                          "id": 225,
                           "name": "id",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 186,
-                          "src": "3363:2:0",
+                          "referencedDeclaration": 219,
+                          "src": "3130:2:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -2436,21 +2868,21 @@
                         "operator": "!=",
                         "rightExpression": {
                           "hexValue": "30",
-                          "id": 193,
+                          "id": 226,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "kind": "number",
                           "lValueRequested": false,
                           "nodeType": "Literal",
-                          "src": "3369:1:0",
+                          "src": "3136:1:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_rational_0_by_1",
                             "typeString": "int_const 0"
                           },
                           "value": "0"
                         },
-                        "src": "3363:7:0",
+                        "src": "3130:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -2458,14 +2890,14 @@
                       },
                       {
                         "hexValue": "4e6f20736520656e636f6e74726f20646f6e6163696f6e",
-                        "id": 195,
+                        "id": 228,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "3372:25:0",
+                        "src": "3139:25:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_83fe5ceb0fe4e6928861c5c1b863f7094e64b4ba6d1873779e93eba649c9aa24",
                           "typeString": "literal_string \"No se encontro donacion\""
@@ -2484,7 +2916,7 @@
                           "typeString": "literal_string \"No se encontro donacion\""
                         }
                       ],
-                      "id": 191,
+                      "id": 224,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -2492,13 +2924,13 @@
                         4294967278
                       ],
                       "referencedDeclaration": 4294967278,
-                      "src": "3355:7:0",
+                      "src": "3122:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 196,
+                    "id": 229,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2506,30 +2938,30 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "3355:43:0",
+                    "src": "3122:43:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 197,
+                  "id": 230,
                   "nodeType": "ExpressionStatement",
-                  "src": "3355:43:0"
+                  "src": "3122:43:0"
                 },
                 {
                   "assignments": [
-                    200
+                    233
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 200,
+                      "id": 233,
                       "mutability": "mutable",
                       "name": "d",
                       "nodeType": "VariableDeclaration",
-                      "scope": 227,
-                      "src": "3419:17:0",
+                      "scope": 260,
+                      "src": "3186:17:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -2537,17 +2969,17 @@
                         "typeString": "struct Donaciones.Donacion"
                       },
                       "typeName": {
-                        "id": 199,
+                        "id": 232,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 198,
+                          "id": 231,
                           "name": "Donacion",
                           "nodeType": "IdentifierPath",
                           "referencedDeclaration": 23,
-                          "src": "3419:8:0"
+                          "src": "3186:8:0"
                         },
                         "referencedDeclaration": 23,
-                        "src": "3419:8:0",
+                        "src": "3186:8:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_struct$_Donacion_$23_storage_ptr",
                           "typeString": "struct Donaciones.Donacion"
@@ -2556,28 +2988,28 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 204,
+                  "id": 237,
                   "initialValue": {
                     "baseExpression": {
-                      "id": 201,
+                      "id": 234,
                       "name": "donaciones",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 45,
-                      "src": "3439:10:0",
+                      "referencedDeclaration": 47,
+                      "src": "3206:10:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Donacion_$23_storage_$",
                         "typeString": "mapping(uint256 => struct Donaciones.Donacion storage ref)"
                       }
                     },
-                    "id": 203,
+                    "id": 236,
                     "indexExpression": {
-                      "id": 202,
+                      "id": 235,
                       "name": "id",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 186,
-                      "src": "3450:2:0",
+                      "referencedDeclaration": 219,
+                      "src": "3217:2:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -2588,28 +3020,28 @@
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "IndexAccess",
-                    "src": "3439:14:0",
+                    "src": "3206:14:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_struct$_Donacion_$23_storage",
                       "typeString": "struct Donaciones.Donacion storage ref"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "3419:34:0"
+                  "src": "3186:34:0"
                 },
                 {
                   "assignments": [
-                    207
+                    240
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 207,
+                      "id": 240,
                       "mutability": "mutable",
                       "name": "registroCivil",
                       "nodeType": "VariableDeclaration",
-                      "scope": 227,
-                      "src": "3555:23:0",
+                      "scope": 260,
+                      "src": "3231:23:0",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -2617,17 +3049,17 @@
                         "typeString": "contract IPersonas"
                       },
                       "typeName": {
-                        "id": 206,
+                        "id": 239,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 205,
+                          "id": 238,
                           "name": "IPersonas",
                           "nodeType": "IdentifierPath",
                           "referencedDeclaration": 18,
-                          "src": "3555:9:0"
+                          "src": "3231:9:0"
                         },
                         "referencedDeclaration": 18,
-                        "src": "3555:9:0",
+                        "src": "3231:9:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_IPersonas_$18",
                           "typeString": "contract IPersonas"
@@ -2636,16 +3068,16 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 211,
+                  "id": 244,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 209,
+                        "id": 242,
                         "name": "registroCivilAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 40,
-                        "src": "3591:20:0",
+                        "src": "3267:20:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2659,18 +3091,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 208,
+                      "id": 241,
                       "name": "IPersonas",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 18,
-                      "src": "3581:9:0",
+                      "src": "3257:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_type$_t_contract$_IPersonas_$18_$",
                         "typeString": "type(contract IPersonas)"
                       }
                     },
-                    "id": 210,
+                    "id": 243,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2678,7 +3110,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "3581:31:0",
+                    "src": "3257:31:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_contract$_IPersonas_$18",
@@ -2686,22 +3118,22 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "3555:57:0"
+                  "src": "3231:57:0"
                 },
                 {
                   "assignments": [
-                    213,
-                    215
+                    246,
+                    248
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 213,
+                      "id": 246,
                       "mutability": "mutable",
                       "name": "nom",
                       "nodeType": "VariableDeclaration",
-                      "scope": 227,
-                      "src": "3624:17:0",
+                      "scope": 260,
+                      "src": "3300:17:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -2709,10 +3141,10 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 212,
+                        "id": 245,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
-                        "src": "3624:6:0",
+                        "src": "3300:6:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage_ptr",
                           "typeString": "string"
@@ -2722,12 +3154,12 @@
                     },
                     {
                       "constant": false,
-                      "id": 215,
+                      "id": 248,
                       "mutability": "mutable",
                       "name": "ape",
                       "nodeType": "VariableDeclaration",
-                      "scope": 227,
-                      "src": "3643:17:0",
+                      "scope": 260,
+                      "src": "3319:17:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -2735,10 +3167,10 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 214,
+                        "id": 247,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
-                        "src": "3643:6:0",
+                        "src": "3319:6:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage_ptr",
                           "typeString": "string"
@@ -2747,16 +3179,16 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 220,
+                  "id": 253,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 218,
+                        "id": 251,
                         "name": "_cedula",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 176,
-                        "src": "3702:7:0",
+                        "referencedDeclaration": 209,
+                        "src": "3378:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
@@ -2771,18 +3203,18 @@
                         }
                       ],
                       "expression": {
-                        "id": 216,
+                        "id": 249,
                         "name": "registroCivil",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 207,
-                        "src": "3664:13:0",
+                        "referencedDeclaration": 240,
+                        "src": "3340:13:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_IPersonas_$18",
                           "typeString": "contract IPersonas"
                         }
                       },
-                      "id": 217,
+                      "id": 250,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2790,13 +3222,13 @@
                       "memberName": "obtenerNombresApellidos",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 17,
-                      "src": "3664:37:0",
+                      "src": "3340:37:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$_t_string_memory_ptr_$returns$_t_string_memory_ptr_$_t_string_memory_ptr_$",
                         "typeString": "function (string memory) view external returns (string memory,string memory)"
                       }
                     },
-                    "id": 219,
+                    "id": 252,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2804,7 +3236,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "3664:46:0",
+                    "src": "3340:46:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$_t_string_memory_ptr_$_t_string_memory_ptr_$",
@@ -2812,30 +3244,30 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "3623:87:0"
+                  "src": "3299:87:0"
                 },
                 {
                   "expression": {
                     "components": [
                       {
-                        "id": 221,
+                        "id": 254,
                         "name": "nom",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 213,
-                        "src": "3739:3:0",
+                        "referencedDeclaration": 246,
+                        "src": "3405:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
                         }
                       },
                       {
-                        "id": 222,
+                        "id": 255,
                         "name": "ape",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 215,
-                        "src": "3744:3:0",
+                        "referencedDeclaration": 248,
+                        "src": "3410:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
@@ -2843,18 +3275,18 @@
                       },
                       {
                         "expression": {
-                          "id": 223,
+                          "id": 256,
                           "name": "d",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 200,
-                          "src": "3749:1:0",
+                          "referencedDeclaration": 233,
+                          "src": "3415:1:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_Donacion_$23_memory_ptr",
                             "typeString": "struct Donaciones.Donacion memory"
                           }
                         },
-                        "id": 224,
+                        "id": 257,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -2862,52 +3294,52 @@
                         "memberName": "Monto",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 22,
-                        "src": "3749:7:0",
+                        "src": "3415:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         }
                       }
                     ],
-                    "id": 225,
+                    "id": 258,
                     "isConstant": false,
                     "isInlineArray": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "TupleExpression",
-                    "src": "3738:19:0",
+                    "src": "3404:19:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint256_$",
                       "typeString": "tuple(string memory,string memory,uint256)"
                     }
                   },
-                  "functionReturnParameters": 184,
-                  "id": 226,
+                  "functionReturnParameters": 217,
+                  "id": 259,
                   "nodeType": "Return",
-                  "src": "3731:26:0"
+                  "src": "3397:26:0"
                 }
               ]
             },
             "functionSelector": "d4ccd109",
-            "id": 228,
+            "id": 261,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "obtenerPersonaPorCI",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 177,
+              "id": 210,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 176,
+                  "id": 209,
                   "mutability": "mutable",
                   "name": "_cedula",
                   "nodeType": "VariableDeclaration",
-                  "scope": 228,
-                  "src": "3184:21:0",
+                  "scope": 261,
+                  "src": "2951:21:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -2915,10 +3347,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 175,
+                    "id": 208,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3184:6:0",
+                    "src": "2951:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -2927,20 +3359,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "3183:23:0"
+              "src": "2950:23:0"
             },
             "returnParameters": {
-              "id": 184,
+              "id": 217,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 179,
+                  "id": 212,
                   "mutability": "mutable",
                   "name": "Nombres",
                   "nodeType": "VariableDeclaration",
-                  "scope": 228,
-                  "src": "3228:21:0",
+                  "scope": 261,
+                  "src": "2995:21:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -2948,10 +3380,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 178,
+                    "id": 211,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3228:6:0",
+                    "src": "2995:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -2961,12 +3393,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 181,
+                  "id": 214,
                   "mutability": "mutable",
                   "name": "Apellidos",
                   "nodeType": "VariableDeclaration",
-                  "scope": 228,
-                  "src": "3251:23:0",
+                  "scope": 261,
+                  "src": "3018:23:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -2974,10 +3406,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 180,
+                    "id": 213,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3251:6:0",
+                    "src": "3018:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -2987,12 +3419,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 183,
+                  "id": 216,
                   "mutability": "mutable",
                   "name": "Monto_Donacion",
                   "nodeType": "VariableDeclaration",
-                  "scope": 228,
-                  "src": "3276:22:0",
+                  "scope": 261,
+                  "src": "3043:22:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -3000,10 +3432,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 182,
+                    "id": 215,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3276:7:0",
+                    "src": "3043:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -3012,20 +3444,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "3227:72:0"
+              "src": "2994:72:0"
             },
-            "scope": 229,
-            "src": "3155:610:0",
+            "scope": 262,
+            "src": "2922:509:0",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 230,
-        "src": "284:3484:0"
+        "scope": 263,
+        "src": "284:3150:0"
       }
     ],
-    "src": "33:3735:0"
+    "src": "33:3401:0"
   },
   "compiler": {
     "name": "solc",
@@ -3033,7 +3465,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-12-16T01:43:48.313Z",
+  "updatedAt": "2025-12-16T02:03:13.872Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
