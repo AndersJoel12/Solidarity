@@ -27,6 +27,7 @@ contract Donaciones {
     address payable public cuentaBeneficiaria; 
 
     mapping(uint256 => Donacion) private donaciones;
+    // Este mapping guardará el ID de la ÚLTIMA donación hecha por esa cédula
     mapping(string => uint256) private ci2Donacion;
 
     constructor(address _registroCivilAddress, address payable _cuentaBeneficiaria) {
@@ -45,7 +46,9 @@ contract Donaciones {
     function RegistrarDonantes(string calldata _cedula, uint256 _montoDonacion) public payable {
         
         // 1. CHECKS (Validaciones)
-        require(ci2Donacion[_cedula] == 0, "Esta cedula ya dono anteriormente");
+        // ❌ ELIMINAMOS LA RESTRICCIÓN DE DONACIÓN ÚNICA
+        // require(ci2Donacion[_cedula] == 0, "Esta cedula ya dono anteriormente"); <--- ADIÓS A ESTO
+        
         require(registroCivilAddress != address(0), "Contrato Registro Civil no conectado");
         require(_montoDonacion > 0, "La donacion debe ser mayor a 0");
         require(msg.value == _montoDonacion, "El monto enviado no coincide con el valor en ETH");
@@ -56,10 +59,11 @@ contract Donaciones {
 
         (string memory nombre, string memory apellido) = registroCivil.obtenerNombresApellidos(_cedula);
 
-        // 2. EFFECTS (Guardamos los datos ANTES de soltar el dinero)
-        // Esto protege al contrato de ataques de reentrada
+        // 2. EFFECTS
         uint256 id = nextId;
-        ci2Donacion[_cedula] = id;
+        
+        // Actualizamos el registro: Ahora esta cédula apunta a este NUEVO id (su donación más reciente)
+        ci2Donacion[_cedula] = id; 
 
         donaciones[id] = Donacion({
             Cedula: _cedula,
@@ -69,19 +73,18 @@ contract Donaciones {
         totalRecaudado += _montoDonacion; 
         nextId++;
 
-        // 3. INTERACTIONS (Soltamos el dinero)
-        // Usamos .call en lugar de .transfer para evitar el error "deprecated"
-        // y permitir enviar a billeteras inteligentes.
+        // 3. INTERACTIONS (Soltamos el dinero a la Fundación)
         (bool success, ) = cuentaBeneficiaria.call{value: msg.value}("");
         require(success, "Fallo el envio de ETH a la fundacion");
 
-        // 4. EVENTO
+        // 4. EVENTO (Esto es lo que alimentará tu lista de historial)
         emit NuevaDonacion(_cedula, nombre, apellido, _montoDonacion);
     }
 
+    // Esta función devolverá los datos de la donación MÁS RECIENTE
     function obtenerPersonaPorCI(string memory _cedula) public view returns (string memory Nombres, string memory Apellidos, uint256 Monto_Donacion) {
         uint256 id = ci2Donacion[_cedula];
-        require(id != 0, "No se encontro donacion");
+        require(id != 0, "No se encontro ninguna donacion para esta cedula");
         
         Donacion memory d = donaciones[id];
         IPersonas registroCivil = IPersonas(registroCivilAddress);
