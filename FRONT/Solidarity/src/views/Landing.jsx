@@ -100,7 +100,7 @@ function Landing() {
                                                         ${darkMode ? "text-gray-200 hover:text-orange-400" : "text-gray-700 hover:text-orange-500"}`}>
                                 Contacto
                             </a>
-          </nav>s
+          </nav>
 
           <button
 
@@ -177,6 +177,12 @@ function Landing() {
 
             {darkMode ? "" : ""}
 
+             {/* 🔥 Aquí insertamos el contador */}
+             <h1>Cada ayuda esta salvando una huella </h1> 
+             <div className="text-center mb-12"> 
+                <h2 id="totalTrees" data-count="24939238" className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-600" > 24,939,238 </h2> 
+                <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300">  </p> </div>
+
           <div className="max-w-6xl mx-auto"> 
 
             <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-10 sm:mb-16 text-center 
@@ -186,7 +192,6 @@ function Landing() {
 
             </h2>
 
-           
 
             <div className="grid grid-cols-1 sm:white-cols-2 md:grid-cols-3 gap-8 sm:gap-10 text-center">
 
