@@ -31,12 +31,12 @@ function Landing() {
             <a href="#about" className="text-gray-200 hover:text-orange-400 font-medium transition duration-300 text-sm uppercase tracking-wide">Sobre Nosotros</a>
             <a href="#contact" className="text-gray-200 hover:text-orange-400 font-medium transition duration-300 text-sm uppercase tracking-wide">Contacto</a>
           </nav>
-          <button 
+          {/* <button 
             onClick={() => setDarkMode(!darkMode)} 
             className="px-4 py-2 bg-orange-400 text-white rounded-md"
           >
             {darkMode ? "Claro ☀️" : "Oscuro 🌙"}
-          </button>
+          </button> */}
         </header>
         {/* resto de tu landing */}
 
