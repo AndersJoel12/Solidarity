@@ -34,10 +34,12 @@ const DonationsList = ({ contractAddress }) => {
         const history = await Promise.all(events.map(async (event) => {
             const block = await event.getBlock();
             return {
-                // 🛑 CORRECCIÓN AQUÍ: Usamos String() para evitar que explote si viene un objeto
-                cedula: String(event.args[0]), 
-                nombreCompleto: `${event.args[1]} ${event.args[2]}`, 
-                monto: ethers.formatEther(event.args[3]), 
+                // Indices del evento actualizado:
+                // 0: Wallet, 1: Cedula, 2: Nom, 3: Ape, 4: Monto, 5: Fecha
+                wallet: event.args[0], 
+                nombreCompleto: `${event.args[2]} ${event.args[3]}`, 
+                monto: ethers.formatEther(event.args[4]), 
+                
                 timestamp: block ? new Date(block.timestamp * 1000).toLocaleDateString() : "-",
                 hash: event.transactionHash
             };
@@ -57,19 +59,20 @@ const DonationsList = ({ contractAddress }) => {
     const provider = new ethers.BrowserProvider(window.ethereum);
     const contract = new ethers.Contract(contractAddress, DonacionesABI.abi, provider);
     
-    // Listener corregido para manejar los argumentos
-    const listener = (cedula, nom, ape, monto, event) => {
-        // En Ethers v6, el último argumento es el objeto del evento
-        // A veces el evento viene como el 5to argumento, a veces dentro del 4to.
-        // Verificamos si 'event' existe, si no, usamos 'monto' si es que ahí cayó el objeto Log.
-        const log = event || monto; 
+    // ⚠️ CORRECCIÓN AQUÍ: Agregamos 'fecha' a los argumentos
+    // El orden es: wallet, cedula, nom, ape, monto, fecha, event
+    const listener = (wallet, cedula, nom, ape, monto, fecha, event) => {
+        
+        // En Ethers v6, el objeto del evento es el ÚLTIMO argumento.
+        // Como ahora tenemos 'fecha', 'event' cae en la posición correcta.
+        const log = event; 
         const hashReal = log && log.log ? log.log.transactionHash : "Tx reciente";
 
         setDonations(prev => [{
-            cedula: String(cedula), // Forzamos a String
+            wallet: wallet,
             nombreCompleto: `${nom} ${ape}`,
             monto: ethers.formatEther(monto),
-            timestamp: "Hace un momento",
+            timestamp: "Hace un momento", // O podrías usar new Date().toLocaleDateString()
             hash: hashReal
         }, ...prev]);
     };
@@ -100,7 +103,7 @@ const DonationsList = ({ contractAddress }) => {
            <p className="text-center text-gray-500 py-4">Aún no hay donaciones.</p>
         ) : (
            donations.map((don, idx) => (
-            // Usamos idx en la key por seguridad si el hash se repite o falla
+            // Usamos una key combinada para evitar errores de renderizado
             <div key={`${don.hash}-${idx}`} className="mb-3 last:mb-0 p-3 rounded-lg bg-black/20 border border-white/5 hover:border-orange-500/30 transition-colors flex justify-between items-center">
                 <div>
                     <div className="text-sm font-bold text-gray-200">
@@ -108,10 +111,12 @@ const DonationsList = ({ contractAddress }) => {
                     </div>
                     <div className="text-xs text-gray-500 flex flex-col">
                         <span>{don.timestamp}</span>
-                        {/* Renderizamos la cédula con cuidado */}
-                        <span className="text-[10px] opacity-70">
-                            ID: {don.cedula.length > 20 ? "Hash Oculto" : don.cedula}
-                        </span>
+                        {/* Verificamos que 'don.wallet' exista antes de hacer substring para evitar crashes */}
+                        {don.wallet && (
+                            <span className="text-[10px] text-orange-300 font-mono opacity-80">
+                                De: {don.wallet.substring(0, 6)}...{don.wallet.substring(38)}
+                            </span>
+                        )}
                     </div>
                 </div>
                 <div className="text-right">
