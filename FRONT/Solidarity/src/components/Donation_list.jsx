@@ -15,9 +15,7 @@ const DonationsList = ({ contractAddress }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 🛡️ ESCUDO DE SEGURIDAD (CRUCIAL)
-    // Si no hay dirección del contrato o no hay Metamask, NO HACEMOS NADA.
-    // Esto evita el error "invalid value for Contract target".
+    // 🛡️ SEGURIDAD
     if (!contractAddress || !window.ethereum) return;
 
     const fetchHistory = async () => {
@@ -25,18 +23,19 @@ const DonationsList = ({ contractAddress }) => {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const contract = new ethers.Contract(contractAddress, DonacionesABI.abi, provider);
 
-        // 1. Filtro del evento
         const filter = contract.filters.NuevaDonacion();
         
-        // 2. Traemos eventos (últimos 10k bloques para ser rápidos)
-        const events = await contract.queryFilter(filter, -10000, "latest");
+        // Calculamos bloque inicial seguro
+        const currentBlock = await provider.getBlockNumber();
+        const startBlock = Math.max(0, currentBlock - 5000);
+        
+        const events = await contract.queryFilter(filter, startBlock, "latest");
 
-        // 3. Formateamos
         const history = await Promise.all(events.map(async (event) => {
             const block = await event.getBlock();
             return {
-                // Indices: 0:Cedula, 1:Nombres, 2:Apellidos, 3:Monto
-                cedula: event.args[0],
+                // 🛑 CORRECCIÓN AQUÍ: Usamos String() para evitar que explote si viene un objeto
+                cedula: String(event.args[0]), 
                 nombreCompleto: `${event.args[1]} ${event.args[2]}`, 
                 monto: ethers.formatEther(event.args[3]), 
                 timestamp: block ? new Date(block.timestamp * 1000).toLocaleDateString() : "-",
@@ -52,31 +51,36 @@ const DonationsList = ({ contractAddress }) => {
       }
     };
 
-    // Ejecutamos la carga inicial
     fetchHistory();
     
-    // --- LISTENER EN TIEMPO REAL (Ahora está protegido por el if inicial) ---
+    // --- LISTENER EN TIEMPO REAL ---
     const provider = new ethers.BrowserProvider(window.ethereum);
     const contract = new ethers.Contract(contractAddress, DonacionesABI.abi, provider);
     
+    // Listener corregido para manejar los argumentos
     const listener = (cedula, nom, ape, monto, event) => {
+        // En Ethers v6, el último argumento es el objeto del evento
+        // A veces el evento viene como el 5to argumento, a veces dentro del 4to.
+        // Verificamos si 'event' existe, si no, usamos 'monto' si es que ahí cayó el objeto Log.
+        const log = event || monto; 
+        const hashReal = log && log.log ? log.log.transactionHash : "Tx reciente";
+
         setDonations(prev => [{
-            cedula,
+            cedula: String(cedula), // Forzamos a String
             nombreCompleto: `${nom} ${ape}`,
             monto: ethers.formatEther(monto),
             timestamp: "Hace un momento",
-            hash: event.log.transactionHash
+            hash: hashReal
         }, ...prev]);
     };
 
     contract.on("NuevaDonacion", listener);
 
-    // Limpieza al desmontar
     return () => {
         contract.off("NuevaDonacion", listener);
     };
 
-  }, [contractAddress]); // Se reinicia solo si cambia la dirección
+  }, [contractAddress]);
 
   return (
     <div className="w-full max-w-[480px] mx-auto mt-8 rounded-2xl p-6 border border-gray-700 shadow-2xl" 
@@ -93,16 +97,21 @@ const DonationsList = ({ contractAddress }) => {
         {loading ? (
            <p className="text-center text-gray-500 py-4 animate-pulse">Cargando bloques...</p>
         ) : donations.length === 0 ? (
-           <p className="text-center text-gray-500 py-4">Aún no hay donaciones. ¡Sé el primero!</p>
+           <p className="text-center text-gray-500 py-4">Aún no hay donaciones.</p>
         ) : (
            donations.map((don, idx) => (
-            <div key={don.hash + idx} className="mb-3 last:mb-0 p-3 rounded-lg bg-black/20 border border-white/5 hover:border-orange-500/30 transition-colors flex justify-between items-center">
+            // Usamos idx en la key por seguridad si el hash se repite o falla
+            <div key={`${don.hash}-${idx}`} className="mb-3 last:mb-0 p-3 rounded-lg bg-black/20 border border-white/5 hover:border-orange-500/30 transition-colors flex justify-between items-center">
                 <div>
                     <div className="text-sm font-bold text-gray-200">
                         {don.nombreCompleto}
                     </div>
-                    <div className="text-xs text-gray-500">
-                        {don.timestamp} • {don.cedula}
+                    <div className="text-xs text-gray-500 flex flex-col">
+                        <span>{don.timestamp}</span>
+                        {/* Renderizamos la cédula con cuidado */}
+                        <span className="text-[10px] opacity-70">
+                            ID: {don.cedula.length > 20 ? "Hash Oculto" : don.cedula}
+                        </span>
                     </div>
                 </div>
                 <div className="text-right">

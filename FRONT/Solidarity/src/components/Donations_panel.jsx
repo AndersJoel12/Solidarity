@@ -117,28 +117,70 @@ function Donations() {
       const signer = await provider.getSigner();
       const montoWei = ethers.parseEther(amount.toString());
 
+      // ---------------------------------------------------------
+      // PASO 1: VERIFICAR SI YA EXISTE (GRATIS - SIN POPUP)
+      // ---------------------------------------------------------
+      let usuarioYaRegistrado = false;
+      
       try {
-        const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
-        const txRegistro = await contratoPersonas.registrarPersonaEsencial(cedula, nombre, apellido);
-        await txRegistro.wait();
-      } catch (error) { 
-        console.log("Usuario ya registrado o error menor en Civil. Continuando..."); 
+        // Usamos 'provider' (lectura) en vez de 'signer' para que no abra Metamask
+        const contratoPersonasLectura = new ethers.Contract(personasAddress, PersonasABI.abi, provider);
+        
+        // Intentamos obtener el ID. Si falla, es que no existe.
+        // (Tu contrato lanza 'revert' si no existe, así que usamos try/catch)
+        await contratoPersonasLectura.obtenerIdPorCi(cedula);
+        
+        usuarioYaRegistrado = true;
+        console.log("✅ El usuario ya existe. Saltando registro...");
+      } catch (e) {
+        usuarioYaRegistrado = false;
+        console.log("ℹ️ Usuario nuevo. Procediendo a registrar...");
       }
 
-      const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
-      const txDonacion = await contratoDonaciones.RegistrarDonantes(cedula, montoWei, { value: montoWei });
-      await txDonacion.wait();
+      // ---------------------------------------------------------
+      // PASO 2: REGISTRAR SOLO SI ES NUEVO (POPUP 1)
+      // ---------------------------------------------------------
+      if (!usuarioYaRegistrado) {
+        try {
+            const contratoPersonasEscritura = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
+            const txRegistro = await contratoPersonasEscritura.registrarPersonaEsencial(cedula, nombre, apellido);
+            
+            // Esperamos a que se confirme ANTES de lanzar la siguiente
+            await txRegistro.wait(); 
+        } catch (error) {
+            // Si el usuario rechaza aquí, cancelamos todo para que no pierda dinero en la siguiente
+            console.error("Registro cancelado o fallido");
+            setLoading(false);
+            return alert("Necesitas registrarte para poder donar.");
+        }
+      }
 
-      alert(`🎉 ¡Gracias ${nombre}! Has donado ${amount} ETH exitosamente.`);
-      setAmount(''); setDisplayAmount(''); setCedula(''); setNombre(''); setApellido('');
-      setRefreshTrigger(prev => prev + 1); 
+      // ---------------------------------------------------------
+      // PASO 3: DONACIÓN (POPUP 2 - O POPUP ÚNICO)
+      // ---------------------------------------------------------
+      try {
+          const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
+          const txDonacion = await contratoDonaciones.RegistrarDonantes(cedula, montoWei, { value: montoWei });
+          await txDonacion.wait();
+    
+          alert(`🎉 ¡Gracias ${nombre}! Has donado ${amount} ETH exitosamente.`);
+          
+          setAmount(''); setDisplayAmount(''); setCedula(''); setNombre(''); setApellido('');
+          setRefreshTrigger(prev => prev + 1);
+      } catch (error) {
+          if (error.code === 'ACTION_REJECTED') {
+              alert("Rechazaste la donación.");
+          } else {
+              throw error; // Lanzar al catch general
+          }
+      }
 
     } catch (error) { 
       console.error(error); 
       if (error.code === 'INSUFFICIENT_FUNDS') {
-          alert("Error: Fondos insuficientes para donación + gas.");
+          alert("Error: Fondos insuficientes.");
       } else {
-          alert("Hubo un error en la transacción. Revisa la consola.");
+          alert("Hubo un error en la transacción.");
       }
     } finally { 
       setLoading(false); 
