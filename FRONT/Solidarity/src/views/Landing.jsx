@@ -35,7 +35,7 @@ function Landing() {
 
         {/* --- HERO SECTION --- 
             h-screen: Ocupa toda la altura de la pantalla inicial. */}
-        <section className="flex-grow flex flex-col justify-center items-center text-center px-4 py-24 min-h-[80vh]">
+        <section className="grow flex flex-col justify-center items-center text-center px-4 py-24 min-h-[80vh]">
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-2xl tracking-tight">
             Un aporte, una vida feliz <span className="text-orange-500">🐾</span>
           </h1>
