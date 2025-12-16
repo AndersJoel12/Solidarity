@@ -14291,12 +14291,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x71006DB70f7C59738675847452F62D21ff5e7F53",
-      "transactionHash": "0x408a0ceaf04ac8394454bcc6e0643738319a0dc867e8f047aadda77fc0be3295"
+      "address": "0x66cf1f4C7485083fbA650eafD5bc78Dc648Cfd07",
+      "transactionHash": "0xed47f49694c3087b10361b599e1a14b17a256fad3a1156b3de3c6046b90c1c26"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-12-16T02:03:27.088Z",
+  "updatedAt": "2025-12-16T02:35:38.766Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
