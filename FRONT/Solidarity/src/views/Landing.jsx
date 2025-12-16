@@ -10,7 +10,7 @@ import '../components/Tailwind.css'
 
 function Landing() {
 
-    const [darkMode, setDarkMode] = React.useState(false);
+    const [darkMode, setDarkMode] = React.useState(true , false);
 
   const bgImage = "https://images.unsplash.com/photo-1558788353-f76d92427f16?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80";
 
@@ -100,7 +100,7 @@ function Landing() {
                                                         ${darkMode ? "text-gray-200 hover:text-orange-400" : "text-gray-700 hover:text-orange-500"}`}>
                                 Contacto
                             </a>
-          </nav>
+          </nav>s
 
           <button
 
@@ -173,11 +173,11 @@ function Landing() {
 
         id="features"
 
-        className="py-16 sm:py-24 px-4 sm:px-6 bg-black/50 backdrop-blur-sm border-t border-white/5 ">
+        className="py-16 sm:py-24 px-4 sm:px-6 bg-white/10 backdrop-blur-sm border-t border-white/5 ">
 
             {darkMode ? "" : ""}
 
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-6xl mx-auto"> 
 
             <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-10 sm:mb-16 text-center 
                                    ${darkMode ? "text-black-900" : "dark:text-black-100"}`}>
@@ -188,7 +188,7 @@ function Landing() {
 
            
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 text-center">
+            <div className="grid grid-cols-1 sm:white-cols-2 md:grid-cols-3 gap-8 sm:gap-10 text-center">
 
               <Feature
 
@@ -197,6 +197,7 @@ function Landing() {
                 desc="Salvamos mascotas abandonadas en las calles y les damos una segunda oportunidad de vida."
 
                 icon="🐶"
+                
 
                 darkMode={darkMode} // Pasamos la prop
 
@@ -264,7 +265,7 @@ function Landing() {
         Fondo condicional para modo claro/oscuro.*/}
 
         <section id="contact" className={`py-16 sm:py-20 px-4 sm:px-6 
-                                             ${darkMode ? "bg-black/80" : "bg-white shadow-inner"}`}>
+                                             ${darkMode ? "bg-black/80" : "bg-white/50 shadow-inner"}`}>
           <div className="max-w-5xl mx-auto flex flex-col items-center">
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-black-900 dark:text-black-100">
@@ -273,7 +274,7 @@ function Landing() {
 
             </h2>
 
-            <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-8 sm:mb-12">
+            <p className="text-sm sm:text-base md:text-lg text-black-400 mb-8 sm:mb-12">
 
               Selecciona un monto y ayúdanos a seguir salvando vidas.
 
