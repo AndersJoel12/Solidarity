@@ -47,7 +47,7 @@ function Landing() {
             <a href="#contact" className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-orange-500/50 transform hover:-translate-y-1">
               ¡Quiero Donar!
             </a>
-            <button className="px-8 py-4 bg-transparent hover:bg-white/10 border-2 border-white rounded-full font-bold text-lg transition-all backdrop-blur-sm">
+            <button className="px-8 py-4 bg-orange-600 hover:bg-white/10 border-2 border-white rounded-full font-bold text-lg transition-all backdrop-blur-sm">
               Saber más
             </button>
           </div>

@@ -2,20 +2,18 @@ const Personas = artifacts.require("Personas");
 const Donaciones = artifacts.require("Donaciones");
 
 module.exports = async function (deployer) {
-  // 1. Desplegamos el contrato del Profe (Registro Civil)
+  // 1. Primero desplegamos el contrato de Personas (Registro Civil)
   await deployer.deploy(Personas);
-  const personasContract = await Personas.deployed();
+  const personasInstance = await Personas.deployed();
 
-  // 2. Desplegamos tu contrato (Donaciones)
-  await deployer.deploy(Donaciones);
-  const donacionesContract = await Donaciones.deployed();
-
-  // 3. CONEXIÓN: Le decimos a tu contrato dónde está el del profe
-  await donacionesContract.setRegistroCivilAddress(personasContract.address);
-
+  // 2. Ahora desplegamos Donaciones y LE PASAMOS la dirección de Personas
+  // Esto llena el "constructor" que creamos en Solidity
+  await deployer.deploy(Donaciones, personasInstance.address);
+  
   console.log("------------------------------------------------");
-  console.log("✅ Contrato Personas (Profe) en: " + personasContract.address);
-  console.log("✅ Contrato Donaciones (Tuyo) en: " + donacionesContract.address);
-  console.log("🔗 Contratos conectados exitosamente.");
+  console.log("✅ Personas Address:", personasInstance.address);
+  // Nota: Truffle no siempre devuelve la instancia en el return del deploy, 
+  // pero la dirección se guarda en el build.
+  console.log("⚠️ REVISA LA CONSOLA AL TERMINAR PARA VER LA ADDRESS DE DONACIONES");
   console.log("------------------------------------------------");
-};
+}

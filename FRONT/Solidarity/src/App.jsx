@@ -3,6 +3,7 @@ import Landing from './views/Landing'
 import './App.css'
 import Donations from './components/Donations_panel'
 import DonationsList from './components/Donation_list'
+import Contrato from './ConexionSol'
 
 
 function App() {
@@ -10,6 +11,8 @@ function App() {
 
   return (
     <>
+    <Contrato/>
+    <br />
     <DonationsList />
     <br />
     <Landing/>

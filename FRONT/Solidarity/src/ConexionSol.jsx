@@ -4,8 +4,8 @@ import DonacionesABI from './contracts/Donaciones.json';
 import PersonasABI from './contracts/Personas.json'; // <--- IMPORTANTE: EL NUEVO JSON
 
 // ⚠️ PEGA AQUÍ LAS DIRECCIONES QUE TE DIO TRUFFLE MIGRATE
-const donacionesAddress = "0xa535795B26a2529A5fF2b87204fA8c410F509Fe0"; 
-const personasAddress = "0x83A6037870d3029E9a175A1D9EB775238fFA3dD5"; 
+const donacionesAddress = "0xb154c5629A02dc64F19971020645697C6bD28101"; 
+const personasAddress = "0x94bc4e3390FBAb46122967795F0d540ac9BCe61B"; 
 
 
 function Contrato() {

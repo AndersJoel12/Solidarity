@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-// Asegúrate de que tu archivo Tailwind se importe aquí si lo usas para otras cosas
-// import './Tailwind.css' 
+import '../components/Tailwind.css'
 
 // ------------------------------------------------------------------
 // 🔗 IMPORTACIÓN DE LOS CONTRATOS
@@ -9,14 +8,14 @@ import { ethers } from "ethers";
 import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
 
-// 📍 DIRECCIONES DE CONTRATOS
-const donacionesAddress = "0xa535795B26a2529A5fF2b87204fA8c410F509Fe0"; 
-const personasAddress = "0x83A6037870d3029E9a175A1D9EB775238fFA3dD5"; 
+// 📍 DIRECCIONES DE CONTRATOS (Asegúrate que sean las últimas de Ganache)
+const donacionesAddress = "0xD2071D8bB8af7E189e6383F592789052E3745A3c"; 
+const personasAddress = "0xC17d08f890C9D7e393F995DDFdD7f57f873770cF"; 
 
 // --- COLORES TEMA ---
 const THEME = {
     orange: '#F97316',
-    darkInput: '#374151', // Gris oscuro para inputs y botones inactivos
+    darkInput: '#374151', 
     textWhite: '#ffffff',
     textGray: '#9ca3af'
 };
@@ -35,6 +34,7 @@ const SmallEthIcon = () => (
 
 function Donations() {
   // --- ESTADOS ---
+  const [account, setAccount] = useState(null); // Nuevo: Para saber si está conectado
   const [cedula, setCedula] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -48,8 +48,28 @@ function Donations() {
 
   const presets = ["0.25", "0.55", "0.75", "1.00"];
 
+  // --- EFECTO PARA DETECTAR WALLET AL CARGAR ---
+  useEffect(() => {
+    if (window.ethereum) {
+        window.ethereum.request({ method: 'eth_accounts' })
+            .then(accounts => {
+                if (accounts.length > 0) setAccount(accounts[0]);
+            });
+    }
+  }, []);
+
+  // --- CONECTAR WALLET MANUALMENTE ---
+  const connectWallet = async () => {
+    if (window.ethereum) {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        setAccount(accounts[0]);
+    } else {
+        alert("Instala Metamask");
+    }
+  };
+
   // ------------------------------------------------------------------
-  // 🛡️ LÓGICA (Intacta)
+  // 🛡️ LÓGICA
   // ------------------------------------------------------------------
   const onChangeCedula = (e) => {
     const val = e.target.value;
@@ -75,26 +95,64 @@ function Donations() {
     setAmount(value); 
   };
 
+  // --- FUNCIÓN MAESTRA DE DONACIÓN (Lógica Corregida) ---
   const handleDonate = async () => {
+    // 1. Validaciones
     if (!cedula || !nombre || !apellido) return alert("Por favor completa tus datos personales.");
     if (cedula.length <= 6) return alert("La cédula debe tener más de 6 dígitos.");
     if (parseInt(cedula) > 35000000) return alert("La cédula no puede exceder los 35 Millones.");
     if (!amount) return alert("Por favor selecciona un monto.");
+    if (!account) { await connectWallet(); } // Si no está conectado, conecta primero
 
     try {
-      if (!window.ethereum) return alert("¡Instala Metamask!");
       setLoading(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
+
+      // 2. Preparar el dinero (Wei)
+      const montoWei = ethers.parseEther(amount.toString());
+
+      // 3. Registrar en CIVIL (Contrato Profe)
       try {
         const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
-        await (await contratoPersonas.registrarPersonaEsencial(cedula, nombre, apellido)).wait();
-      } catch (error) { console.log("Continuando..."); }
+        // Intentamos registrar. Si falla, asumimos que ya existe y seguimos.
+        const txRegistro = await contratoPersonas.registrarPersonaEsencial(cedula, nombre, apellido);
+        await txRegistro.wait();
+      } catch (error) { 
+        console.log("Nota: Usuario ya registrado en Civil o error menor. Continuando a donación..."); 
+      }
+
+      // 4. Realizar DONACIÓN (Tu Contrato)
       const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
-      await (await contratoDonaciones.RegistrarDonantes(cedula, ethers.parseEther(amount.toString()))).wait();
+      
+      // ✅ CRUCIAL: Aquí enviamos el dinero real ({ value: montoWei })
+      // Si no pones esto, el contrato revierte porque piensa que donas 0 ETH.
+      const txDonacion = await contratoDonaciones.RegistrarDonantes(
+    cedula, 
+    montoWei, 
+    { 
+        value: montoWei, 
+        gasLimit: 500000 // <--- ESTO OBLIGA A LA TRANSACCIÓN A ENTRAR SÍ O SÍ
+    }
+  );
+      
+      await txDonacion.wait();
+
       alert(`🎉 ¡Gracias ${nombre}! Has donado ${amount} ETH exitosamente.`);
       setAmount(''); setDisplayAmount(''); setCedula(''); setNombre(''); setApellido('');
-    } catch (error) { console.error(error); alert("Hubo un error en la transacción."); } finally { setLoading(false); }
+      
+    } catch (error) { 
+      console.error(error); 
+      if (error.code === 'INSUFFICIENT_FUNDS') {
+          alert("Fondos insuficientes en tu billetera para pagar la donación + gas.");
+      } else if (error.reason && error.reason.includes("revert")) {
+          alert("El contrato rechazó la operación. Verifica que la cédula sea correcta.");
+      } else {
+          alert("Ocurrió un error. Revisa la consola (F12).");
+      }
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   const handleSearch = async () => {
@@ -105,6 +163,7 @@ function Donations() {
         if (!window.ethereum) return alert("Necesitas Metamask.");
         const provider = new ethers.BrowserProvider(window.ethereum);
         const input = searchInput.trim();
+        
         if (ethers.isAddress(input)) {
             const code = await provider.getCode(input);
             const balanceEth = ethers.formatEther(await provider.getBalance(input));
@@ -118,17 +177,35 @@ function Donations() {
             const res = await contratoDonaciones.obtenerPersonaPorCI(input);
             setSearchResult({ type: 'person', nombre: res[0], apellido: res[1], monto: ethers.formatEther(res[3]) });
         }
-    } catch (error) { console.error(error); alert("No se encontraron resultados."); setSearchResult(null); } finally { setSearchLoading(false); }
+    } catch (error) { 
+        console.error(error); 
+        alert("No se encontraron resultados."); 
+        setSearchResult(null); 
+    } finally { 
+        setSearchLoading(false); 
+    }
   };
 
   // ------------------------------------------------------------------
-  // 🎨 RENDERIZADO CON ESTILOS FORZADOS
+  // 🎨 RENDERIZADO (Estilos Preservados)
   // ------------------------------------------------------------------
   return (
     <div className="flex flex-col gap-8 w-full max-w-[480px] mx-auto">
       
+      {/* HEADER DE ESTADO DE CUENTA */}
+      <div className="flex justify-end">
+          {account ? (
+              <span className="text-xs font-mono py-1 px-3 rounded-full bg-green-500/20 text-green-400 border border-green-500/50">
+                  🟢 Conectado: {account.slice(0,6)}...{account.slice(-4)}
+              </span>
+          ) : (
+              <button onClick={connectWallet} className="text-xs font-bold py-1 px-3 rounded-full bg-orange-500 text-white hover:bg-orange-600">
+                  🦊 Conectar Wallet
+              </button>
+          )}
+      </div>
+
       {/* TARJETA 1 */}
-      {/* Usamos style inline para asegurar el fondo oscuro */}
       <div className="rounded-2xl p-8 shadow-2xl border border-gray-700" style={{ backgroundColor: '#1f2937' }}>
         <h2 className="text-2xl font-extrabold text-white mb-2 text-center">Donar con PetSolidarity</h2>
         <p className="text-gray-400 text-sm text-center mb-8">Tu apoyo impulsa la diferencia en la Blockchain</p>
@@ -136,12 +213,11 @@ function Donations() {
         <div className="mb-6">
             <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: THEME.orange }}>Tus Datos Personales</p>
             <div className="flex flex-col gap-4">
-                {/* Inputs con estilos forzados */}
                 {[{pl: "Cédula de Identidad", val: cedula, fn: onChangeCedula}, {pl: "Nombres", val: nombre, fn: (e)=>onChangeSoloLetras(e, setNombre)}, {pl: "Apellidos", val: apellido, fn: (e)=>onChangeSoloLetras(e, setApellido)}].map((item, i) => (
                     <div key={i} className="relative">
                         <input type="text" placeholder={item.pl} value={item.val} onChange={item.fn} 
                             className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none transition-colors placeholder-gray-500"
-                            style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} // FORZADO
+                            style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
                         />
                         <span className="text-red-500 text-[10px] font-bold mt-1 block uppercase">* campo obligatorio</span>
                     </div>
@@ -152,11 +228,9 @@ function Donations() {
         <div className="mb-6">
             <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: THEME.orange }}>Selecciona un Monto</p>
             
-            {/* BOTONES PRESETS - CORRECCIÓN PRINCIPAL */}
             <div className="grid grid-cols-2 gap-3 mb-4">
                 {presets.map((preset) => {
                     const isSelected = amount === preset;
-                    // Definimos los estilos exactos aquí para que no fallen
                     const btnStyle = isSelected 
                         ? { backgroundColor: 'rgba(249, 115, 22, 0.15)', borderColor: THEME.orange, color: THEME.orange } 
                         : { backgroundColor: THEME.darkInput, borderColor: 'transparent', color: THEME.textGray };
@@ -164,7 +238,7 @@ function Donations() {
                     return (
                         <button key={preset} onClick={() => handlePresetClick(preset)} 
                             className="flex justify-center items-center py-3 px-2 rounded-lg border font-bold text-sm transition-all hover:opacity-80"
-                            style={btnStyle} // APLICAMOS EL ESTILO FORZADO
+                            style={btnStyle}
                         >
                             {preset} ETH <SmallEthIcon />
                         </button>
@@ -175,16 +249,15 @@ function Donations() {
             <div className="relative">
                 <input type="number" placeholder={placeholderText} onFocus={() => setPlaceholderText('')} onBlur={() => setPlaceholderText('Otra cantidad')} value={displayAmount} onChange={handleInputChange} 
                     className="w-full p-3.5 rounded-lg border border-transparent text-center font-bold focus:outline-none placeholder-gray-500"
-                    style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} // FORZADO
+                    style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
                 />
                 <span className="absolute right-4 top-1/2 transform -translate-y-1/2 font-bold text-sm" style={{ color: THEME.orange }}>ETH</span>
             </div>
         </div>
 
-        {/* BOTON DONAR PRINCIPAL - CORRECCIÓN */}
         <button onClick={handleDonate} disabled={loading}
             className="w-full py-4 rounded-lg font-extrabold text-lg shadow-lg transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
-            style={{ backgroundColor: THEME.orange, color: THEME.textWhite }} // FORZADO NARANJA
+            style={{ backgroundColor: THEME.orange, color: THEME.textWhite }}
         >
             {loading ? "PROCESANDO..." : "DONAR AHORA"}
         </button>
@@ -196,19 +269,18 @@ function Donations() {
           <p className="text-gray-400 text-sm mb-5">Busca por Cédula, Dirección o Contrato</p>
           <input type="text" placeholder="Buscar (Cédula o Address)" value={searchInput} onChange={onChangeBuscador} 
               className="w-full p-3 mb-3 rounded-lg border border-transparent focus:outline-none placeholder-gray-500 text-sm"
-              style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} // FORZADO
+              style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
           />
-          {/* BOTON BUSCAR PRINCIPAL - CORRECCIÓN */}
           <button onClick={handleSearch} disabled={searchLoading}
             className="w-full py-3 rounded-lg font-bold transition-colors text-sm hover:opacity-90"
-            style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite, border: `1px solid ${THEME.textGray}` }} // FORZADO OSCURO
+            style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite, border: `1px solid ${THEME.textGray}` }} 
           >
             {searchLoading ? "ANALIZANDO..." : "BUSCAR INFORMACIÓN"}
           </button>
 
           {searchResult && (
               <div className="mt-5 p-4 bg-black/40 rounded-lg border text-left animate-pulse" style={{ borderColor: THEME.orange }}>
-                   {searchResult.type === 'person' ? (
+                    {searchResult.type === 'person' ? (
                     <>
                         <p className="text-[10px] uppercase font-bold" style={{ color: THEME.textGray }}>Donante</p>
                         <h3 className="text-lg font-bold" style={{ color: THEME.textWhite }}>{searchResult.nombre} {searchResult.apellido}</h3>

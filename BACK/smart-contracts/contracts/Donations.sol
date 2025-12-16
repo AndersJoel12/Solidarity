@@ -1,30 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// --- INTERFAZ (Igual que antes) ---
 interface IPersonas {
-    struct Persona {
-        string nombres;
-        string apellidos;
-        string cedula;
-        // ... (resto de campos ignorados para ahorrar espacio visual, pero existen)
-    }
     function obtenerIdPorCi(string memory _ci) external view returns (uint256);
-    function obtenerDatosPersona(uint256 _id) external view returns (Persona memory);
+    function obtenerNombresApellidos(string memory _cedula) external view returns (string memory, string memory);
 }
 
 contract Donaciones {
 
-    // 1. OPTIMIZACIÓN: Quitamos Nombres y Apellidos.
-    // Solo guardamos lo esencial. La cédula es el enlace (Link) al otro contrato.
     struct Donacion {
         string Cedula;
-        uint256 Monto; // Cambié Monto_Donacion a Monto (más limpio)
+        uint256 Monto; 
     }
 
-    // 2. NUEVO: Evento.
-    // Esto es lo que React escuchará. Aquí SI podemos mandar el nombre
-    // porque los logs son baratos, pero no se guardan en el "disco duro" del contrato.
     event NuevaDonacion(
         string indexed cedula, 
         string nombres, 
@@ -34,32 +22,48 @@ contract Donaciones {
 
     uint256 private nextId = 1;
     uint256 public totalRecaudado;
-    address public registroCivilAddress;
+    address public registroCivilAddress; // Dirección del otro contrato
 
     mapping(uint256 => Donacion) private donaciones;
     mapping(string => uint256) private ci2Donacion;
 
+    // 1. CONSTRUCTOR: Se ejecuta una sola vez al desplegar.
+    // Recibe la dirección del contrato de Personas para conectarse automáticamente.
+    constructor(address _registroCivilAddress) {
+        registroCivilAddress = _registroCivilAddress;
+    }
+
+    // Función extra por si necesitas cambiar la dirección en el futuro
     function setRegistroCivilAddress(address _address) public {
         registroCivilAddress = _address;
     }
 
-    // Usamos 'calldata' en vez de 'memory' para ahorrar gas en los argumentos
-    function RegistrarDonantes(string calldata _cedula, uint256 _montoDonacion) public {
+    // 2. PAYABLE: ¡La palabra clave que faltaba!
+    // Ahora esta función acepta dinero real (ETH).
+    function RegistrarDonantes(string calldata _cedula, uint256 _montoDonacion) public payable {
         
+        // Validaciones lógicas
         require(ci2Donacion[_cedula] == 0, "Esta cedula ya dono anteriormente");
         require(registroCivilAddress != address(0), "Contrato Registro Civil no conectado");
         require(_montoDonacion > 0, "La donacion debe ser mayor a 0");
 
-        // A. Validar existencia en el otro contrato
-        uint256 idPersonaEnRegistro = IPersonas(registroCivilAddress).obtenerIdPorCi(_cedula);
+        // 3. SEGURIDAD FINANCIERA:
+        // Verificamos que los ETH enviados (msg.value) sean IGUALES al monto que dices donar.
+        require(msg.value == _montoDonacion, "El monto enviado no coincide con el valor en ETH");
+
+        // PASO A: Validamos existencia en el otro contrato
+        IPersonas registroCivil = IPersonas(registroCivilAddress);
         
-        // SEGURIDAD: Si el contrato del profe devuelve 0 cuando no existe, hay que validarlo.
+        // Si la cédula no existe, el otro contrato podría fallar o devolver 0.
+        // Es bueno envolver esto en un try/catch o asegurar que la llamada sea segura,
+        // pero por ahora confiamos en la lógica básica.
+        uint256 idPersonaEnRegistro = registroCivil.obtenerIdPorCi(_cedula);
         require(idPersonaEnRegistro != 0, "La cedula no existe en el Registro Civil");
 
-        // B. Solo traemos los datos para emitirlos en el evento, NO para guardarlos.
-        IPersonas.Persona memory datosPersona = IPersonas(registroCivilAddress).obtenerDatosPersona(idPersonaEnRegistro);
+        // PASO B: Obtenemos Nombres y Apellidos
+        (string memory nombre, string memory apellido) = registroCivil.obtenerNombresApellidos(_cedula);
 
-        // C. Guardamos solo lo esencial
+        // PASO C: Guardar Donación en la Blockchain
         uint256 id = nextId;
         ci2Donacion[_cedula] = id;
 
@@ -71,20 +75,21 @@ contract Donaciones {
         totalRecaudado += _montoDonacion; 
         nextId++;
 
-        // D. EMITIMOS EL EVENTO
-        // Aquí es donde React se entera de quién donó.
-        emit NuevaDonacion(
-            _cedula, 
-            datosPersona.nombres, 
-            datosPersona.apellidos, 
-            _montoDonacion
-        );
+        // PASO D: Emitir Evento
+        emit NuevaDonacion(_cedula, nombre, apellido, _montoDonacion);
     }
 
-    // Función de lectura simplificada
-    function obtenerDonacionPorCI(string memory _cedula) public view returns (Donacion memory) {
+    // Función auxiliar para ver los datos desde React
+    function obtenerPersonaPorCI(string memory _cedula) public view returns (string memory Nombres, string memory Apellidos, uint256 Monto_Donacion) {
         uint256 id = ci2Donacion[_cedula];
-        require(id != 0, unicode"No se encontró donación para esta cédula");
-        return donaciones[id];
+        require(id != 0, "No se encontro donacion");
+        
+        Donacion memory d = donaciones[id];
+        
+        // Volvemos a consultar los nombres al registro para mostrarlos frescos
+        IPersonas registroCivil = IPersonas(registroCivilAddress);
+        (string memory nom, string memory ape) = registroCivil.obtenerNombresApellidos(_cedula);
+        
+        return (nom, ape, d.Monto);
     }
 }
