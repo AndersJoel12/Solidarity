@@ -9,8 +9,8 @@ import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
 
 // 📍 DIRECCIONES DE CONTRATOS (Asegúrate que sean las últimas de Ganache)
-const donacionesAddress = "0x1Af31Ee53B8401CB18C6e336d014C275665b6B21"; 
-const personasAddress = "0x165E6bB39Cb45D027D246307BA93Fe266803670e"; 
+const donacionesAddress = "0xA3B3b349f584E03172c8b4cf97c9cE87689Ebf03"; 
+const personasAddress = "0x71006DB70f7C59738675847452F62D21ff5e7F53"; 
 
 // --- COLORES TEMA ---
 const THEME = {
