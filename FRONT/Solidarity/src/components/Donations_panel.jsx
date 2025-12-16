@@ -9,8 +9,8 @@ import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
 
 // 📍 DIRECCIONES DE CONTRATOS (Asegúrate que sean las últimas de Ganache)
-const donacionesAddress = "0xA3B3b349f584E03172c8b4cf97c9cE87689Ebf03"; 
-const personasAddress = "0x71006DB70f7C59738675847452F62D21ff5e7F53"; 
+const donacionesAddress = "0x1Af31Ee53B8401CB18C6e336d014C275665b6B21"; 
+const personasAddress = "0x165E6bB39Cb45D027D246307BA93Fe266803670e"; 
 
 // --- COLORES TEMA ---
 const THEME = {
@@ -155,7 +155,7 @@ function Donations() {
     }
   };
 
-  const handleSearch = async () => {
+const handleSearch = async () => {
     if (!searchInput) return alert("Ingresa una cédula o dirección para buscar.");
     setSearchLoading(true);
     setSearchResult(null);
@@ -164,6 +164,7 @@ function Donations() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const input = searchInput.trim();
         
+        // A. SI ES UNA DIRECCIÓN DE WALLET (0x...)
         if (ethers.isAddress(input)) {
             const code = await provider.getCode(input);
             const balanceEth = ethers.formatEther(await provider.getBalance(input));
@@ -172,14 +173,38 @@ function Donations() {
             } else { 
                 setSearchResult({ type: 'contract', address: input, isOfficial: input.toLowerCase() === donacionesAddress.toLowerCase(), balance: balanceEth });
             }
-        } else { 
+        } 
+        // B. SI ES UNA CÉDULA (Buscar Persona y sus Transacciones)
+        else { 
             const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, provider);
+            
+            // 1. Obtenemos datos actuales (Total acumulado)
+            // Nota: En el contrato devolvemos (Nombre, Apellido, Monto). Son indices 0, 1, 2.
             const res = await contratoDonaciones.obtenerPersonaPorCI(input);
-            setSearchResult({ type: 'person', nombre: res[0], apellido: res[1], monto: ethers.formatEther(res[3]) });
+            
+            // 2. MAGIA: Buscamos el historial de eventos pasados
+            // Filtramos el evento "NuevaDonacion" donde la cédula sea igual al input
+            const filtro = contratoDonaciones.filters.NuevaDonacion(input);
+            const eventos = await contratoDonaciones.queryFilter(filtro);
+
+            // 3. Formateamos la lista de transacciones
+            const historial = eventos.map(evt => ({
+                hash: evt.transactionHash,
+                bloque: evt.blockNumber,
+                monto: ethers.formatEther(evt.args[3]) // El monto es el 4to argumento del evento
+            })).reverse(); // Invertimos para ver la más reciente primero
+
+            setSearchResult({ 
+                type: 'person', 
+                nombre: res[0], 
+                apellido: res[1], 
+                monto: ethers.formatEther(res[2]), // Corregido índice a 2
+                historial: historial // <--- Guardamos la lista aquí
+            });
         }
     } catch (error) { 
         console.error(error); 
-        alert("No se encontraron resultados."); 
+        alert("No se encontraron resultados o la cédula no existe."); 
         setSearchResult(null); 
     } finally { 
         setSearchLoading(false); 
@@ -280,16 +305,42 @@ function Donations() {
 
           {searchResult && (
               <div className="mt-5 p-4 bg-black/40 rounded-lg border text-left animate-pulse" style={{ borderColor: THEME.orange }}>
+                    
+                    {/* CASO: PERSONA */}
                     {searchResult.type === 'person' ? (
                     <>
-                        <p className="text-[10px] uppercase font-bold" style={{ color: THEME.textGray }}>Donante</p>
+                        <p className="text-[10px] uppercase font-bold" style={{ color: THEME.textGray }}>Donante Registrado</p>
                         <h3 className="text-lg font-bold" style={{ color: THEME.textWhite }}>{searchResult.nombre} {searchResult.apellido}</h3>
+                        
                         <div className="border-t border-gray-600 mt-2 pt-2 flex justify-between">
-                            <span className="text-sm" style={{ color: THEME.textGray }}>Donado:</span> 
+                            <span className="text-sm" style={{ color: THEME.textGray }}>Total Donado:</span> 
                             <span className="font-bold" style={{ color: THEME.orange }}>{searchResult.monto} ETH</span>
+                        </div>
+
+                        {/* --- LISTA DE TRANSACCIONES --- */}
+                        <div className="mt-4">
+                            <p className="text-xs font-bold mb-2" style={{ color: THEME.textGray }}>HISTORIAL DE TRANSACCIONES:</p>
+                            <div className="max-h-32 overflow-y-auto pr-1 custom-scrollbar">
+                                {searchResult.historial && searchResult.historial.length > 0 ? (
+                                    searchResult.historial.map((tx, index) => (
+                                        <div key={index} className="flex justify-between items-center bg-white/5 p-2 rounded mb-2 text-xs">
+                                            <div className="flex flex-col">
+                                                <span className="text-orange-500 font-mono">{tx.monto} ETH</span>
+                                                <span className="text-[10px] text-gray-500">Bloque: {tx.bloque}</span>
+                                            </div>
+                                            <a href="#" className="text-gray-400 hover:text-white truncate w-24 text-right" title={tx.hash}>
+                                                {tx.hash.substring(0, 6)}...{tx.hash.substring(tx.hash.length - 4)} 🔗
+                                            </a>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-xs text-gray-500">Sin transacciones registradas.</p>
+                                )}
+                            </div>
                         </div>
                     </>
                   ) : (
+                      // CASO: WALLET O CONTRATO (Este queda igual)
                       <>
                         <p className="text-[10px] uppercase font-bold" style={{ color: THEME.textGray }}>{searchResult.type === 'contract' ? 'Contrato' : 'Wallet'}</p>
                         <p className="text-xs truncate mb-2" style={{ color: THEME.textWhite }}>{searchResult.address}</p>
