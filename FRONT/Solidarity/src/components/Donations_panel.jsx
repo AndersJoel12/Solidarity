@@ -6,7 +6,7 @@ import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
 import DonationsList from "./Donation_list"; 
 
-// 📍 DIRECCIONES (Tus direcciones actuales)
+// 📍 DIRECCIONES
 const donacionesAddress = "0x5B20E78a3f6C8FbA7F38CdF5ad7562604C3DCb0f"; 
 const personasAddress = "0xeeabaF2a2e2AC925735b0B98935A8868e8151a4c"; 
 
@@ -30,14 +30,21 @@ const SmallEthIcon = () => (
 
 function Donations() {
   const [account, setAccount] = useState(null);
+  
+  // Estados de Formulario
   const [cedula, setCedula] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [amount, setAmount] = useState('');
   const [displayAmount, setDisplayAmount] = useState('');
+  
   const [loading, setLoading] = useState(false);
   const [placeholderText, setPlaceholderText] = useState('Otra cantidad');
   
+  // NUEVO: Estado para controlar la pestaña activa ('registro' o 'donar')
+  const [activeTab, setActiveTab] = useState('registro');
+
+  // Estados de Búsqueda
   const [searchInput, setSearchInput] = useState('');
   const [searchResult, setSearchResult] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -87,55 +94,92 @@ function Donations() {
     setAmount(value); 
   };
 
-  const handleDonate = async () => {
-    if (!cedula || !nombre || !apellido) return alert("Por favor completa tus datos personales.");
-    if (cedula.length <= 6) return alert("La cédula debe tener más de 6 dígitos.");
-    if (parseInt(cedula) > 35000000) return alert("La cédula no puede exceder los 35 Millones.");
-    if (!amount) return alert("Por favor selecciona un monto.");
+  // ---------------------------------------------------------
+  // 1. FUNCIÓN SOLO PARA REGISTRAR (Pestaña 1)
+  // ---------------------------------------------------------
+  const handleSoloRegistro = async () => {
+    if (!cedula || !nombre || !apellido) return alert("Faltan datos para el registro.");
+    if (cedula.length <= 6) return alert("Cédula inválida (mínimo 6 dígitos).");
     if (!account) { await connectWallet(); }
 
     try {
-      setLoading(true);
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const montoWei = ethers.parseEther(amount.toString());
+        setLoading(true);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
 
-      let usuarioYaExiste = false;
-      try {
+        // Verificamos primero si ya existe para no gastar gas en error
         const contratoPersonasLectura = new ethers.Contract(personasAddress, PersonasABI.abi, provider);
-        const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
-        if (id > 0) usuarioYaExiste = true;
-      } catch (e) { console.log("Usuario nuevo."); }
-
-      if (!usuarioYaExiste) {
         try {
-            const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
-            const txRegistro = await contratoPersonas.registrarPersonaEsencial(cedula, nombre, apellido);
-            await txRegistro.wait(); 
-        } catch (error) {
-            console.error("Error en registro:", error);
-            setLoading(false);
-            return alert("Error o rechazo en el registro civil.");
-        }
-      }
+            const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
+            if (id > 0) {
+                setLoading(false);
+                return alert("⚠️ Esta cédula ya está registrada. Ve a la pestaña 'DONAR'.");
+            }
+        } catch (e) { /* Si falla es que no existe, continuamos */ }
 
-      const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
-      const txDonacion = await contratoDonaciones.RegistrarDonantes(cedula, montoWei, { value: montoWei });
-      await txDonacion.wait();
+        // Procedemos a Registrar
+        const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
+        const tx = await contratoPersonas.registrarPersonaEsencial(cedula, nombre, apellido);
+        await tx.wait();
 
-      alert(`🎉 ¡Gracias ${nombre}! Has donado ${amount} ETH exitosamente.`);
-      setAmount(''); setDisplayAmount(''); setCedula(''); setNombre(''); setApellido('');
-      setRefreshTrigger(prev => prev + 1); 
+        alert(`✅ ¡Registro exitoso! Ahora ${nombre} puede donar.`);
+        setNombre(''); setApellido(''); setCedula(''); // Limpiamos campos
+        setActiveTab('donar'); // Lo mandamos a donar automáticamente
 
-    } catch (error) { 
-      console.error(error); 
-      if (error.code === 'INSUFFICIENT_FUNDS') alert("Error: Fondos insuficientes.");
-      else alert("Hubo un error en la transacción.");
-    } finally { 
-      setLoading(false); 
+    } catch (error) {
+        console.error(error);
+        alert("Error al registrar. Revisa la consola.");
+    } finally {
+        setLoading(false);
     }
   };
 
+  // ---------------------------------------------------------
+  // 2. FUNCIÓN SOLO PARA DONAR (Pestaña 2)
+  // ---------------------------------------------------------
+  const handleSoloDonacion = async () => {
+    if (!cedula) return alert("Ingresa la cédula del donante.");
+    if (!amount) return alert("Selecciona un monto.");
+    if (!account) { await connectWallet(); }
+
+    try {
+        setLoading(true);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const montoWei = ethers.parseEther(amount.toString());
+
+        // Verificar que la cédula exista en el Civil antes de enviar dinero
+        const contratoPersonasLectura = new ethers.Contract(personasAddress, PersonasABI.abi, provider);
+        try {
+            const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
+            if (id == 0) throw new Error("No existe");
+        } catch (e) {
+            setLoading(false);
+            return alert("⛔ Error: Esta cédula NO está registrada. Ve a la pestaña 'REGISTRO' primero.");
+        }
+
+        // Procedemos a Donar
+        const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
+        const tx = await contratoDonaciones.RegistrarDonantes(cedula, montoWei, { value: montoWei });
+        await tx.wait();
+
+        alert(`🎉 ¡Donación de ${amount} ETH recibida con éxito!`);
+        
+        setAmount(''); setDisplayAmount(''); setCedula('');
+        setRefreshTrigger(prev => prev + 1); // Actualiza la lista
+
+    } catch (error) {
+        console.error(error);
+        if (error.code === 'INSUFFICIENT_FUNDS') alert("Error: Fondos insuficientes.");
+        else alert("Hubo un error en la transacción.");
+    } finally {
+        setLoading(false);
+    }
+  };
+
+  // ---------------------------------------------------------
+  // BÚSQUEDA (Sin cambios, tal cual lo pediste)
+  // ---------------------------------------------------------
   const handleSearch = async () => {
     if (!searchInput) return alert("Ingresa una cédula o dirección para buscar.");
     setSearchLoading(true);
@@ -156,11 +200,8 @@ function Donations() {
         } 
         else { 
             const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, provider);
-            
-            // 1. Datos básicos
             const res = await contratoDonaciones.obtenerPersonaPorCI(input);
             
-            // 2. Historial avanzado
             const filter = contratoDonaciones.filters.NuevaDonacion(); 
             const currentBlock = await provider.getBlockNumber();
             const startBlock = Math.max(0, currentBlock - 5000);
@@ -173,7 +214,7 @@ function Donations() {
                     hash: evt.transactionHash,
                     fecha: new Date(Number(evt.args[5]) * 1000).toLocaleDateString(), 
                     monto: ethers.formatEther(evt.args[4]),
-                    wallet: evt.args[0] // ✅ AQUI CAPTURAMOS LA WALLET
+                    wallet: evt.args[0]
                 };
             }));
 
@@ -197,7 +238,7 @@ function Donations() {
   return (
     <div className="flex flex-col gap-8 w-full max-w-[480px] mx-auto pb-10">
       
-      {/* HEADER */}
+      {/* HEADER WALLET */}
       <div className="flex justify-end">
           {account ? (
               <span className="text-xs font-mono py-1 px-3 rounded-full bg-green-500/20 text-green-400 border border-green-500/50 flex items-center gap-2">
@@ -211,64 +252,115 @@ function Donations() {
           )}
       </div>
 
-      {/* DONAR */}
-      <div className="rounded-2xl p-8 shadow-2xl border border-gray-700 relative overflow-hidden" style={{ backgroundColor: '#1f2937' }}>
-        <h2 className="text-2xl font-extrabold text-white mb-2 text-center">Donar con PetSolidarity</h2>
-        <p className="text-gray-400 text-sm text-center mb-8">Tu apoyo impulsa la diferencia en la Blockchain</p>
+      {/* --- TARJETA PRINCIPAL (CON TABS) --- */}
+      <div className="rounded-2xl shadow-2xl border border-gray-700 relative overflow-hidden" style={{ backgroundColor: '#1f2937' }}>
+        
+        {/* PESTAÑAS DE NAVEGACIÓN */}
+        <div className="flex border-b border-gray-700">
+            <button 
+                onClick={() => setActiveTab('registro')}
+                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${
+                    activeTab === 'registro' ? 'bg-orange-500 text-white' : 'bg-transparent text-gray-500 hover:text-white hover:bg-white/5'
+                }`}
+            >
+                📝 Registro
+            </button>
+            <button 
+                onClick={() => setActiveTab('donar')}
+                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${
+                    activeTab === 'donar' ? 'bg-orange-500 text-white' : 'bg-transparent text-gray-500 hover:text-white hover:bg-white/5'
+                }`}
+            >
+                💰 Donar
+            </button>
+        </div>
 
-        <div className="mb-6">
-            <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: THEME.orange }}>Tus Datos Personales</p>
-            <div className="flex flex-col gap-4">
-                {[{pl: "Cédula de Identidad", val: cedula, fn: onChangeCedula}, {pl: "Nombres", val: nombre, fn: (e)=>onChangeSoloLetras(e, setNombre)}, {pl: "Apellidos", val: apellido, fn: (e)=>onChangeSoloLetras(e, setApellido)}].map((item, i) => (
-                    <div key={i} className="relative group">
-                        <input type="text" placeholder={item.pl} value={item.val} onChange={item.fn} 
-                            className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none transition-all placeholder-gray-500 focus:ring-2 focus:ring-orange-500/50"
+        <div className="p-8">
+            
+            {/* --- SECCIÓN 1: REGISTRO --- */}
+            {activeTab === 'registro' && (
+                <div className="animate-in fade-in slide-in-from-left-4 duration-300">
+                    <h2 className="text-xl font-extrabold text-white mb-2 text-center">¡Registrate!</h2>
+                    <p className="text-gray-400 text-xs text-center mb-6">Paso 1: Registra tus datos en la Blockchain</p>
+
+                    <div className="flex flex-col gap-4 mb-6">
+                        <div className="relative group">
+                            <input type="text" placeholder="Cédula de Identidad" value={cedula} onChange={onChangeCedula} 
+                                className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                                style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
+                            />
+                        </div>
+                        <div className="relative group">
+                            <input type="text" placeholder="Nombres" value={nombre} onChange={(e)=>onChangeSoloLetras(e, setNombre)} 
+                                className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                                style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
+                            />
+                        </div>
+                        <div className="relative group">
+                            <input type="text" placeholder="Apellidos" value={apellido} onChange={(e)=>onChangeSoloLetras(e, setApellido)} 
+                                className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                                style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
+                            />
+                        </div>
+                    </div>
+
+                    <button onClick={handleSoloRegistro} disabled={loading}
+                        className="w-full py-4 rounded-lg font-extrabold text-lg shadow-lg hover:bg-orange-600 transition-all active:scale-95 disabled:opacity-50"
+                        style={{ backgroundColor: THEME.orange, color: THEME.textWhite }}
+                    >
+                        {loading ? "REGISTRANDO..." : "GUARDAR DATOS"}
+                    </button>
+                </div>
+            )}
+
+            {/* --- SECCIÓN 2: DONAR --- */}
+            {activeTab === 'donar' && (
+                <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                    <h2 className="text-xl font-extrabold text-white mb-2 text-center">Realizar Donación</h2>
+                    <p className="text-gray-400 text-xs text-center mb-6">Paso 2: Alimenta a un cachorro (Requiere registro previo)</p>
+
+                    <div className="mb-6">
+                        <input type="text" placeholder="Cédula del Donante" value={cedula} onChange={onChangeCedula} 
+                            className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50 mb-4"
                             style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
                         />
-                        <span className="text-red-500 text-[10px] font-bold mt-1 block uppercase opacity-70 group-hover:opacity-100 transition-opacity">* campo obligatorio</span>
+                        
+                        <div className="grid grid-cols-2 gap-3 mb-4">
+                            {presets.map((preset) => {
+                                const isSelected = amount === preset;
+                                return (
+                                    <button key={preset} onClick={() => handlePresetClick(preset)} 
+                                        className="flex justify-center items-center py-3 px-2 rounded-lg border font-bold text-sm transition-all hover:scale-105"
+                                        style={isSelected ? { backgroundColor: 'rgba(249, 115, 22, 0.15)', borderColor: THEME.orange, color: THEME.orange } : { backgroundColor: THEME.darkInput, borderColor: 'transparent', color: THEME.textGray }}
+                                    >
+                                        {preset} ETH <SmallEthIcon />
+                                    </button>
+                                )
+                            })}
+                        </div>
+
+                        <div className="relative">
+                            <input type="number" placeholder={placeholderText} onFocus={() => setPlaceholderText('')} onBlur={() => setPlaceholderText('Otra cantidad')} value={displayAmount} onChange={handleInputChange} 
+                                className="w-full p-3.5 rounded-lg border border-transparent text-center font-bold focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                                style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
+                            />
+                            <span className="absolute right-4 top-1/2 transform -translate-y-1/2 font-bold text-sm" style={{ color: THEME.orange }}>ETH</span>
+                        </div>
                     </div>
-                ))}
-            </div>
+
+                    <button onClick={handleSoloDonacion} disabled={loading}
+                        className="w-full py-4 rounded-lg font-extrabold text-lg shadow-lg hover:bg-orange-600 transition-all active:scale-95 disabled:opacity-50"
+                        style={{ backgroundColor: THEME.orange, color: THEME.textWhite }}
+                    >
+                        {loading ? "PROCESANDO..." : "DONAR AHORA"}
+                    </button>
+                </div>
+            )}
+
         </div>
-
-        <div className="mb-6">
-            <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: THEME.orange }}>Selecciona un Monto</p>
-            <div className="grid grid-cols-2 gap-3 mb-4">
-                {presets.map((preset) => {
-                    const isSelected = amount === preset;
-                    const btnStyle = isSelected 
-                        ? { backgroundColor: 'rgba(249, 115, 22, 0.15)', borderColor: THEME.orange, color: THEME.orange } 
-                        : { backgroundColor: THEME.darkInput, borderColor: 'transparent', color: THEME.textGray };
-
-                    return (
-                        <button key={preset} onClick={() => handlePresetClick(preset)} 
-                            className="flex justify-center items-center py-3 px-2 rounded-lg border font-bold text-sm transition-all hover:scale-105 active:scale-95"
-                            style={btnStyle}
-                        >
-                            {preset} ETH <SmallEthIcon />
-                        </button>
-                    )
-                })}
-            </div>
-
-            <div className="relative">
-                <input type="number" placeholder={placeholderText} onFocus={() => setPlaceholderText('')} onBlur={() => setPlaceholderText('Otra cantidad')} value={displayAmount} onChange={handleInputChange} 
-                    className="w-full p-3.5 rounded-lg border border-transparent text-center font-bold focus:outline-none placeholder-gray-500 focus:ring-2 focus:ring-orange-500/50"
-                    style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
-                />
-                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 font-bold text-sm" style={{ color: THEME.orange }}>ETH</span>
-            </div>
-        </div>
-
-        <button onClick={handleDonate} disabled={loading}
-            className="w-full py-4 rounded-lg font-extrabold text-lg shadow-lg transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-600 hover:shadow-orange-500/30"
-            style={{ backgroundColor: THEME.orange, color: THEME.textWhite }}
-        >
-            {loading ? "PROCESANDO..." : "DONAR AHORA"}
-        </button>
       </div>
 
-      {/* BUSCADOR */}
+      {/* TARJETA EXPLORADOR (IGUAL QUE ANTES) */}
       <div className="rounded-2xl p-8 shadow-2xl border border-gray-700 text-center" style={{ backgroundColor: '#1f2937' }}>
           <h2 className="text-xl font-bold text-white mb-2 flex justify-center items-center gap-2">🔍 Explorador Blockchain</h2>
           <div className="flex gap-2 mb-4">
@@ -303,10 +395,9 @@ function Donations() {
                             <div className="max-h-32 overflow-y-auto pr-1 custom-scrollbar space-y-2">
                                 {searchResult.historial.map((tx, idx) => (
                                     <div key={idx} className="flex justify-between items-center bg-white/5 p-2 rounded hover:bg-white/10 transition">
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col text-left">
                                             <span className="text-orange-400 font-mono text-xs font-bold">+{tx.monto} ETH</span>
                                             <span className="text-[10px] text-gray-500">{tx.fecha}</span>
-                                            {/* ✅ AQUI MOSTRAMOS LA WALLET */}
                                             {tx.wallet && (
                                                 <span className="text-[9px] text-gray-400 font-mono">
                                                     De: {tx.wallet.substring(0, 6)}...{tx.wallet.substring(38)}
