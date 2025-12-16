@@ -11,7 +11,7 @@ function Landing() {
     // bg-fixed: ESTO hace que el perro NO se mueva cuando bajas con el scroll.
     // bg-cover: Cubre toda la pantalla.
     <div 
-      className="min-h-screen font-sans text-white bg-cover bg-center bg-fixed bg-no-repeat w-full"
+      className="min-h-screen font-sans text-white bg-cover bg-center bg-no-repeat w-full"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       
@@ -24,7 +24,7 @@ function Landing() {
             backdrop-blur-md: Efecto de vidrio borroso.
             z-50: Asegura que esté siempre encima de todo. */}
         <header className="sticky top-0 z-50 flex justify-between items-center px-8 py-4 bg-black/40 backdrop-blur-md border-b border-white/10 shadow-lg">
-          <div className="font-extrabold text-2xl tracking-wider text-orange-500 cursor-pointer">
+          <div className="font-extrabold text-2xl tracking-wider text-orange-300 cursor-pointer">
             PetSolidarity
           </div>
           <nav className="flex gap-8">
@@ -37,14 +37,14 @@ function Landing() {
             h-screen: Ocupa toda la altura de la pantalla inicial. */}
         <section className="grow flex flex-col justify-center items-center text-center px-4 py-24 min-h-[80vh]">
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-2xl tracking-tight">
-            Un aporte, una vida feliz <span className="text-orange-500">🐾</span>
+            Un aporte, una vida feliz <span className="text-orange-600">🐾</span>
           </h1>
           <p className="text-xl md:text-2xl mb-10 max-w-3xl font-light text-gray-100 leading-relaxed drop-shadow-md">
             Tu apoyo transforma la realidad de perritos y gatitos en necesidad. 
             Ayuda transparente, directa y segura.
           </p>
           <div className="flex gap-6">
-            <a href="#contact" className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-orange-500/50 transform hover:-translate-y-1">
+            <a href="#contact" className="px-8 py-4 bg-orange-300 hover:bg-orange-700 text-white rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-orange-500/50 transform hover:-translate-y-1">
               ¡Quiero Donar!
             </a>
             <button className="px-8 py-4 bg-orange-600 hover:bg-white/10 border-2 border-white rounded-full font-bold text-lg transition-all backdrop-blur-sm">
@@ -57,7 +57,7 @@ function Landing() {
         <section id="features" className="py-24 px-6 bg-black/50 backdrop-blur-sm border-t border-white/5">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold mb-16 text-center text-white">
-              <span className="border-b-4 border-orange-500 pb-2">Lo que hacemos</span>
+              <span className="border-b-4 border-orange-300 pb-2">QUE HACEMOS</span>
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
@@ -83,7 +83,7 @@ function Landing() {
         {/* --- ABOUT --- */}
         <section id="about" className="py-24 px-6 bg-[#111827]/90">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-8 text-orange-400">Sobre PetSolidarity</h2>
+            <h2 className="text-3xl font-bold mb-8 text-orange-300">Sobre PetSolidarity</h2>
             <p className="text-xl leading-relaxed text-gray-300 font-light">
               Somos una comunidad dedicada a rescatar, cuidar y dar en adopción a mascotas
               que necesitan amor. Usamos la tecnología Blockchain para garantizar que tu ayuda
