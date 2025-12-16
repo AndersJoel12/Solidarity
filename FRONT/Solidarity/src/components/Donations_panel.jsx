@@ -9,9 +9,10 @@ import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
 import DonationsList from "../components/Donation_list"; 
 
-// 📍 DIRECCIONES DE CONTRATOS
-const donacionesAddress = "0xC79e869A44340e5015941c2E3dd5D44357F118b0"; 
-const personasAddress = "0xbdB2aCCfb8F60867D870ffFB1d97E2fE3A69EF75"; 
+// 📍 DIRECCIONES DE CONTRATOS (¡ACTUALÍZALAS AQUÍ!)
+const donacionesAddress = "0x8795D27C354D970666578155AA240df5e9f8eEfB"; 
+const personasAddress = "0x42c3a1119c7f08eC09e5b2f5547496a3351C9c6b"; 
+
 
 // --- COLORES TEMA ---
 const THEME = {
