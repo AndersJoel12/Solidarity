@@ -7,9 +7,9 @@ import '../components/Tailwind.css'
 // ------------------------------------------------------------------
 import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
-import DonationsList from "../components/Donation_list"; // <--- Tu lista de historial global
+import DonationsList from "../components/Donation_list"; 
 
-// 📍 DIRECCIONES DE CONTRATOS (¡ACTUALÍZALAS AQUÍ!)
+// 📍 DIRECCIONES DE CONTRATOS
 const donacionesAddress = "0xC79e869A44340e5015941c2E3dd5D44357F118b0"; 
 const personasAddress = "0xbdB2aCCfb8F60867D870ffFB1d97E2fE3A69EF75"; 
 
@@ -116,30 +116,21 @@ function Donations() {
       const signer = await provider.getSigner();
       const montoWei = ethers.parseEther(amount.toString());
 
-      // 1. Registro Civil (Intento silencioso)
       try {
         const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
-        // Si la persona ya existe, esto podría fallar o no hacer nada, lo controlamos.
-        // Nota: Si tu contrato Personas no tiene chequeo de duplicados, gastará gas extra.
-        // Pero como es local, está bien.
         const txRegistro = await contratoPersonas.registrarPersonaEsencial(cedula, nombre, apellido);
         await txRegistro.wait();
       } catch (error) { 
         console.log("Usuario ya registrado o error menor en Civil. Continuando..."); 
       }
 
-      // 2. Donación (Con dinero real)
       const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
-      
-      // Enviamos el dinero con { value: montoWei }
       const txDonacion = await contratoDonaciones.RegistrarDonantes(cedula, montoWei, { value: montoWei });
       await txDonacion.wait();
 
       alert(`🎉 ¡Gracias ${nombre}! Has donado ${amount} ETH exitosamente.`);
-      
-      // Limpieza
       setAmount(''); setDisplayAmount(''); setCedula(''); setNombre(''); setApellido('');
-      setRefreshTrigger(prev => prev + 1); // Actualiza la lista de abajo
+      setRefreshTrigger(prev => prev + 1); 
 
     } catch (error) { 
       console.error(error); 
@@ -154,7 +145,7 @@ function Donations() {
   };
 
   // ------------------------------------------------------------------
-  // 🔍 LÓGICA DE BÚSQUEDA (Con Historial Individual)
+  // 🔍 LÓGICA DE BÚSQUEDA
   // ------------------------------------------------------------------
   const handleSearch = async () => {
     if (!searchInput) return alert("Ingresa una cédula o dirección para buscar.");
@@ -165,7 +156,6 @@ function Donations() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const input = searchInput.trim();
         
-        // A. SI ES WALLET
         if (ethers.isAddress(input)) {
             const code = await provider.getCode(input);
             const balanceEth = ethers.formatEther(await provider.getBalance(input));
@@ -175,14 +165,9 @@ function Donations() {
                 setSearchResult({ type: 'contract', address: input, isOfficial: input.toLowerCase() === donacionesAddress.toLowerCase(), balance: balanceEth });
             }
         } 
-        // B. SI ES CÉDULA
         else { 
             const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, provider);
-            
-            // Datos actuales (Última donación registrada como referencia)
             const res = await contratoDonaciones.obtenerPersonaPorCI(input);
-            
-            // Historial completo de eventos
             const filtro = contratoDonaciones.filters.NuevaDonacion(input);
             const eventos = await contratoDonaciones.queryFilter(filtro);
 
@@ -191,7 +176,7 @@ function Donations() {
                 return {
                     hash: evt.transactionHash,
                     fecha: bl ? new Date(bl.timestamp * 1000).toLocaleDateString() : "-",
-                    monto: ethers.formatEther(evt.args[3]) // Índice 3 es el monto
+                    monto: ethers.formatEther(evt.args[3]) 
                 };
             }));
 
@@ -226,7 +211,12 @@ function Donations() {
                   {account.slice(0,6)}...{account.slice(-4)}
               </span>
           ) : (
-              <button onClick={connectWallet} className="text-xs font-bold py-1 px-3 rounded-full bg-orange-500 text-white hover:bg-orange-600 transition shadow-lg hover:shadow-orange-500/50">
+              // 🟢 AQUÍ ESTÁ EL CAMBIO: Forzamos el color con STYLE para que no falle en modo claro
+              <button 
+                onClick={connectWallet} 
+                className="text-xs font-bold py-1 px-3 rounded-full transition shadow-lg hover:shadow-orange-500/50 hover:opacity-90"
+                style={{ backgroundColor: THEME.orange, color: THEME.textWhite }}
+              >
                   🦊 Conectar Wallet
               </button>
           )}
@@ -234,7 +224,6 @@ function Donations() {
 
       {/* --- TARJETA 1: FORMULARIO --- */}
       <div className="rounded-2xl p-8 shadow-2xl border border-gray-700 relative overflow-hidden" style={{ backgroundColor: '#1f2937' }}>
-        {/* Efecto de brillo sutil */}
         <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-orange-500 to-transparent opacity-50"></div>
         
         <h2 className="text-2xl font-extrabold text-white mb-2 text-center">Donar con PetSolidarity</h2>
@@ -287,7 +276,7 @@ function Donations() {
         </div>
 
         <button onClick={handleDonate} disabled={loading}
-            className="w-full py-4 rounded-lg font-extrabold text-lg shadow-lg transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-600 hover:shadow-orange-500/30"
+            className="w-full py-4 rounded-lg font-extrabold text-lg shadow-lg transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-orange-500/30"
             style={{ backgroundColor: THEME.orange, color: THEME.textWhite }}
         >
             {loading ? "PROCESANDO..." : "DONAR AHORA"}
@@ -305,14 +294,13 @@ function Donations() {
                 style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
             />
             <button onClick={handleSearch} disabled={searchLoading}
-                className="px-4 rounded-lg font-bold transition-colors text-xl hover:bg-gray-600"
+                className="px-4 rounded-lg font-bold transition-colors text-xl"
                 style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite, border: `1px solid ${THEME.textGray}` }} 
             >
                 {searchLoading ? "⏳" : "🔎"}
             </button>
           </div>
 
-          {/* RESULTADOS DE BÚSQUEDA */}
           {searchResult && (
               <div className="mt-5 p-4 bg-black/40 rounded-lg border text-left animate-in fade-in slide-in-from-bottom-2 duration-300" style={{ borderColor: THEME.orange }}>
                     {searchResult.type === 'person' ? (
@@ -328,7 +316,6 @@ function Donations() {
                             </div>
                         </div>
 
-                        {/* Historial Individual */}
                         <div className="mt-4 border-t border-gray-700 pt-3">
                             <p className="text-xs font-bold mb-2 text-gray-400">HISTORIAL DE APORTES:</p>
                             <div className="max-h-32 overflow-y-auto pr-1 custom-scrollbar space-y-2">
@@ -365,8 +352,6 @@ function Donations() {
           )}
       </div>
 
-      {/* --- COMPONENTE: LISTA DE HISTORIAL GLOBAL --- */}
-      {/* Pasamos 'key' con refreshTrigger para forzar recarga al donar */}
       <DonationsList key={refreshTrigger} contractAddress={donacionesAddress} />
 
     </div>
