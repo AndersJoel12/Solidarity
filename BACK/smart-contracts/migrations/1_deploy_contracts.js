@@ -6,7 +6,8 @@ module.exports = async function (deployer, network, accounts) {
   // accounts[0] = Tu cuenta (Deployer)
   // accounts[1] = Digamos que esta será la CUENTA DE LA FUNDACIÓN (Beneficiaria)
   
-  const cuentaFundacion = accounts[1]; 
+  /* const cuentaFundacion = accounts[1]; */
+  const cuentaFundacion = "0x2A813eb9957734b3d0Ae483436C312dB636FECD5"
   // O puedes poner una dirección fija si quieres: const cuentaFundacion = "0x123...";
 
   // 1. Desplegamos Personas
