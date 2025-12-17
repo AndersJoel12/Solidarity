@@ -8,7 +8,7 @@ import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
 import DonationsList from "./Donation_list"; 
 
-import { DONACIONES_ADDRESS, PERSONAS_ADDRESS, THEME } from '../config';
+import { DONACIONES_ADDRESS, PERSONAS_ADDRESS } from '../config';
 
 // 📍 DIRECCIONES (Confirma que sean las últimas que te dio la terminal)
 const donacionesAddress = DONACIONES_ADDRESS; 
