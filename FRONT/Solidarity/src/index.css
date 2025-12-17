@@ -1,6 +1,6 @@
 :root {
   
-  background-image: url("/FRONT/Solidarity/src/assets/media/Fondo.jpeg");
+  background-image: url("'../assets/media/Fondo.jpeg'");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -51,7 +51,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-image: url("/FRONT/Solidarity/src/assets/media/Fondo.jpeg");
+    background-image: url("'../assets/media/Fondo.jpeg'");
   }
   a:hover {
     color: #747bff;

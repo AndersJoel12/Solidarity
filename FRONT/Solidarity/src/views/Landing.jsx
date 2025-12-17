@@ -305,27 +305,123 @@ function Landing() {
    
             {/* Ubicación */}
             <p className="text-lg font-black text-gray-800 dark:text-white">
-                Nebraska, Estados Unidos
+                Baruta
             </p>
             <p className="text-sm text-gray-700 dark:text-gray-300">
-                Bosque Nacional de Nebraska
+                Colinas de Bello Monte
             </p>
 
-            {/* Árboles */}
-             <div className="bg-green-600 px-3 py-1 rounded-full mt-3 inline-block">
-             <p className="text-white font-bold text-sm uppercase">40.000 árboles</p>
+            {/* Adopcion */}
+             <div className="bg-orange-600 px-3 py-1 rounded-full mt-3 inline-block">
+             <p className="text-white font-bold text-sm uppercase">Adopción</p>
             </div>
 
             {/* Descripción */}
             <p className="mt-4 text-gray-700 dark:text-gray-300 text-justify">
-                El accidentado paisaje del Distrito Pine Ridge del Bosque Nacional de Nebraska es un deleite en medio de las llanuras centrales. 
-                Sin embargo, incendios forestales catastróficos azotaron este Bosque Nacional en 2006 y de nuevo en 2012, arrasando gran parte 
-                de las reservas de pino ponderosa de la zona. Se necesita una reforestación agresiva para restablecer esta especie arbórea en 
-                las zonas de quema de alta intensidad, incapaces de regeneración natural.
+                Adoptamos a 'Luna' hace dos meses gracias a ustedes y ha cambiado nuestras 
+                vidas por completo. El proceso fue muy seguro y organizado. 
+                Gracias por la labor tan noble que hacen en PetSolidarity
             </p>
         </div>
     </div>
-  
+
+    <div className="flex justify-end">
+                <div className="w-full sm:w-1/2 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
+                {/* Ubicación */}
+            <p className="text-lg font-black text-gray-800 dark:text-white">
+                California
+            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+                Av. La Haya
+            </p>
+
+            {/* Adopcion */}
+             <div className="bg-orange-600 px-3 py-1 rounded-full mt-3 inline-block">
+             <p className="text-white font-bold text-sm uppercase">Donación</p>
+            </div>
+
+            {/* Descripción */}
+            <p className="mt-4 text-gray-700 dark:text-gray-300 text-justify">
+                Gracias a pet solidarity puedo saber con transferencia A qué cuenta van mis 
+                fondos y hacia dónde se dirigen teniendo de manera clara hacia dónde se destina 
+                mi dinero
+            </p>
+        </div>
+    </div>
+
+    <div className="flex flex-col w-full lg:w-1/2 px-0 lg:px-2">
+                <div className="relative bg-white dark:bg-gray-900 rounded-lg p-6 mt-6 shadow-lg">
+                    {/* Ubicación */}
+            <p className="text-lg font-black text-gray-800 dark:text-white">
+                Las Mercedes
+            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+                Calle La California
+            </p>
+
+            {/* Adopcion */}
+             <div className="bg-orange-600 px-3 py-1 rounded-full mt-3 inline-block">
+             <p className="text-white font-bold text-sm uppercase">Adopción</p>
+            </div>
+
+            {/* Descripción */}
+            <p className="mt-4 text-gray-700 dark:text-gray-300 text-justify">
+                No conocía pet solidarity pero fui a una jornada de adopción y pude ver 
+                cómo tenían bien cuidado a las mascotas tanto perros Como gatos ese mismo 
+                día adopté un gato y se llama Tom y desde que lo tengo todos 
+                los días han sido una aventura
+            </p>
+        </div>
+    </div>
+
+    <div className="flex justify-end">
+                <div className="w-full sm:w-1/2 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
+                {/* Ubicación */}
+            <p className="text-lg font-black text-gray-800 dark:text-white">
+                La Guaira
+            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+                Maiquetia
+            </p>
+
+            {/* Adopcion */}
+             <div className="bg-orange-600 px-3 py-1 rounded-full mt-3 inline-block">
+             <p className="text-white font-bold text-sm uppercase">Donación</p>
+            </div>
+
+            {/* Descripción */}
+            <p className="mt-4 text-gray-700 dark:text-gray-300 text-justify">
+                Pet solidarity ha cambiado mi forma de ver las donaciones desde hace 
+                tiempo dono a la caridad pero jamás había visto tanta 
+                transparencia en sus cuentas
+            </p>
+        </div>
+    </div>
+
+     <div className="flex flex-col w-full lg:w-1/2 px-0 lg:px-2">
+                <div className="relative bg-white dark:bg-gray-900 rounded-lg p-6 mt-6 shadow-lg">
+                    {/* Ubicación */}
+            <p className="text-lg font-black text-gray-800 dark:text-white">
+                Agua Salud
+            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+                El Manicomio
+            </p>
+
+            {/* Adopcion */}
+             <div className="bg-orange-600 px-3 py-1 rounded-full mt-3 inline-block">
+             <p className="text-white font-bold text-sm uppercase">Donación</p>
+            </div>
+
+            {/* Descripción */}
+            <p className="mt-4 text-gray-700 dark:text-gray-300 text-justify">
+                Esta fue mi primera vez donando con ethereum fue una experiencia 
+                gratificante ver cómo mi donación subía al top de las más grandes 
+                donaciones pero mucho más gratificante es saber que ese dinero se 
+                utilizará para crear centro de cuidado para mascotas
+            </p>
+        </div>
+    </div>
         </section>
         
         {/* --- FOOTER --- */}
