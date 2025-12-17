@@ -1,5 +1,7 @@
 import React from "react";
 
+import Donation_total from "../components/Donation_total";
+
 import Fondo from '../assets/media/Fondo.jpeg'
 
 import UIJO from '../assets/media/LogoIUJO.jpeg'
@@ -185,12 +187,8 @@ function Landing() {
                 </h1>
 
                 <div className="text-center mb-12">
-                <h2
-                    id="totalTrees"
-                    data-count="24939238"
-                    className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-600 dark:text-gray-200"
-                >
-                     24,939,238
+                <h2>
+                  <Donation_total/>
                 </h2>
         </div>
 

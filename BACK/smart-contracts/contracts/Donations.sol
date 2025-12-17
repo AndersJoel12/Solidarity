@@ -8,16 +8,12 @@ interface IPersonas {
 
 contract Donaciones {
 
-    // Estructura de datos
     struct Donacion {
         string Cedula;
         uint256 Monto; 
-        uint256 Fecha; // Agregamos fecha para registro interno
+        uint256 Fecha; 
     }
 
-    // EVENTO OPTIMIZADO PARA TU FRONTEND
-    // 1. 'address donante': Para mostrar la wallet (0x...)
-    // 2. 'string cedula': SIN 'indexed' para que React lo lea como texto plano
     event NuevaDonacion(
         address donante,
         string cedula, 
@@ -30,29 +26,28 @@ contract Donaciones {
     uint256 private nextId = 1;
     uint256 public totalRecaudado;
     
-    // Variables de dirección
-    address public owner; // El dueño del contrato
+    address public owner; 
     address public registroCivilAddress; 
     address payable public cuentaBeneficiaria; 
 
-    // Mappings
     mapping(uint256 => Donacion) private donaciones;
     mapping(string => uint256) private ci2Donacion;
 
-    // MODIFIER: Solo el dueño puede ejecutar esto
     modifier onlyOwner() {
-        require(msg.sender == owner, "No tienes permisos (Solo Admin)");
+        require(msg.sender == owner, "Solo Admin");
         _;
     }
 
+    // CHECK: Validamos que las direcciones no sean 0x000...
     constructor(address _registroCivilAddress, address payable _cuentaBeneficiaria) {
-        owner = msg.sender; // Tú eres el dueño al desplegar
+        require(_registroCivilAddress != address(0), "Direccion Registro Civil invalida");
+        require(_cuentaBeneficiaria != address(0), "Direccion Beneficiaria invalida");
+        
+        owner = msg.sender; 
         registroCivilAddress = _registroCivilAddress;
         cuentaBeneficiaria = _cuentaBeneficiaria;
     }
 
-    // --- FUNCIONES ADMINISTRATIVAS PROTEGIDAS ---
-    
     function setRegistroCivilAddress(address _address) public onlyOwner {
         registroCivilAddress = _address;
     }
@@ -62,28 +57,25 @@ contract Donaciones {
         cuentaBeneficiaria = _nuevaCuenta;
     }
 
-    // --- LÓGICA PRINCIPAL ---
-
     function RegistrarDonantes(string calldata _cedula, uint256 _montoDonacion) public payable {
         
-        // 1. CHECKS
-        require(registroCivilAddress != address(0), "Contrato Registro Civil no conectado");
-        require(_montoDonacion > 0, "La donacion debe ser mayor a 0");
-        
-        // Validación estricta del dinero enviado
-        require(msg.value == _montoDonacion, "El monto enviado no coincide con el valor en ETH");
+        // 1. Validaciones
+        require(_montoDonacion > 0, "Monto debe ser mayor a 0");
+        require(msg.value == _montoDonacion, "El ETH enviado no coincide con el monto declarado");
 
-        // Verificamos existencia en el otro contrato
+        // Conexión con el otro contrato (IPersonas)
         IPersonas registroCivil = IPersonas(registroCivilAddress);
+        
+        // Verificamos si existe (si devuelve 0, es que no existe)
         uint256 idPersonaEnRegistro = registroCivil.obtenerIdPorCi(_cedula);
-        require(idPersonaEnRegistro != 0, "La cedula no existe en el Registro Civil");
+        require(idPersonaEnRegistro != 0, "Cedula no registrada en el sistema civil");
 
-        // Obtenemos nombres para el evento
+        // Obtenemos datos para el evento
         (string memory nombre, string memory apellido) = registroCivil.obtenerNombresApellidos(_cedula);
 
-        // 2. EFFECTS
+        // 2. Guardar datos
         uint256 id = nextId;
-        ci2Donacion[_cedula] = id; // Actualizamos a la última donación
+        ci2Donacion[_cedula] = id; // OJO: Esto recuerda solo la última donación de esta CI
 
         donaciones[id] = Donacion({
             Cedula: _cedula,
@@ -94,17 +86,18 @@ contract Donaciones {
         totalRecaudado += _montoDonacion; 
         nextId++;
 
-        // 3. INTERACTIONS (Enviar dinero a la fundación)
+        // 3. Transferencia de fondos (Interacción externa al final para evitar ataques de reentrada)
         (bool success, ) = cuentaBeneficiaria.call{value: msg.value}("");
-        require(success, "Fallo el envio de ETH a la fundacion");
+        require(success, "Error enviando ETH a la fundacion");
 
-        // 4. EMITIR EVENTO (Con Wallet y Fecha)
+        // 4. Notificar al Frontend (React escuchará esto)
         emit NuevaDonacion(msg.sender, _cedula, nombre, apellido, _montoDonacion, block.timestamp);
     }
 
-    function obtenerPersonaPorCI(string memory _cedula) public view returns (string memory Nombres, string memory Apellidos, uint256 Monto_Donacion) {
+    // Función de lectura para el Frontend
+    function obtenerUltimaDonacionPorCI(string memory _cedula) public view returns (string memory Nombres, string memory Apellidos, uint256 Monto_Donacion) {
         uint256 id = ci2Donacion[_cedula];
-        require(id != 0, "No se encontro ninguna donacion para esta cedula");
+        require(id != 0, "No hay donaciones registradas para esta cedula");
         
         Donacion memory d = donaciones[id];
         IPersonas registroCivil = IPersonas(registroCivilAddress);

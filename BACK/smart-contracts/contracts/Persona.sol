@@ -14,41 +14,29 @@ contract Personas {
         string estadoCivil; 
         string direccion; 
         string telefono; 
-        string profesion; 
+        string profesion;
+        bool estaRegistrada; // Un "flag" para saber si el ID existe rápido
     }
 
     uint256 private nextId = 1;
+    address public owner; // Variable para seguridad
+
     mapping(uint256 => Persona) private personas;
     mapping(string => uint256) private ciAIdPersona;
 
-    // --- REGISTRO BÁSICO (Usado por el Profe) ---
-    function registrarPersonaEsencial(
-        string memory _cedula,
-        string memory _nombres,
-        string memory _apellidos
-    ) public {
-        require(ciAIdPersona[_cedula] == 0, "CI ya registrada");
-        
-        uint256 id = nextId++;
-        ciAIdPersona[_cedula] = id;
-        
-        personas[id] = Persona({
-            nombres: _nombres,
-            apellidos: _apellidos,
-            cedula: _cedula,
-            genero: Genero.Otro,
-            fechaNacimiento: 0,
-            lugarNacimiento: "",
-            estadoCivil: "",
-            direccion: "",
-            telefono: "",
-            profesion: ""
-        });
+    // MODIFIER: Solo el admin puede registrar gente
+    modifier onlyOwner() {
+        require(msg.sender == owner, "No tienes permisos de Admin");
+        _;
     }
 
-    // --- REGISTRO COMPLETO ---
-    function registrarPersona(
-        uint256 _id,
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // --- REGISTRO UNIFICADO ---
+    // Hemos eliminado el parametro '_id' manual. El contrato lo calcula.
+    function registrarOActualizarPersona(
         string memory _nombres,
         string memory _apellidos,
         string memory _cedula,
@@ -59,14 +47,20 @@ contract Personas {
         string memory _direccion,
         string memory _telefono,
         string memory _profesion
-    ) public {
-        require(_id < nextId, "ID no valido");
-        // Verificamos que la CI no esté tomada por otro ID diferente
-        if (ciAIdPersona[_cedula] != 0) {
-            require(ciAIdPersona[_cedula] == _id, "CI duplicada");
+    ) public onlyOwner {
+        
+        // Verificamos si la cedula ya tiene un ID asociado
+        uint256 idToUse = ciAIdPersona[_cedula];
+
+        // Si el ID es 0, significa que es una persona NUEVA
+        if (idToUse == 0) {
+            idToUse = nextId;
+            nextId++;
+            ciAIdPersona[_cedula] = idToUse;
         }
 
-        personas[_id] = Persona({
+        // Guardamos o Actualizamos los datos
+        personas[idToUse] = Persona({
             nombres: _nombres,
             apellidos: _apellidos,
             cedula: _cedula,
@@ -76,37 +70,31 @@ contract Personas {
             estadoCivil: _estadoCivil,
             direccion: _direccion,
             telefono: _telefono,
-            profesion: _profesion
+            profesion: _profesion,
+            estaRegistrada: true
         });
-        
-        // Actualizamos el mapeo inverso por si cambió la cédula
-        ciAIdPersona[_cedula] = _id;
     }
 
+    // Funciones de Lectura (Estas no gastan Gas al llamarlas desde el Frontend)
+
     function obtenerIdPorCi(string memory _ci) public view returns (uint256) {
-        require(ciAIdPersona[_ci] != 0, "CI no registrada");
         return ciAIdPersona[_ci];
     }
 
-    // --- OPTIMIZACIÓN: Búsqueda directa sin bucles ---
+    function obtenerNombresApellidos(string memory _cedula) public view returns (string memory, string memory) {
+        uint256 id = ciAIdPersona[_cedula];
+        // En Solidity moderno, devolver strings vacios es mejor que fallar con error en algunos casos,
+        // pero para tu logica actual, el require está bien.
+        require(id != 0, "Persona no encontrada en Registro Civil");
+        
+        Persona memory p = personas[id];
+        return (p.nombres, p.apellidos);
+    }
+
+    // Helper para obtener todo el objeto en React
     function obtenerPersonaPorCI(string memory _cedula) public view returns (Persona memory) {
         uint256 id = ciAIdPersona[_cedula];
         require(id != 0, "Persona no encontrada");
         return personas[id];
-    }
-
-    function obtenerDatosPersona(uint256 _id) public view returns (Persona memory) {
-        require(_id < nextId && bytes(personas[_id].cedula).length > 0, "Persona no registrada");
-        return personas[_id];
-    }
-
-    // --- LA FUNCIÓN NUEVA QUE NECESITA DONACIONES ---
-    // Esta es la que faltaba para que funcione la conexión
-    function obtenerNombresApellidos(string memory _cedula) public view returns (string memory, string memory) {
-        uint256 id = ciAIdPersona[_cedula];
-        require(id != 0, "Persona no encontrada en Civil");
-        
-        Persona memory p = personas[id];
-        return (p.nombres, p.apellidos);
     }
 }

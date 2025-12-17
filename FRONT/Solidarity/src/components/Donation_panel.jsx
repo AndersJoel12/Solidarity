@@ -8,8 +8,8 @@ import PersonasABI from '../contracts/Personas.json';
 import DonationsList from "./Donation_list"; 
 
 // 📍 DIRECCIONES
-const donacionesAddress = "0x5B20E78a3f6C8FbA7F38CdF5ad7562604C3DCb0f"; 
-const personasAddress = "0xeeabaF2a2e2AC925735b0B98935A8868e8151a4c"; 
+const donacionesAddress = "0x582B79E4BeD4593c39030402C17f5205122D3681"; 
+const personasAddress = "0x3c1e1f405b6fB5a818ef89Afd77e7211Fbc66686"; 
 
 const THEME = {
     orange: '#F97316',
@@ -106,7 +106,7 @@ function Donations() {
     } else {
         MySwal.fire({
             icon: 'warning',
-            title: '¡Epa chamo!',
+            title: '¡Epa!',
             text: 'Necesitas instalar MetaMask para usar esta dApp.',
             footer: '<a href="https://metamask.io/" target="_blank" class="text-orange-500 hover:underline">Descargar aquí</a>'
         });
