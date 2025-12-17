@@ -100,13 +100,13 @@ function Landing() {
 
           <nav className="hidden sm:flex gap-6 md:gap-8">
 
-           <a href="#about" className={`font-medium transition duration-300 text-sm uppercase tracking-wide 
+           <a href="#about" className={`text-shadow text-lg font-bold text-orange-500 transition duration-300  uppercase tracking-wide 
                                                         ${darkMode ? "text-gray-200 hover:text-orange-400" : "text-gray-700 hover:text-orange-500"}`}>
                                 Sobre Nosotros
                             </a>
 
-            <a href="#contact" className={`font-medium transition duration-300 text-sm uppercase tracking-wide 
-                                                        ${darkMode ? "text-gray-200 hover:text-orange-400" : "text-gray-700 hover:text-orange-500"}`}>
+            <a href="#contact" className={`text-shadow text-lg font-bold text-orange-500 transition duration-300  uppercase tracking-wide 
+                                                        ${darkMode ?    "text-gray-200 hover:text-orange-400" : "text-gray-700 hover:text-orange-500"}`}>
                                 Contacto
                             </a>
           </nav>
