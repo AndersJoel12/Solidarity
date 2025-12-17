@@ -329,7 +329,7 @@ function Landing() {
                 <div className="w-full sm:w-1/2 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
                 {/* Ubicación */}
             <p className="text-lg font-black text-gray-800 dark:text-white">
-                California
+                La California
             </p>
             <p className="text-sm text-gray-700 dark:text-gray-300">
                 Av. La Haya
