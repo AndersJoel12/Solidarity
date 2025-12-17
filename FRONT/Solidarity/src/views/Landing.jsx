@@ -16,6 +16,8 @@ import Donation_total from "../components/Donation_total";
 
 import Donation_goal from "../components/Donation_goal";
 
+import EthToUsdBadge from "../components/ethtousdbadge";
+
 import '../components/Tailwind.css'
 
 function Landing() {
@@ -300,7 +302,7 @@ function Landing() {
             <div className="w-full flex justify-center">
                 
                <Donations />
-                
+              
             </div>
 
           </div>
