@@ -1,5 +1,9 @@
 import React from "react";
 
+import Fondo from '../assets/media/Fondo.jpeg'
+
+import UIJO from '../assets/media/LogoIUJO.jpeg'
+
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 import { FaDog, FaCat, FaHandHoldingHeart } from "react-icons/fa";
@@ -8,7 +12,7 @@ import { MdPets } from "react-icons/md";
 
 import { GiTreehouse } from "react-icons/gi";
 
-import Donations from "../components/Donations_panel";
+import Donations from "../components/Donation_panel";
 
 import '../components/Tailwind.css'
 
@@ -89,10 +93,15 @@ function Landing() {
                                             
                                         }`}>
 
-          <div className="font-extrabold text-xl sm:text-2xl text-orange-500 dark:text-orange-600">
-
-            PetSolidarity
-
+                    <div className="flex items-center gap-3">
+              <img 
+                src={UIJO} 
+                alt="Logo IUJO" 
+                className="h-10 w-auto sm:h-12 rounded-full shadow-md border-2 border-orange-500" 
+              />
+              <div className="font-extrabold text-xl sm:text-2xl text-orange-500 flex items-center gap-2">
+                PetSolidarity <MdPets />
+              </div>
           </div>
 
           <nav className="hidden sm:flex gap-6 md:gap-8">
