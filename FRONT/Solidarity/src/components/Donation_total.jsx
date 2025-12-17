@@ -1,83 +1,94 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import '../components/Tailwind.css'; // Asegúrate de que esta ruta sea correcta
+import '../components/Tailwind.css'; 
+import { DONACIONES_ADDRESS } from '../config';
 
 const Donation_total = () => {
-    // 1. ESTADOS: Guardamos el total y un estado de carga
+    // 1. ESTADOS
     const [totalEth, setTotalEth] = useState("0.0");
     const [loading, setLoading] = useState(true);
+    const [errorMsg, setErrorMsg] = useState(""); // Para mostrar errores visualmente si ocurren
 
-    // 2. CONFIGURACIÓN:
-    // Reemplaza esto con la dirección real de tu contrato 'Donaciones' en Ganache
-    const contractAddress = "0xTU_DIRECCION_DEL_CONTRATO_AQUI"; 
+    // 2. CONFIGURACIÓN
+    // ⚠️ IMPORTANTE: Pega aquí la dirección de tu terminal (truffle migrate)
+    // Debe empezar por '0x' y no tener espacios extra.
+    const contractAddress = DONACIONES_ADDRESS; 
 
-    // ABI Parcial: Solo definimos lo que vamos a leer para no complicarnos con archivos JSON ahora
     const abi = [
         "function totalRecaudado() view returns (uint256)"
     ];
 
-    // 3. LÓGICA: Función para pedir el dato a la Blockchain
+    // 3. LÓGICA
     const obtenerTotal = async () => {
+        setLoading(true);
+        setErrorMsg(""); // Limpiamos errores previos
+
         try {
-            // Verificamos si hay una billetera (MetaMask) instalada
+            // 🛡️ ESCUDO DE SEGURIDAD: Evita el error "ENS network"
+            if (!ethers.isAddress(contractAddress)) {
+                throw new Error("Dirección de contrato inválida (Revisa la línea 13)");
+            }
+
             if (window.ethereum) {
-                // Conectamos a la red
                 const provider = new ethers.BrowserProvider(window.ethereum);
-                
-                // Creamos la instancia del contrato (Dirección + ABI + Proveedor)
                 const contrato = new ethers.Contract(contractAddress, abi, provider);
 
-                // Llamamos a la variable pública 'totalRecaudado'
                 const totalWei = await contrato.totalRecaudado();
-
-                // TRUCO DE MENTOR: Convertimos Wei a Ether para que sea legible
-                // Ejemplo: 1000000000000000000 Wei -> 1.0 ETH
                 const totalFormateado = ethers.formatEther(totalWei);
 
                 setTotalEth(totalFormateado);
             } else {
-                console.log("Por favor instala MetaMask");
+                setErrorMsg("Instala MetaMask");
             }
         } catch (error) {
-            console.error("Error obteniendo el total:", error);
+            console.error("Error:", error);
+            // Si es el error de ENS o dirección, mostramos un mensaje amigable
+            setErrorMsg("Error de conexión"); 
         } finally {
             setLoading(false);
         }
     };
 
-    // 4. EFECTO: Ejecutar esto automáticamente al cargar el componente
     useEffect(() => {
         obtenerTotal();
-        
-        // Opcional: Escuchar eventos para actualizar en tiempo real
-        // Si alguien dona, podríamos actualizar esto automáticamente (lo veremos luego)
     }, []);
 
+    // 4. RENDERIZADO (Tu Diseño Guapo)
     return (
-        <div>
-            <div>                
-                <div className="mt-4">
-                    {loading ? (
-                        <span className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-600 dark:text-gray-200">Cargando bloques...</span>
-                    ) : (
-                        <h2 className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-600 dark:text-gray-200">
-                            {totalEth} <span className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-500">ETH</span>
-                        </h2>
-                    )}
-                </div>
-
-                <p className="mt-2 font-black pb-6 text-gray-600 dark:text-gray-200 text-sm">
-                    Fondos seguros en la Blockchain
+        <div className="text-center"> {/* Centramos todo el contenedor */}
+            
+            {/* Si hay error, lo mostramos en rojo pequeño arriba */}
+            {errorMsg && (
+                <p className="text-red-500 font-bold mb-4 bg-red-100 inline-block px-3 py-1 rounded">
+                    ⚠️ {errorMsg}
                 </p>
+            )}
 
-                {/* Botón simple para refrescar manualmente */}
-                <button 
-                    onClick={obtenerTotal}
-                    className="mt-4 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 dark:text-gray-200 text-xs font-bold rounded-full transition duration-300"
-                >
-                    🔄 Actualizar
-                </button>
+            <div className="mt-4">
+                {loading ? (
+                    // Animación de pulso para que se vea vivo mientras carga
+                    <span className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-400 dark:text-gray-500 animate-pulse">
+                        Cargando...
+                    </span>
+                ) : (
+                    // TU DISEÑO ORIGINAL
+                    <h2 className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-600 dark:text-gray-200">
+                        {totalEth} <span className="counter text-4xl sm:text-6xl lg:text-8xl font-black text-gray-400">ETH</span>
+                    </h2>
+                )}
             </div>
+
+            <p className="mt-2 font-black pb-6 text-gray-500 dark:text-gray-400 text-sm uppercase tracking-widest">
+                Fondos seguros en la Blockchain
+            </p>
+
+            {/* Botón mejorado para que combine */}
+            <button 
+                onClick={obtenerTotal}
+                className="mt-2 px-6 py-2 bg-gray-800 hover:bg-black text-white dark:bg-gray-200 dark:hover:bg-white dark:text-gray-400 text-xs font-bold rounded-full transition duration-300 shadow-lg"
+            >
+                🔄 Actualizar Marcador
+            </button>
         </div>
     );
 }

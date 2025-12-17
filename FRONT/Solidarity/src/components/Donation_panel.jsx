@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import '../components/Tailwind.css';
-import Swal from 'sweetalert2'; // Importamos SweetAlert2
+import Swal from 'sweetalert2'; 
 
+// Importa tus ABIs (Asegúrate de que los JSON estén actualizados con 'truffle migrate')
 import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
 import DonationsList from "./Donation_list"; 
 
-// 📍 DIRECCIONES
-const donacionesAddress = "0x582B79E4BeD4593c39030402C17f5205122D3681"; 
-const personasAddress = "0x3c1e1f405b6fB5a818ef89Afd77e7211Fbc66686"; 
+import { DONACIONES_ADDRESS, PERSONAS_ADDRESS, THEME } from '../config';
+
+// 📍 DIRECCIONES (Confirma que sean las últimas que te dio la terminal)
+const donacionesAddress = DONACIONES_ADDRESS; 
+const personasAddress = PERSONAS_ADDRESS;
 
 const THEME = {
     orange: '#F97316',
@@ -19,7 +22,7 @@ const THEME = {
     bgDark: '#1f2937'
 };
 
-// --- CONFIGURACIÓN DE SWEETALERT (MIXINS) ---
+// --- CONFIGURACIÓN DE SWEETALERT ---
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -49,7 +52,7 @@ const MySwal = Swal.mixin({
     }
 });
 
-// --- ICONOS ---
+// --- ICONO DE ETHEREUM ---
 const SmallEthIcon = () => (
   <svg width="14" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-2 shrink-0">
     <path d="M16 0L7.41 16.82L16 21.84V0Z" fill="#ffffff" opacity="0.8"/>
@@ -99,7 +102,7 @@ function Donations() {
         try {
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             setAccount(accounts[0]);
-            Toast.fire({ icon: 'success', title: 'Wallet conectada fino 🦊' });
+            Toast.fire({ icon: 'success', title: 'Wallet conectada' });
         } catch (error) {
             console.error(error);
         }
@@ -107,8 +110,7 @@ function Donations() {
         MySwal.fire({
             icon: 'warning',
             title: '¡Epa!',
-            text: 'Necesitas instalar MetaMask para usar esta dApp.',
-            footer: '<a href="https://metamask.io/" target="_blank" class="text-orange-500 hover:underline">Descargar aquí</a>'
+            text: 'Necesitas MetaMask para donar.',
         });
     }
   };
@@ -138,14 +140,14 @@ function Donations() {
   };
 
   // ---------------------------------------------------------
-  // 1. FUNCIÓN SOLO PARA REGISTRAR (Pestaña 1)
+  // 1. FUNCIÓN DE REGISTRO (ARREGLADA)
   // ---------------------------------------------------------
   const handleSoloRegistro = async () => {
     if (!cedula || !nombre || !apellido) 
-        return Toast.fire({ icon: 'warning', title: 'Faltan datos en el formulario' });
+        return Toast.fire({ icon: 'warning', title: 'Faltan datos' });
     
-    if (cedula.length <= 6) 
-        return Toast.fire({ icon: 'error', title: 'La cédula es muy corta (mín 6 dígitos)' });
+    if (cedula.length <= 5) 
+        return Toast.fire({ icon: 'error', title: 'Cédula inválida' });
     
     if (!account) { await connectWallet(); }
 
@@ -154,56 +156,66 @@ function Donations() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
 
-        // Verificamos primero si ya existe
+        // 1. Verificar si ya existe (Lectura)
         const contratoPersonasLectura = new ethers.Contract(personasAddress, PersonasABI.abi, provider);
-        try {
-            const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
-            if (id > 0) {
-                setLoading(false);
-                return MySwal.fire({ 
-                    icon: 'info', 
-                    title: 'Ya registrado', 
-                    text: 'Esta cédula ya existe. ¡Pasa a donar!',
-                    confirmButtonText: 'Ir a Donar'
-                }).then(() => setActiveTab('donar'));
-            }
-        } catch (e) { /* Si falla es que no existe, continuamos */ }
-
-        // Procedemos a Registrar
-        const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
-        const tx = await contratoPersonas.registrarPersonaEsencial(cedula, nombre, apellido);
+        const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
         
-        Toast.fire({ icon: 'info', title: 'Registrando en Blockchain...', timer: 8000 });
+        // Si devuelve un ID > 0, es que ya existe
+        if (Number(id) > 0) {
+            setLoading(false);
+            return MySwal.fire({ 
+                icon: 'info', 
+                title: 'Usuario Existente', 
+                text: 'Esta cédula ya está registrada. ¡Puedes donar directo!',
+                confirmButtonText: 'Ir a Donar'
+            }).then(() => setActiveTab('donar'));
+        }
+
+        // 2. Registrar (Escritura)
+        const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
+        
+        // ⚠️ CAMBIO CRÍTICO: Usamos la nueva función unificada
+        // Pasamos "" o 0 en los datos que no pedimos en el formulario simple
+        const tx = await contratoPersonas.registrarOActualizarPersona(
+            nombre,
+            apellido,
+            cedula,
+            2,  // Genero Otro
+            0,  // Fecha nacimiento
+            "", // Lugar
+            "", // Estado Civil
+            "", // Direccion
+            "", // Telefono
+            ""  // Profesion
+        );
+        
+        Toast.fire({ icon: 'info', title: 'Registrando en Blockchain...', timer: 12000 });
         await tx.wait();
 
         MySwal.fire({
             icon: 'success',
-            title: '¡Registro Exitoso! 🎉',
-            text: `Ahora ${nombre} está listo para donar.`,
-            confirmButtonText: '¡Plomo!'
+            title: '¡Registro Exitoso!',
+            text: `Bienvenido/a ${nombre}. Ahora puedes donar.`,
+            confirmButtonText: 'Ir a Donar'
         }).then(() => {
             setNombre(''); setApellido(''); setCedula('');
             setActiveTab('donar');
         });
 
     } catch (error) {
-        console.error(error);
-        if (error.code === 'ACTION_REJECTED') {
-            Toast.fire({ icon: 'warning', title: 'Transacción cancelada' });
-        } else {
-            MySwal.fire({ icon: 'error', title: 'Error', text: 'Revisa la consola para más detalles.' });
-        }
+        console.error("Error en registro:", error);
+        MySwal.fire({ icon: 'error', title: 'Error', text: 'Revisa la consola. ¿Eres el dueño del contrato?' });
     } finally {
         setLoading(false);
     }
   };
 
   // ---------------------------------------------------------
-  // 2. FUNCIÓN SOLO PARA DONAR (Pestaña 2)
+  // 2. FUNCIÓN DE DONACIÓN
   // ---------------------------------------------------------
   const handleSoloDonacion = async () => {
-    if (!cedula) return Toast.fire({ icon: 'warning', title: 'Ingresa la Cédula' });
-    if (!amount) return Toast.fire({ icon: 'warning', title: 'Selecciona un Monto' });
+    if (!cedula) return Toast.fire({ icon: 'warning', title: 'Falta la Cédula' });
+    if (!amount) return Toast.fire({ icon: 'warning', title: 'Falta el Monto' });
     if (!account) { await connectWallet(); }
 
     try {
@@ -212,48 +224,42 @@ function Donations() {
         const signer = await provider.getSigner();
         const montoWei = ethers.parseEther(amount.toString());
 
-        // Verificar cédula
+        // Validar registro previo
         const contratoPersonasLectura = new ethers.Contract(personasAddress, PersonasABI.abi, provider);
-        try {
-            const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
-            if (id == 0) throw new Error("No existe");
-        } catch (e) {
+        const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
+        
+        if (Number(id) === 0) {
             setLoading(false);
             return MySwal.fire({
                 icon: 'error',
                 title: 'No Registrado',
-                text: 'Esa cédula no está en el sistema. Regístrate primero.',
+                text: 'Esa cédula no existe. Regístrate primero.',
                 confirmButtonText: 'Ir al Registro'
-            }).then((res) => {
-                if (res.isConfirmed) setActiveTab('registro');
-            });
+            }).then(() => setActiveTab('registro'));
         }
 
-        // Procedemos a Donar
+        // Ejecutar Donación
         const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
         const tx = await contratoDonaciones.RegistrarDonantes(cedula, montoWei, { value: montoWei });
         
-        Toast.fire({ icon: 'info', title: 'Procesando donación...', timer: 10000 });
+        Toast.fire({ icon: 'info', title: 'Procesando ETH...', timer: 10000 });
         await tx.wait();
 
         MySwal.fire({
             icon: 'success',
-            title: '¡Donación Recibida! 🚀',
-            html: `Gracias por tu aporte de <b style="color:${THEME.orange}">${amount} ETH</b>.`,
-            footer: `<span class="text-xs text-gray-500 font-mono">Tx: ${tx.hash.substring(0,15)}...</span>`
+            title: '¡Gracias por tu aporte!',
+            html: `Donaste <b style="color:${THEME.orange}">${amount} ETH</b>`,
         });
         
         setAmount(''); setDisplayAmount(''); setCedula('');
-        setRefreshTrigger(prev => prev + 1);
+        setRefreshTrigger(prev => prev + 1); // Recargar lista
 
     } catch (error) {
         console.error(error);
         if (error.code === 'INSUFFICIENT_FUNDS') {
-            MySwal.fire({ icon: 'error', title: 'Sin Fondos', text: 'No tienes suficiente ETH para el gas.' });
-        } else if (error.code === 'ACTION_REJECTED') {
-            Toast.fire({ icon: 'warning', title: 'Transacción cancelada' });
+            Toast.fire({ icon: 'error', title: 'Fondos insuficientes' });
         } else {
-            MySwal.fire({ icon: 'error', title: 'Error', text: 'Algo salió mal en la transacción.' });
+            Toast.fire({ icon: 'error', title: 'Error en la transacción' });
         }
     } finally {
         setLoading(false);
@@ -261,38 +267,46 @@ function Donations() {
   };
 
   // ---------------------------------------------------------
-  // BÚSQUEDA
+  // 3. BUSCADOR (ARREGLADO)
   // ---------------------------------------------------------
   const handleSearch = async () => {
-    if (!searchInput) return Toast.fire({ icon: 'warning', title: 'Escribe algo para buscar' });
+    if (!searchInput) return Toast.fire({ icon: 'warning', title: 'Escribe algo...' });
     setSearchLoading(true);
     setSearchResult(null);
+
     try {
-        if (!window.ethereum) return MySwal.fire({ icon: 'error', title: 'Instala MetaMask' });
+        if (!window.ethereum) return;
         const provider = new ethers.BrowserProvider(window.ethereum);
         const input = searchInput.trim();
         
+        // A) Búsqueda por Address (Wallet o Contrato)
         if (ethers.isAddress(input)) {
             const code = await provider.getCode(input);
             const balanceEth = ethers.formatEther(await provider.getBalance(input));
+            
             if (code === '0x') { 
-                setSearchResult({ type: 'wallet', address: input, balance: balanceEth, txCount: await provider.getTransactionCount(input) });
+                setSearchResult({ type: 'wallet', address: input, balance: balanceEth });
             } else { 
-                setSearchResult({ type: 'contract', address: input, isOfficial: input.toLowerCase() === donacionesAddress.toLowerCase(), balance: balanceEth });
+                setSearchResult({ type: 'contract', address: input, balance: balanceEth });
             }
         } 
+        // B) Búsqueda por Cédula (En contrato Donaciones)
         else { 
             const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, provider);
-            // Intentamos buscar, si falla asumimos que no existe
+            
+            // ⚠️ CAMBIO CRÍTICO: Usamos la función correcta del contrato actualizado
+            // Antes: obtenerPersonaPorCI -> Ahora: obtenerUltimaDonacionPorCI
             let res;
             try {
-                 res = await contratoDonaciones.obtenerPersonaPorCI(input);
+                 res = await contratoDonaciones.obtenerUltimaDonacionPorCI(input);
             } catch (err) {
                  throw new Error("No encontrado");
             }
 
+            // Buscamos eventos pasados para el historial
             const filter = contratoDonaciones.filters.NuevaDonacion(); 
             const currentBlock = await provider.getBlockNumber();
+            // Buscamos en los últimos 5000 bloques (ajusta esto si tu ganache se reinició)
             const startBlock = Math.max(0, currentBlock - 5000);
             
             const events = await contratoDonaciones.queryFilter(filter, startBlock, "latest");
@@ -307,18 +321,18 @@ function Donations() {
                 };
             }));
 
+            // res[0] = Nombre, res[1] = Apellido, res[2] = Monto Ultimo
             setSearchResult({ 
                 type: 'person', 
                 nombre: res[0], 
                 apellido: res[1], 
-                monto: ethers.formatEther(res[2]), 
+                monto: ethers.formatEther(res[2]), // Muestra el monto de la última donación
                 historial: historial.reverse() 
             });
         }
     } catch (error) { 
         console.error(error); 
-        Toast.fire({ icon: 'error', title: 'No encontrado', text: 'Verifica la cédula o address' });
-        setSearchResult(null); 
+        Toast.fire({ icon: 'error', title: 'No encontrado', text: 'Cédula sin donaciones o incorrecta' });
     } finally { 
         setSearchLoading(false); 
     }
@@ -341,10 +355,10 @@ function Donations() {
           )}
       </div>
 
-      {/* --- TARJETA PRINCIPAL (CON TABS) --- */}
+      {/* --- TARJETA PRINCIPAL --- */}
       <div className="rounded-2xl shadow-2xl border border-gray-700 relative overflow-hidden" style={{ backgroundColor: THEME.bgDark }}>
         
-        {/* PESTAÑAS DE NAVEGACIÓN */}
+        {/* PESTAÑAS */}
         <div className="flex border-b border-gray-700">
             <button 
                 onClick={() => setActiveTab('registro')}
@@ -366,47 +380,41 @@ function Donations() {
 
         <div className="p-8">
             
-            {/* --- SECCIÓN 1: REGISTRO --- */}
+            {/* FORMULARIO REGISTRO */}
             {activeTab === 'registro' && (
                 <div className="animate-in fade-in slide-in-from-left-4 duration-300">
-                    <h2 className="text-xl font-extrabold text-white mb-2 text-center">¡Registrate!</h2>
-                    <p className="text-gray-400 text-xs text-center mb-6">Paso 1: Registra tus datos en la Blockchain</p>
+                    <h2 className="text-xl font-extrabold text-white mb-2 text-center">Datos Personales</h2>
+                    <p className="text-gray-400 text-xs text-center mb-6">Paso 1: Solo el Admin puede registrar (según tu contrato)</p>
 
                     <div className="flex flex-col gap-4 mb-6">
-                        <div className="relative group">
-                            <input type="text" placeholder="Cédula de Identidad" value={cedula} onChange={onChangeCedula} 
-                                className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
-                                style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
-                            />
-                        </div>
-                        <div className="relative group">
-                            <input type="text" placeholder="Nombres" value={nombre} onChange={(e)=>onChangeSoloLetras(e, setNombre)} 
-                                className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
-                                style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
-                            />
-                        </div>
-                        <div className="relative group">
-                            <input type="text" placeholder="Apellidos" value={apellido} onChange={(e)=>onChangeSoloLetras(e, setApellido)} 
-                                className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
-                                style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
-                            />
-                        </div>
+                        <input type="text" placeholder="Cédula de Identidad" value={cedula} onChange={onChangeCedula} 
+                            className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                            style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
+                        />
+                        <input type="text" placeholder="Nombres" value={nombre} onChange={(e)=>onChangeSoloLetras(e, setNombre)} 
+                            className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                            style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
+                        />
+                        <input type="text" placeholder="Apellidos" value={apellido} onChange={(e)=>onChangeSoloLetras(e, setApellido)} 
+                            className="w-full p-3.5 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                            style={{ backgroundColor: THEME.darkInput, color: THEME.textWhite }} 
+                        />
                     </div>
 
                     <button onClick={handleSoloRegistro} disabled={loading}
                         className="w-full py-4 rounded-lg font-extrabold text-lg shadow-lg hover:bg-orange-600 transition-all active:scale-95 disabled:opacity-50"
                         style={{ backgroundColor: THEME.orange, color: THEME.textWhite }}
                     >
-                        {loading ? "REGISTRANDO..." : "GUARDAR DATOS"}
+                        {loading ? "GUARDANDO..." : "REGISTRAR EN BLOCKCHAIN"}
                     </button>
                 </div>
             )}
 
-            {/* --- SECCIÓN 2: DONAR --- */}
+            {/* FORMULARIO DONAR */}
             {activeTab === 'donar' && (
                 <div className="animate-in fade-in slide-in-from-right-4 duration-300">
-                    <h2 className="text-xl font-extrabold text-white mb-2 text-center">Realizar Donación</h2>
-                    <p className="text-gray-400 text-xs text-center mb-6">Paso 2: Alimenta a un cachorro (Requiere registro previo)</p>
+                    <h2 className="text-xl font-extrabold text-white mb-2 text-center">Hacer Donación</h2>
+                    <p className="text-gray-400 text-xs text-center mb-6">Paso 2: Envía ETH a la fundación</p>
 
                     <div className="mb-6">
                         <input type="text" placeholder="Cédula del Donante" value={cedula} onChange={onChangeCedula} 
@@ -415,17 +423,14 @@ function Donations() {
                         />
                         
                         <div className="grid grid-cols-2 gap-3 mb-4">
-                            {presets.map((preset) => {
-                                const isSelected = amount === preset;
-                                return (
-                                    <button key={preset} onClick={() => handlePresetClick(preset)} 
-                                        className="flex justify-center items-center py-3 px-2 rounded-lg border font-bold text-sm transition-all hover:scale-105"
-                                        style={isSelected ? { backgroundColor: 'rgba(249, 115, 22, 0.15)', borderColor: THEME.orange, color: THEME.orange } : { backgroundColor: THEME.darkInput, borderColor: 'transparent', color: THEME.textGray }}
-                                    >
-                                        {preset} ETH <SmallEthIcon />
-                                    </button>
-                                )
-                            })}
+                            {presets.map((preset) => (
+                                <button key={preset} onClick={() => handlePresetClick(preset)} 
+                                    className="flex justify-center items-center py-3 px-2 rounded-lg border font-bold text-sm transition-all hover:scale-105"
+                                    style={amount === preset ? { backgroundColor: 'rgba(249, 115, 22, 0.15)', borderColor: THEME.orange, color: THEME.orange } : { backgroundColor: THEME.darkInput, borderColor: 'transparent', color: THEME.textGray }}
+                                >
+                                    {preset} ETH <SmallEthIcon />
+                                </button>
+                            ))}
                         </div>
 
                         <div className="relative">
@@ -441,17 +446,16 @@ function Donations() {
                         className="w-full py-4 rounded-lg font-extrabold text-lg shadow-lg hover:bg-orange-600 transition-all active:scale-95 disabled:opacity-50"
                         style={{ backgroundColor: THEME.orange, color: THEME.textWhite }}
                     >
-                        {loading ? "PROCESANDO..." : "DONAR AHORA"}
+                        {loading ? "ENVIANDO..." : "DONAR ETH"}
                     </button>
                 </div>
             )}
-
         </div>
       </div>
 
-      {/* TARJETA EXPLORADOR */}
+      {/* --- EXPLORADOR --- */}
       <div className="rounded-2xl p-8 shadow-2xl border border-gray-700 text-center" style={{ backgroundColor: THEME.bgDark }}>
-          <h2 className="text-xl font-bold text-white mb-2 flex justify-center items-center gap-2">🔍 Explorador Blockchain</h2>
+          <h2 className="text-xl font-bold text-white mb-2 flex justify-center items-center gap-2">🔍 Explorador</h2>
           <div className="flex gap-2 mb-4">
             <input type="text" placeholder="Buscar (Cédula o Address)" value={searchInput} onChange={onChangeBuscador} 
                 className="w-full p-3 rounded-lg border border-transparent focus:outline-none placeholder-gray-500 text-sm focus:ring-2 focus:ring-orange-500/50"
@@ -475,26 +479,23 @@ function Donations() {
                                 <h3 className="text-lg font-bold" style={{ color: THEME.textWhite }}>{searchResult.nombre} {searchResult.apellido}</h3>
                             </div>
                             <div className="text-right">
-                                <p className="text-[10px] uppercase font-bold" style={{ color: THEME.textGray }}>Total Donado</p>
+                                <p className="text-[10px] uppercase font-bold" style={{ color: THEME.textGray }}>Última Donación</p>
                                 <span className="font-bold text-lg" style={{ color: THEME.orange }}>{searchResult.monto} ETH</span>
                             </div>
                         </div>
+                        {/* HISTORIAL */}
                         <div className="mt-4 border-t border-gray-700 pt-3">
-                            <p className="text-xs font-bold mb-2 text-gray-400">HISTORIAL INDIVIDUAL:</p>
+                            <p className="text-xs font-bold mb-2 text-gray-400">HISTORIAL DE DONACIONES:</p>
                             <div className="max-h-32 overflow-y-auto pr-1 custom-scrollbar space-y-2">
-                                {searchResult.historial.map((tx, idx) => (
+                                {searchResult.historial.length === 0 ? <p className="text-xs text-gray-500">Sin historial visible.</p> : 
+                                 searchResult.historial.map((tx, idx) => (
                                     <div key={idx} className="flex justify-between items-center bg-white/5 p-2 rounded hover:bg-white/10 transition">
                                         <div className="flex flex-col text-left">
                                             <span className="text-orange-400 font-mono text-xs font-bold">+{tx.monto} ETH</span>
                                             <span className="text-[10px] text-gray-500">{tx.fecha}</span>
-                                            {tx.wallet && (
-                                                <span className="text-[9px] text-gray-400 font-mono">
-                                                    De: {tx.wallet.substring(0, 6)}...{tx.wallet.substring(38)}
-                                                </span>
-                                            )}
                                         </div>
-                                        <a href={`https://etherscan.io/tx/${tx.hash}`} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white text-[10px] underline" title={tx.hash}>
-                                            Tx Hash ↗
+                                        <a href="#" className="text-gray-500 text-[9px] font-mono cursor-default">
+                                            {tx.hash.substring(0,8)}...
                                         </a>
                                     </div>
                                 ))}
@@ -513,8 +514,8 @@ function Donations() {
           )}
       </div>
 
+      {/* COMPONENTE DE LISTA EXTERNA */}
       <DonationsList key={refreshTrigger} contractAddress={donacionesAddress} />
-
     </div>
   );
 };   
