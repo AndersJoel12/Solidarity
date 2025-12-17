@@ -1,7 +1,5 @@
 import React from "react";
 
-import Fondo from '../assets/media/Fondo.jpeg'
-
 import UIJO from '../assets/media/LogoIUJO.jpeg'
 
 import { FaFacebook, FaInstagram } from "react-icons/fa";

@@ -5,7 +5,7 @@
     
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
-    background-image: url(/Logo_Sol.png);
+    background-image: url(/Fondo.jpeg);
 
      background-size: cover;
   background-position: center;
@@ -52,7 +52,7 @@
     @media (prefers-color-scheme: light) { 
       :root { 
         color: #213547; 
-        background-image: url(/Logo_Sol.png); 
+        background-image: url(/Fondo.jpeg); 
       }
       a:hover { 
         color: #747bff; 
