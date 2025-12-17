@@ -1,7 +1,5 @@
 import React from "react";
 
-import Donation_total from "../components/Donation_total";
-
 import Fondo from '../assets/media/Fondo.jpeg'
 
 import UIJO from '../assets/media/LogoIUJO.jpeg'
@@ -15,6 +13,10 @@ import { MdPets } from "react-icons/md";
 import { GiTreehouse } from "react-icons/gi";
 
 import Donations from "../components/Donation_panel";
+
+import Donation_total from "../components/Donation_total";
+
+import Donation_goal from "../components/Donation_goal";
 
 import '../components/Tailwind.css'
 
@@ -292,6 +294,11 @@ function Landing() {
 
             {/* Componente de Donaciones Integrado */}
 
+            <div className="w-full flex justify-center">
+                
+               <Donation_goal />
+                
+            </div>
             <div className="w-full flex justify-center">
                 
                <Donations />
