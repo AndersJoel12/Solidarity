@@ -80,7 +80,7 @@ function Landing() {
 
             Ajustadas las clases para que el header tenga un fondo blanco en modo claro.*/}
 
-        <header className={`sticky top-0 z-50 flex justify-between items-center px-4 sm:px-8 py-4 backdrop-blur-md shadow-lg 
+        <header className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 sm:px-8 py-4 backdrop-blur-md shadow-lg 
                                        ${darkMode 
                                             ? "bg-gray-900/10" // Oscuro: Fondo gris oscuro semitransparente
                                             : "bg-white/50%" // Claro: Fondo blanco semitransparente
