@@ -16,8 +16,6 @@ import Donations from "../components/Donation_panel";
 
 import '../components/Tailwind.css'
 
-
-
 function Landing() {
 
     const [darkMode, setDarkMode] = React.useState(true , false);
@@ -37,10 +35,6 @@ function Landing() {
   }
 
 }, [darkMode]);
-
-
-
-
 
   return (
 
@@ -72,9 +66,7 @@ function Landing() {
 
         className={`{ min-h-screen font-sans bg-cover bg-center bg-no-repeat w-full ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} `}
                 
-
         >  
-
 
         {/* --- HEADER (STICKY) ---
 
@@ -133,8 +125,6 @@ function Landing() {
 
         {/* resto de tu landing */}
 
-
-
         {/* --- HERO SECTION ---
 
             h-screen: Ocupa toda la altura de la pantalla inicial. 
@@ -177,10 +167,6 @@ function Landing() {
         </section>
 
         </div>
-
-
-
-
 
         {/* --- FEATURES --- */}
 
@@ -263,8 +249,6 @@ function Landing() {
 
         </section>
 
-
-
         {/* --- ABOUT --- */}
 
         <section
@@ -287,8 +271,6 @@ function Landing() {
         </p>
     </div>
 </section>
-
-
 
         {/* --- CONTACT / DONATIONS --- 
         
@@ -313,17 +295,41 @@ function Landing() {
             {/* Componente de Donaciones Integrado */}
 
             <div className="w-full flex justify-center">
-
+                
                <Donations />
-
+                
             </div>
 
           </div>
 
+              <div className="flex flex-col w-full lg:w-1/2 px-0 lg:px-2">
+                <div className="relative bg-white dark:bg-gray-900 rounded-lg p-6 mt-6 shadow-lg">
+   
+            {/* Ubicación */}
+            <p className="text-lg font-black text-gray-800 dark:text-white">
+                Nebraska, Estados Unidos
+            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+                Bosque Nacional de Nebraska
+            </p>
+
+            {/* Árboles */}
+             <div className="bg-green-600 px-3 py-1 rounded-full mt-3 inline-block">
+             <p className="text-white font-bold text-sm uppercase">40.000 árboles</p>
+            </div>
+
+            {/* Descripción */}
+            <p className="mt-4 text-gray-700 dark:text-gray-300 text-justify">
+                El accidentado paisaje del Distrito Pine Ridge del Bosque Nacional de Nebraska es un deleite en medio de las llanuras centrales. 
+                Sin embargo, incendios forestales catastróficos azotaron este Bosque Nacional en 2006 y de nuevo en 2012, arrasando gran parte 
+                de las reservas de pino ponderosa de la zona. Se necesita una reforestación agresiva para restablecer esta especie arbórea en 
+                las zonas de quema de alta intensidad, incapaces de regeneración natural.
+            </p>
+        </div>
+    </div>
+  
         </section>
-
-
-
+        
         {/* --- FOOTER --- */}
 
         {/* FOOTER */}
@@ -389,17 +395,11 @@ function Landing() {
 
         </footer>
 
-
-
-
-
       </div> // Cierre del contenedor maestro
 
   );
 
 }
-
-
 
 // Subcomponente Feature mejorado (Glassmorphism)
 
@@ -432,7 +432,5 @@ function Feature({ title, desc, icon }) {
   );
 
 }
-
-
 
 export default Landing;
