@@ -17,7 +17,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -94,7 +95,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -118,7 +120,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -194,7 +197,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_ci\",\"type\":\"string\"}],\"name\":\"obtenerIdPorCi\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_cedula\",\"type\":\"string\"}],\"name\":\"obtenerNombresApellidos\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_cedula\",\"type\":\"string\"}],\"name\":\"obtenerPersonaPorCI\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"nombres\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"apellidos\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"cedula\",\"type\":\"string\"},{\"internalType\":\"enum Personas.Genero\",\"name\":\"genero\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"fechaNacimiento\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"lugarNacimiento\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"estadoCivil\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"direccion\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"telefono\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"profesion\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"estaRegistrada\",\"type\":\"bool\"}],\"internalType\":\"struct Personas.Persona\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_nombres\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_apellidos\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_cedula\",\"type\":\"string\"},{\"internalType\":\"enum Personas.Genero\",\"name\":\"_genero\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"_fechaNacimiento\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"_lugarNacimiento\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_estadoCivil\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_direccion\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_telefono\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_profesion\",\"type\":\"string\"}],\"name\":\"registrarOActualizarPersona\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Persona.sol\":\"Personas\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Persona.sol\":{\"keccak256\":\"0xe8e23cdfa2b725308e8849ee47ca57b6767c375ad4d2a894b85dbea79385bec7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://eef697a897936f12843d7579427d315e83bf4774af4c752b976072fbcd83ee4b\",\"dweb:/ipfs/QmPYvq7pREod41wVh675WhG5X9wY9Mo5AAqPhTBwhtwstr\"]}},\"version\":1}",
@@ -11711,12 +11715,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x3c1e1f405b6fB5a818ef89Afd77e7211Fbc66686",
-      "transactionHash": "0x2186ce1a1c7ece2b985c0910cd19f6af5f43024baa84c06a74f2e42d4423587d"
+      "address": "0x29d48Ef8dC010715FB6E65D12c810bc520a75D2c",
+      "transactionHash": "0x4730c13b30b970826959a0861dd8dfaa9b5fee09c33ae963e797042d427f8115"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-12-17T04:12:25.153Z",
+  "updatedAt": "2025-12-17T04:12:43.476Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

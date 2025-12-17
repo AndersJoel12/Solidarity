@@ -77,12 +77,7 @@ module.exports = async function (deployer, network, accounts) {
 
 export const PERSONAS_ADDRESS = "${personas.address}";
 export const DONACIONES_ADDRESS = "${donaciones.address}";
-
-export const THEME = {
-    orange: '#F97316',
-    bgDark: '#1f2937'
-};
-  `;
+`;
 
   const pathConfig = path.join(pathSrc, 'config.js');
   

@@ -11715,12 +11715,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x29d48Ef8dC010715FB6E65D12c810bc520a75D2c",
-      "transactionHash": "0x4730c13b30b970826959a0861dd8dfaa9b5fee09c33ae963e797042d427f8115"
+      "address": "0x9D9f18f0b94c8FEedDF6d78a1a97Cf337456aD97",
+      "transactionHash": "0x21fcf83ee9dcebc06eed0ff9d683a0539c9099004874bf5b784d606ad7cb23b6"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-12-17T04:12:43.476Z",
+  "updatedAt": "2025-12-17T04:20:06.647Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
