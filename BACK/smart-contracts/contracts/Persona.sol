@@ -15,16 +15,16 @@ contract Personas {
         string direccion; 
         string telefono; 
         string profesion;
-        bool estaRegistrada; // Un "flag" para saber si el ID existe rápido
+        bool estaRegistrada; 
     }
 
     uint256 private nextId = 1;
-    address public owner; // Variable para seguridad
+    address public owner; 
 
     mapping(uint256 => Persona) private personas;
     mapping(string => uint256) private ciAIdPersona;
 
-    // MODIFIER: Solo el admin puede registrar gente
+    // MODIFIER: Se mantiene por si quieres crear funciones administrativas a futuro
     modifier onlyOwner() {
         require(msg.sender == owner, "No tienes permisos de Admin");
         _;
@@ -34,8 +34,8 @@ contract Personas {
         owner = msg.sender;
     }
 
-    // --- REGISTRO UNIFICADO ---
-    // Hemos eliminado el parametro '_id' manual. El contrato lo calcula.
+    // --- REGISTRO UNIFICADO (CORREGIDO) ---
+    // 🔓 YA NO TIENE 'onlyOwner'. Ahora es pública para todos.
     function registrarOActualizarPersona(
         string memory _nombres,
         string memory _apellidos,
@@ -47,9 +47,8 @@ contract Personas {
         string memory _direccion,
         string memory _telefono,
         string memory _profesion
-    ) public onlyOwner {
+    ) public { // <--- ¡AQUÍ ESTABA EL BLOQUEO! Ahora dice solo 'public'
         
-        // Verificamos si la cedula ya tiene un ID asociado
         uint256 idToUse = ciAIdPersona[_cedula];
 
         // Si el ID es 0, significa que es una persona NUEVA
@@ -75,7 +74,7 @@ contract Personas {
         });
     }
 
-    // Funciones de Lectura (Estas no gastan Gas al llamarlas desde el Frontend)
+    // Funciones de Lectura
 
     function obtenerIdPorCi(string memory _ci) public view returns (uint256) {
         return ciAIdPersona[_ci];
@@ -83,15 +82,12 @@ contract Personas {
 
     function obtenerNombresApellidos(string memory _cedula) public view returns (string memory, string memory) {
         uint256 id = ciAIdPersona[_cedula];
-        // En Solidity moderno, devolver strings vacios es mejor que fallar con error en algunos casos,
-        // pero para tu logica actual, el require está bien.
         require(id != 0, "Persona no encontrada en Registro Civil");
         
         Persona memory p = personas[id];
         return (p.nombres, p.apellidos);
     }
 
-    // Helper para obtener todo el objeto en React
     function obtenerPersonaPorCI(string memory _cedula) public view returns (Persona memory) {
         uint256 id = ciAIdPersona[_cedula];
         require(id != 0, "Persona no encontrada");

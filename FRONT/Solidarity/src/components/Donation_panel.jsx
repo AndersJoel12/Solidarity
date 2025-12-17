@@ -86,7 +86,7 @@ function Donations() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  const presets = ["0.25", "0.55", "0.75", "1.00"];
+  const presets = ["0.25", "0.50", "0.75", "1.00"];
 
   useEffect(() => {
     if (window.ethereum) {
