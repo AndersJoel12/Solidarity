@@ -204,7 +204,7 @@ function Donations() {
 
     } catch (error) {
         console.error("Error en registro:", error);
-        MySwal.fire({ icon: 'error', title: 'Error', text: 'Revisa la consola. ¿Eres el dueño del contrato?' });
+        MySwal.fire({ icon: 'error', title: 'Error', text: 'Hubo un error en el registro, vuelva a intentar' });
     } finally {
         setLoading(false);
     }
@@ -383,8 +383,8 @@ function Donations() {
             {/* FORMULARIO REGISTRO */}
             {activeTab === 'registro' && (
                 <div className="animate-in fade-in slide-in-from-left-4 duration-300">
-                    <h2 className="text-xl font-extrabold text-white mb-2 text-center">Datos Personales</h2>
-                    <p className="text-gray-400 text-xs text-center mb-6">Paso 1: Solo el Admin puede registrar (según tu contrato)</p>
+                    <h2 className="text-xl font-extrabold text-white mb-2 text-center">¡Registrate!</h2>
+                    <p className="text-gray-400 text-xs text-center mb-6">Paso 1: Redgistra tus datos Personales</p>
 
                     <div className="flex flex-col gap-4 mb-6">
                         <input type="text" placeholder="Cédula de Identidad" value={cedula} onChange={onChangeCedula} 
