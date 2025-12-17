@@ -2,6 +2,12 @@ import React from "react";
 
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
+import { FaDog, FaCat, FaHandHoldingHeart } from "react-icons/fa";
+
+import { MdPets } from "react-icons/md";
+
+import { GiTreehouse } from "react-icons/gi";
+
 import Donations from "../components/Donations_panel";
 
 import '../components/Tailwind.css'
@@ -178,10 +184,20 @@ function Landing() {
             {darkMode ? "" : ""}
 
              {/* 🔥 Aquí insertamos el contador */}
-             <h1>Cada ayuda esta salvando una huella </h1> 
-             <div className="text-center mb-12"> 
-                <h2 id="totalTrees" data-count="24939238" className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-600" > 24,939,238 </h2> 
-                <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300">  </p> </div>
+
+                <h1 className="text-3xl sm:text-4xl font-bold text-center mb-8 dark:text-white">
+                    Cada ayuda está salvando una huella
+                </h1>
+
+                <div className="text-center mb-12">
+                <h2
+                    id="totalTrees"
+                    data-count="24939238"
+                    className="counter text-6xl sm:text-8xl lg:text-hero font-black pb-6 text-gray-600 dark:text-gray-200"
+                >
+                     24,939,238
+                </h2>
+        </div>
 
           <div className="max-w-6xl mx-auto"> 
 
