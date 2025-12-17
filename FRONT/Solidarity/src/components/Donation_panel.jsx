@@ -3,14 +3,14 @@ import { ethers } from "ethers";
 import '../components/Tailwind.css';
 import Swal from 'sweetalert2'; 
 
-// Importa tus ABIs (Asegúrate de que los JSON estén actualizados con 'truffle migrate')
+// Importa tus ABIs
 import DonacionesABI from '../contracts/Donaciones.json';
 import PersonasABI from '../contracts/Personas.json';
 import DonationsList from "./Donation_list"; 
 
 import { DONACIONES_ADDRESS, PERSONAS_ADDRESS } from '../config';
 
-// 📍 DIRECCIONES (Confirma que sean las últimas que te dio la terminal)
+// 📍 DIRECCIONES
 const donacionesAddress = DONACIONES_ADDRESS; 
 const personasAddress = PERSONAS_ADDRESS;
 
@@ -74,10 +74,9 @@ function Donations() {
   const [amount, setAmount] = useState('');
   const [displayAmount, setDisplayAmount] = useState('');
   
+  // Estados Generales
   const [loading, setLoading] = useState(false);
   const [placeholderText, setPlaceholderText] = useState('Otra cantidad');
-  
-  // Tab Activa
   const [activeTab, setActiveTab] = useState('registro');
 
   // Estados de Búsqueda
@@ -86,8 +85,12 @@ function Donations() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+  // 🆕 NUEVO: Estado para el precio del Dólar
+  const [ethPrice, setEthPrice] = useState(0);
+
   const presets = ["0.25", "0.50", "0.75", "1.00"];
 
+  // Efecto para conectar Wallet al inicio
   useEffect(() => {
     if (window.ethereum) {
         window.ethereum.request({ method: 'eth_accounts' })
@@ -95,6 +98,22 @@ function Donations() {
                 if (accounts.length > 0) setAccount(accounts[0]);
             });
     }
+  }, []);
+
+  // 🆕 NUEVO: Efecto para buscar el precio de ETH en CoinGecko
+  useEffect(() => {
+    const fetchPrice = async () => {
+        try {
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+            const data = await response.json();
+            setEthPrice(data.ethereum.usd); // Guardamos el precio (ej: 2500)
+        } catch (error) {
+            console.error("Error obteniendo precio ETH", error);
+            // Fallback opcional por si la API falla
+            // setEthPrice(2500); 
+        }
+    };
+    fetchPrice();
   }, []);
 
   const connectWallet = async () => {
@@ -140,7 +159,7 @@ function Donations() {
   };
 
   // ---------------------------------------------------------
-  // 1. FUNCIÓN DE REGISTRO (ARREGLADA)
+  // 1. FUNCIÓN DE REGISTRO
   // ---------------------------------------------------------
   const handleSoloRegistro = async () => {
     if (!cedula || !nombre || !apellido) 
@@ -156,11 +175,9 @@ function Donations() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
 
-        // 1. Verificar si ya existe (Lectura)
         const contratoPersonasLectura = new ethers.Contract(personasAddress, PersonasABI.abi, provider);
         const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
         
-        // Si devuelve un ID > 0, es que ya existe
         if (Number(id) > 0) {
             setLoading(false);
             return MySwal.fire({ 
@@ -171,22 +188,10 @@ function Donations() {
             }).then(() => setActiveTab('donar'));
         }
 
-        // 2. Registrar (Escritura)
         const contratoPersonas = new ethers.Contract(personasAddress, PersonasABI.abi, signer);
         
-        // ⚠️ CAMBIO CRÍTICO: Usamos la nueva función unificada
-        // Pasamos "" o 0 en los datos que no pedimos en el formulario simple
         const tx = await contratoPersonas.registrarOActualizarPersona(
-            nombre,
-            apellido,
-            cedula,
-            2,  // Genero Otro
-            0,  // Fecha nacimiento
-            "", // Lugar
-            "", // Estado Civil
-            "", // Direccion
-            "", // Telefono
-            ""  // Profesion
+            nombre, apellido, cedula, 2, 0, "", "", "", "", ""
         );
         
         Toast.fire({ icon: 'info', title: 'Registrando en Blockchain...', timer: 12000 });
@@ -204,7 +209,7 @@ function Donations() {
 
     } catch (error) {
         console.error("Error en registro:", error);
-        MySwal.fire({ icon: 'error', title: 'Error', text: 'Hubo un error en el registro, vuelva a intentar' });
+        MySwal.fire({ icon: 'error', title: 'Error', text: 'Hubo un error en el registro.' });
     } finally {
         setLoading(false);
     }
@@ -224,7 +229,6 @@ function Donations() {
         const signer = await provider.getSigner();
         const montoWei = ethers.parseEther(amount.toString());
 
-        // Validar registro previo
         const contratoPersonasLectura = new ethers.Contract(personasAddress, PersonasABI.abi, provider);
         const id = await contratoPersonasLectura.obtenerIdPorCi(cedula);
         
@@ -238,7 +242,6 @@ function Donations() {
             }).then(() => setActiveTab('registro'));
         }
 
-        // Ejecutar Donación
         const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, signer);
         const tx = await contratoDonaciones.RegistrarDonantes(cedula, montoWei, { value: montoWei });
         
@@ -252,7 +255,7 @@ function Donations() {
         });
         
         setAmount(''); setDisplayAmount(''); setCedula('');
-        setRefreshTrigger(prev => prev + 1); // Recargar lista
+        setRefreshTrigger(prev => prev + 1);
 
     } catch (error) {
         console.error(error);
@@ -267,7 +270,7 @@ function Donations() {
   };
 
   // ---------------------------------------------------------
-  // 3. BUSCADOR (ARREGLADO)
+  // 3. BUSCADOR
   // ---------------------------------------------------------
   const handleSearch = async () => {
     if (!searchInput) return Toast.fire({ icon: 'warning', title: 'Escribe algo...' });
@@ -279,7 +282,6 @@ function Donations() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const input = searchInput.trim();
         
-        // A) Búsqueda por Address (Wallet o Contrato)
         if (ethers.isAddress(input)) {
             const code = await provider.getCode(input);
             const balanceEth = ethers.formatEther(await provider.getBalance(input));
@@ -290,12 +292,9 @@ function Donations() {
                 setSearchResult({ type: 'contract', address: input, balance: balanceEth });
             }
         } 
-        // B) Búsqueda por Cédula (En contrato Donaciones)
         else { 
             const contratoDonaciones = new ethers.Contract(donacionesAddress, DonacionesABI.abi, provider);
             
-            // ⚠️ CAMBIO CRÍTICO: Usamos la función correcta del contrato actualizado
-            // Antes: obtenerPersonaPorCI -> Ahora: obtenerUltimaDonacionPorCI
             let res;
             try {
                  res = await contratoDonaciones.obtenerUltimaDonacionPorCI(input);
@@ -303,10 +302,8 @@ function Donations() {
                  throw new Error("No encontrado");
             }
 
-            // Buscamos eventos pasados para el historial
             const filter = contratoDonaciones.filters.NuevaDonacion(); 
             const currentBlock = await provider.getBlockNumber();
-            // Buscamos en los últimos 5000 bloques (ajusta esto si tu ganache se reinició)
             const startBlock = Math.max(0, currentBlock - 5000);
             
             const events = await contratoDonaciones.queryFilter(filter, startBlock, "latest");
@@ -321,12 +318,11 @@ function Donations() {
                 };
             }));
 
-            // res[0] = Nombre, res[1] = Apellido, res[2] = Monto Ultimo
             setSearchResult({ 
                 type: 'person', 
                 nombre: res[0], 
                 apellido: res[1], 
-                monto: ethers.formatEther(res[2]), // Muestra el monto de la última donación
+                monto: ethers.formatEther(res[2]), 
                 historial: historial.reverse() 
             });
         }
@@ -384,7 +380,7 @@ function Donations() {
             {activeTab === 'registro' && (
                 <div className="animate-in fade-in slide-in-from-left-4 duration-300">
                     <h2 className="text-xl font-extrabold text-white mb-2 text-center">¡Registrate!</h2>
-                    <p className="text-gray-400 text-xs text-center mb-6">Paso 1: Redgistra tus datos Personales</p>
+                    <p className="text-gray-400 text-xs text-center mb-6">Paso 1: Registra tus datos Personales</p>
 
                     <div className="flex flex-col gap-4 mb-6">
                         <input type="text" placeholder="Cédula de Identidad" value={cedula} onChange={onChangeCedula} 
@@ -433,6 +429,7 @@ function Donations() {
                             ))}
                         </div>
 
+                        {/* 👇 AQUÍ ESTÁ LA MAGIA DEL CONVERTIDOR 👇 */}
                         <div className="relative">
                             <input type="number" placeholder={placeholderText} onFocus={() => setPlaceholderText('')} onBlur={() => setPlaceholderText('Otra cantidad')} value={displayAmount} onChange={handleInputChange} 
                                 className="w-full p-3.5 rounded-lg border border-transparent text-center font-bold focus:outline-none focus:ring-2 focus:ring-orange-500/50"
@@ -440,6 +437,16 @@ function Donations() {
                             />
                             <span className="absolute right-4 top-1/2 transform -translate-y-1/2 font-bold text-sm" style={{ color: THEME.orange }}>ETH</span>
                         </div>
+
+                        {/* MUESTRA LA CONVERSIÓN EN TIEMPO REAL */}
+                        {displayAmount && ethPrice > 0 && (
+                            <div className="flex justify-end mt-2 mr-1 animate-in fade-in slide-in-from-top-1 duration-300">
+                                <span className="text-xs font-mono font-medium flex items-center gap-1" style={{ color: THEME.textGray }}>
+                                    ≈ ${(Number(displayAmount) * ethPrice).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} USD
+                                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse ml-1" title={`Precio actual: $${ethPrice}`}></span>
+                                </span>
+                            </div>
+                        )}
                     </div>
 
                     <button onClick={handleSoloDonacion} disabled={loading}
@@ -483,7 +490,6 @@ function Donations() {
                                 <span className="font-bold text-lg" style={{ color: THEME.orange }}>{searchResult.monto} ETH</span>
                             </div>
                         </div>
-                        {/* HISTORIAL */}
                         <div className="mt-4 border-t border-gray-700 pt-3">
                             <p className="text-xs font-bold mb-2 text-gray-400">HISTORIAL DE DONACIONES:</p>
                             <div className="max-h-32 overflow-y-auto pr-1 custom-scrollbar space-y-2">
@@ -514,7 +520,6 @@ function Donations() {
           )}
       </div>
 
-      {/* COMPONENTE DE LISTA EXTERNA */}
       <DonationsList key={refreshTrigger} contractAddress={donacionesAddress} />
     </div>
   );
